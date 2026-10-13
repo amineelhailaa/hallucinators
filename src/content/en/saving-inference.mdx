@@ -1,0 +1,65 @@
+<Section kind="explanation">
+## Learning objectives
+
+Can you swap the saved class order without changing interpretation?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/evaluation)
+
+## How it works
+
+Save topology, weights, label order and preprocessing together. Reload and compare predictions against the original model. Inference uses frozen parameters and evaluation mode; it needs no target. Transfer learning reuses learned representations, often training a new head before carefully unfreezing selected layers with a smaller learning rate. Recompile after changing trainable flags in Keras.
+
+## Worked example
+
+The same image must produce matching scores before and after reload within a stated numerical tolerance. Check all weights remain unchanged after prediction.
+
+## Common misconception
+
+predict does not train. A wrong prediction does not update the model unless a separate learning step is requested.
+
+## Check your understanding
+
+<Check question={"Can you swap the saved class order without changing interpretation?"} answer={"No. Each output index must retain the label mapping used during training."} />
+
+<LabLink id="inference" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"\\hat y=f_{\\theta^*}(x),\\quad \\theta^*\\ \\text{fixed}"} />
+
+## Symbols
+
+ŷ: prediction; x: preprocessed input; θ*: frozen learned parameters.
+
+## Worked example
+
+The same image must produce matching scores before and after reload within a stated numerical tolerance. Check all weights remain unchanged after prediction.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+model.save("arrow_cnn.keras")
+loaded = keras.models.load_model("arrow_cnn.keras")
+prediction = loaded(x, training=False)
+```
+
+predict does not train. A wrong prediction does not update the model unless a separate learning step is requested.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

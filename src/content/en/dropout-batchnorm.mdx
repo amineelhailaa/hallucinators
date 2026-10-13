@@ -1,0 +1,75 @@
+<Section kind="explanation">
+## Learning objectives
+
+Should normal inference use training=True?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/pooling)
+
+## How it works
+
+Dropout randomly zeros selected activations during training and rescales the retained ones. Standard inference disables this randomness. Batch normalization uses batch statistics in training and stored moving statistics in inference. Its scale and offset are trainable; moving statistics are state but not ordinary gradient-trained weights. Training mode therefore matters beyond weight updates.
+
+## Worked example
+
+With dropout rate 0.5, a retained activation 2 is scaled to 4 during training; the expected value remains 2.
+
+## Common misconception
+
+Calling a frozen model with training=True can still change batch-normalization behavior and activate dropout.
+
+## Check your understanding
+
+<Check question={"Should normal inference use training=True?"} answer={"No. Use evaluation behavior, normally training=False."} />
+
+<LabLink id="training" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"\\hat{x}=(x-\\mu_B)/\\sqrt{\\sigma_B^2+\\epsilon},\\quad y=\\gamma\\hat{x}+\\beta"} />
+
+## Symbols
+
+μB,σB²: batch mean and variance; ε: numerical stabilizer; γ,β: learned scale and offset.
+
+## Worked example
+
+With dropout rate 0.5, a retained activation 2 is scaled to 4 during training; the expected value remains 2.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+keras.layers.Dropout(0.5)
+keras.layers.BatchNormalization()
+prediction = model(x, training=False)
+```
+
+Calling a frozen model with training=True can still change batch-normalization behavior and activate dropout.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>
+
+<Section kind="math">
+## Batch-normalization numerical example
+
+For the two values [1,3], the batch mean is 2 and population variance is 1. Ignoring a tiny epsilon for this calculation, normalized values are [−1,1]. With γ=2 and β=1, outputs become [−1,3]. In inference, stored moving statistics replace these batch statistics; the same values may therefore give different outputs. Batch-normalization axes and statistics depend on the layer configuration.
+
+<Formula value={"\\mu_B=\\frac1B\\sum_i x_i,\\quad \\sigma_B^2=\\frac1B\\sum_i(x_i-\\mu_B)^2"} />
+
+B: number of values in the normalization group; μB: group mean; σB²: population variance.
+</Section>

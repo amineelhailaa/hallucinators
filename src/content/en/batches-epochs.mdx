@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+How many updates for 512 samples, batch 64, two epochs?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/optimizers)
+
+## How it works
+
+A sample is one labeled example. A batch groups samples for one gradient calculation and optimizer update. An epoch is one pass through the training dataset. Iterations count updates, not examples. The last batch can be smaller unless explicitly dropped. Batch size changes the number and noise of updates, not the network’s parameter count.
+
+## Worked example
+
+100 samples with batch size 32 give batches 32,32,32,4: four updates per epoch and 12 over three epochs.
+
+## Common misconception
+
+An epoch is not one weight update unless the full dataset is one batch.
+
+## Check your understanding
+
+<Check question={"How many updates for 512 samples, batch 64, two epochs?"} answer={"16: eight batches per epoch times two."} />
+
+<LabLink id="training" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"U=E\\left\\lceil N/B\\right\\rceil"} />
+
+## Symbols
+
+U: updates; E: epochs; N: samples; B: batch size; ceiling keeps the last partial batch.
+
+## Worked example
+
+100 samples with batch size 32 give batches 32,32,32,4: four updates per epoch and 12 over three epochs.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+model.fit(x_train, y_train, batch_size=32, epochs=10)
+```
+
+An epoch is not one weight update unless the full dataset is one batch.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

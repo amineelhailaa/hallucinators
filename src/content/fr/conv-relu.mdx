@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+ReLU ajoute-t-elle des paramètres entraînables ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/stride-padding)
+
+## Fonctionnement
+
+La convolution avec biais est affine. ReLU agit sur chaque position et canal. La convolution combine ; l’activation apporte la non-linéarité. Les cartes gardent une grille spatiale. Inspectez les nombres avant d’interpréter les zones lumineuses.
+
+## Exemple calculé
+
+La sortie [−3,2,0,5] devient [0,2,0,5] avec ReLU sans changer de forme.
+
+## Idée reçue
+
+La convolution seule ne fournit pas toute l’expressivité non linéaire du CNN.
+
+## Vérifiez votre compréhension
+
+<Check question={"ReLU ajoute-t-elle des paramètres entraînables ?"} answer={"ReLU standard n’en ajoute aucun ; sa règle est fixe."} />
+
+<LabLink id="convolution" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"a_{i,j,c}=\\max(0,z_{i,j,c})"} />
+
+## Symboles
+
+z : préactivation ; a : carte activée ; i,j,c : ligne, colonne, canal.
+
+## Exemple calculé
+
+La sortie [−3,2,0,5] devient [0,2,0,5] avec ReLU sans changer de forme.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+keras.layers.Conv2D(4, 3, padding="same", activation="relu")
+```
+
+La convolution seule ne fournit pas toute l’expressivité non linéaire du CNN.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

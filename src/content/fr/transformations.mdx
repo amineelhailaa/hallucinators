@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Objectifs
+
+Peut-on tourner des flèches sans modifier les étiquettes ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/overfitting)
+
+## Fonctionnement
+
+L’invariance conserve la sortie ; l’équivariance la transforme de façon correspondante. Déplacer un cercle garde sa classe. Tourner une flèche haute de 90° change sa classe vers droite. Déplacer un objet change ses coordonnées. L’augmentation doit respecter ces significations.
+
+## Exemple calculé
+
+Le miroir donne [2,1,4,3]. Le filtre partagé peut réagir, mais cartes et sorties denses peuvent changer.
+
+## Idée reçue
+
+Pooling et noyaux partagés ne garantissent pas toutes les invariances.
+
+## Vérifiez votre compréhension
+
+<Check question={"Peut-on tourner des flèches sans modifier les étiquettes ?"} answer={"Non, sauf si la tâche ignore volontairement la direction."} />
+
+<LabLink id="transformations" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"f(Tx)=f(x)\\ \\text{(invariance)},\\quad f(Tx)=T\\prime f(x)\\ \\text{(equivariance)}"} />
+
+## Symboles
+
+T : transformation d’entrée ; T′ : transformation de sortie ; f : modèle.
+
+## Exemple calculé
+
+Le miroir donne [2,1,4,3]. Le filtre partagé peut réagir, mais cartes et sorties denses peuvent changer.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+# Use label-preserving augmentation only.
+augment = keras.layers.RandomTranslation(0.1, 0.1)
+```
+
+Pooling et noyaux partagés ne garantissent pas toutes les invariances.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

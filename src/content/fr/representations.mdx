@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Une tête déterministe distingue-t-elle deux vecteurs cachés identiques ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/vector-layers)
+
+## Fonctionnement
+
+Les représentations changent les coordonnées du problème. Une frontière difficile dans l’entrée peut devenir simple dans l’espace des caractéristiques. Inspectez XOR avant et après la couche. Une visualisation montre des valeurs sans prouver une explication unique du raisonnement.
+
+## Exemple calculé
+
+Les points XOR (0,0) et (1,1) deviennent (0,0), les autres (1,0) et (0,1). Leur somme sépare les étiquettes.
+
+## Idée reçue
+
+Perdre une distinction entre étiquettes différentes peut rendre la tâche impossible ensuite.
+
+## Vérifiez votre compréhension
+
+<Check question={"Une tête déterministe distingue-t-elle deux vecteurs cachés identiques ?"} answer={"Non : la même entrée donne la même sortie."} />
+
+<LabLink id="composition" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"f(x)=g(h(x))"} />
+
+## Symboles
+
+h : extracteur ; g : tête ; f : modèle complet ; x : entrée.
+
+## Exemple calculé
+
+Les points XOR (0,0) et (1,1) deviennent (0,0), les autres (1,0) et (0,1). Leur somme sépare les étiquettes.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+inspector = keras.Model(model.inputs, model.layers[0].output)
+```
+
+Perdre une distinction entre étiquettes différentes peut rendre la tâche impossible ensuite.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

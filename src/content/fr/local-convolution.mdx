@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Combien de paramètres pour quatre filtres 3×3 à un canal ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/data-splits)
+
+## Fonctionnement
+
+Une convolution observe des régions locales. Un noyau est réutilisé dans l’espace. Chaque sortie est une somme locale plus biais. Le partage réduit les paramètres et détecte un motif à plusieurs endroits. Il ne rend pas tout le classifieur indépendant de la position.
+
+## Exemple calculé
+
+Un noyau gris 3×3 possède neuf poids et un biais pour une image 16×16 ou 64×64.
+
+## Idée reçue
+
+Le noyau est appris mais ne possède pas un jeu distinct à chaque position.
+
+## Vérifiez votre compréhension
+
+<Check question={"Combien de paramètres pour quatre filtres 3×3 à un canal ?"} answer={"(9+1)×4=40 avec les biais."} />
+
+<LabLink id="convolution" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"y_{i,j,o}=b_o+\\sum_{u,v,c}K_{u,v,c,o}x_{i+u,j+v,c}"} />
+
+## Symboles
+
+i,j : position ; u,v : décalages ; c : canal ; o : filtre ; K : poids partagés ; b : biais.
+
+## Exemple calculé
+
+Un noyau gris 3×3 possède neuf poids et un biais pour une image 16×16 ou 64×64.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+keras.layers.Conv2D(4, 3, padding="same", activation="relu")
+```
+
+Le noyau est appris mais ne possède pas un jeu distinct à chaque position.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

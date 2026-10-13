@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+Can two differently arranged maps have the same global averages?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/dense-head)
+
+## How it works
+
+Global average pooling computes one average per channel. It reduces a spatial map to its channel count and discards within-channel position information. Flatten preserves all values in a known order. Neither operation has trainable weights. The choice changes the prediction head’s size and what distinctions remain available.
+
+## Worked example
+
+A 4×4×8 map becomes 128 features with Flatten, but only 8 with global average pooling. Dense(16) then has 2,064 versus 144 parameters.
+
+## Common misconception
+
+Averaging is unsuitable when the discarded position is itself the target, unless other features encode it.
+
+## Check your understanding
+
+<Check question={"Can two differently arranged maps have the same global averages?"} answer={"Yes. Equal channel sums give equal averages even when arrangements differ."} />
+
+<LabLink id="pooling" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"g_c=\\frac{1}{HW}\\sum_{y,x}a_{y,x,c}"} />
+
+## Symbols
+
+gc: pooled channel; H,W: map size; a: feature value; c: channel.
+
+## Worked example
+
+A 4×4×8 map becomes 128 features with Flatten, but only 8 with global average pooling. Dense(16) then has 2,064 versus 144 parameters.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+features = keras.layers.GlobalAveragePooling2D()(feature_maps)
+```
+
+Averaging is unsuitable when the discarded position is itself the target, unless other features encode it.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

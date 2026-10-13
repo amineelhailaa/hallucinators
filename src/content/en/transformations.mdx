@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Learning objectives
+
+Can you rotate arrows and keep their old direction labels?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/overfitting)
+
+## How it works
+
+Invariance means the output stays the same under a transformation; equivariance means it changes in a predictable corresponding way. Shifting a circle should usually preserve its shape label. Rotating an up arrow clockwise changes its direction to right. For position regression, shifting the object should change its coordinates. Augmentation must respect the label semantics.
+
+## Worked example
+
+Mirroring [[1,2],[3,4]] changes the flat vector to [2,1,4,3]. A shared convolution can still respond, but its maps and dense outputs may change.
+
+## Common misconception
+
+Pooling and shared kernels do not guarantee invariance to every shift, flip or rotation.
+
+## Check your understanding
+
+<Check question={"Can you rotate arrows and keep their old direction labels?"} answer={"No. That creates contradictory supervision unless the task deliberately ignores direction."} />
+
+<LabLink id="transformations" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"f(Tx)=f(x)\\ \\text{(invariance)},\\quad f(Tx)=T\\prime f(x)\\ \\text{(equivariance)}"} />
+
+## Symbols
+
+T: input transform; T′: corresponding output transform; f: model.
+
+## Worked example
+
+Mirroring [[1,2],[3,4]] changes the flat vector to [2,1,4,3]. A shared convolution can still respond, but its maps and dense outputs may change.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+# Use label-preserving augmentation only.
+augment = keras.layers.RandomTranslation(0.1, 0.1)
+```
+
+Pooling and shared kernels do not guarantee invariance to every shift, flip or rotation.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

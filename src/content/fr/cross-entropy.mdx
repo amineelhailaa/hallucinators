@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Quelle perte Keras pour entiers et logits bruts ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/logits-softmax)
+
+## Fonctionnement
+
+L’entropie croisée pénalise une faible probabilité de la classe correcte. Le codage one-hot utilise la perte catégorielle ; les entiers la version sparse. La version binaire convient au binaire ou aux étiquettes indépendantes. Une perte adaptée aux logits évite un double softmax.
+
+## Exemple calculé
+
+Une probabilité correcte 0,8 donne 0,223 ; 0,01 donne 4,605. Une erreur confiante coûte davantage.
+
+## Idée reçue
+
+La perte ne se calcule pas sur la classe argmax ; elle utilise les scores ou logits.
+
+## Vérifiez votre compréhension
+
+<Check question={"Quelle perte Keras pour entiers et logits bruts ?"} answer={"SparseCategoricalCrossentropy(from_logits=True)."} />
+
+<LabLink id="loss" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"L=-\\sum_i y_i\\log p_i,\\quad \\frac{\\partial L}{\\partial z_i}=p_i-y_i"} />
+
+## Symboles
+
+yi : cible one-hot ; pi : score ; zi : logit ; L : perte, logarithme naturel.
+
+## Exemple calculé
+
+Une probabilité correcte 0,8 donne 0,223 ; 0,01 donne 4,605. Une erreur confiante coûte davantage.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+loss = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+```
+
+La perte ne se calcule pas sur la classe argmax ; elle utilise les scores ou logits.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

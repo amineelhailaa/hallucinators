@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+Does ReLU add trainable parameters?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/stride-padding)
+
+## How it works
+
+Convolution itself is affine when bias is included. ReLU applies independently to every output position and channel. The two operations have different jobs: convolution combines inputs; activation creates nonlinearity. Intermediate feature maps retain a spatial grid. Inspect their numeric values before interpreting bright areas as meaningful features.
+
+## Worked example
+
+A convolution output [−3,2,0,5] becomes [0,2,0,5] through ReLU without changing its shape.
+
+## Common misconception
+
+Convolution alone does not supply the nonlinear expressive power of a deep CNN.
+
+## Check your understanding
+
+<Check question={"Does ReLU add trainable parameters?"} answer={"Standard ReLU adds none; its rule is fixed."} />
+
+<LabLink id="convolution" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"a_{i,j,c}=\\max(0,z_{i,j,c})"} />
+
+## Symbols
+
+z: convolution pre-activation; a: activated feature map; i,j,c: row, column, channel.
+
+## Worked example
+
+A convolution output [−3,2,0,5] becomes [0,2,0,5] through ReLU without changing its shape.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+keras.layers.Conv2D(4, 3, padding="same", activation="relu")
+```
+
+Convolution alone does not supply the nonlinear expressive power of a deep CNN.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

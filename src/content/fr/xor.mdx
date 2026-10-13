@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Objectifs
+
+Que devient cette construction sans ReLU ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/activation-functions)
+
+## Fonctionnement
+
+XOR vaut un si les entrées diffèrent, zéro sinon. Une frontière affine unique ne sépare pas les diagonales. Deux unités ReLU construisent des caractéristiques combinables. Cet exemple prouve une possibilité, sans affirmer que tout entraînement trouve ces poids.
+
+## Exemple calculé
+
+h₁=ReLU(x₁−x₂), h₂=ReLU(x₂−x₁), y=h₁+h₂. Les sorties binaires sont 0,1,1,0.
+
+## Idée reçue
+
+Les unités cachées sont des caractéristiques numériques, pas forcément des concepts humains nommés.
+
+## Vérifiez votre compréhension
+
+<Check question={"Que devient cette construction sans ReLU ?"} answer={"Les termes s’annulent pour toute entrée."} />
+
+<LabLink id="composition" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"y=\\max(0,x_1-x_2)+\\max(0,x_2-x_1)"} />
+
+## Symboles
+
+x1,x2 : entrées binaires ; y : sortie XOR ; les unités calculent les maxima.
+
+## Exemple calculé
+
+h₁=ReLU(x₁−x₂), h₂=ReLU(x₂−x₁), y=h₁+h₂. Les sorties binaires sont 0,1,1,0.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+model = keras.Sequential([keras.Input((2,)),
+    keras.layers.Dense(2, activation="relu"), keras.layers.Dense(1)])
+```
+
+Les unités cachées sont des caractéristiques numériques, pas forcément des concepts humains nommés.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

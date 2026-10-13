@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Que produit le remplacement des activations par l’identité ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/activation-neuron)
+
+## Fonctionnement
+
+Composer des fonctions affines change leurs coefficients, pas leur famille. Dix couches affines restent une transformation affine. Une activation non linéaire empêche cette réduction générale. La profondeur peut alors réutiliser des représentations, sans garantir un meilleur apprentissage.
+
+## Exemple calculé
+
+f₁(x)=2x+1 puis f₂(h)=3h−4 donnent 6x−1. ReLU entre les deux crée un angle à x=−0,5.
+
+## Idée reçue
+
+Plus de couches sans non-linéarité ne créent pas de frontières non linéaires quelconques.
+
+## Vérifiez votre compréhension
+
+<Check question={"Que produit le remplacement des activations par l’identité ?"} answer={"Le réseau devient une application affine, quelle que soit sa profondeur."} />
+
+<LabLink id="composition" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"W_2(W_1x+b_1)+b_2=(W_2W_1)x+W_2b_1+b_2"} />
+
+## Symboles
+
+W1,W2 : matrices de poids ; b1,b2 : biais ; x : vecteur d’entrée.
+
+## Exemple calculé
+
+f₁(x)=2x+1 puis f₂(h)=3h−4 donnent 6x−1. ReLU entre les deux crée un angle à x=−0,5.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+linear_stack = keras.Sequential([keras.layers.Dense(4), keras.layers.Dense(1)])
+```
+
+Plus de couches sans non-linéarité ne créent pas de frontières non linéaires quelconques.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

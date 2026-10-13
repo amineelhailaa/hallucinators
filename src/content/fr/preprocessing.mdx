@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Objectifs
+
+La validation doit-elle définir la moyenne d’entraînement ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/tensors)
+
+## Fonctionnement
+
+Décodez les octets, choisissez les couleurs, redimensionnez selon une règle explicite et normalisez une fois. L’étirement modifie la géométrie ; les bandes préservent les proportions. Calculez les statistiques seulement sur l’entraînement. Utilisez exactement le même traitement en prédiction.
+
+## Exemple calculé
+
+128 devient 0,502. Diviser encore par 255 donne 0,00197 : une entrée très différente.
+
+## Idée reçue
+
+L’augmentation ne remplace pas un prétraitement cohérent. Elle est normalement désactivée à l’inférence.
+
+## Vérifiez votre compréhension
+
+<Check question={"La validation doit-elle définir la moyenne d’entraînement ?"} answer={"Non. Cela introduit des informations de validation dans la préparation."} />
+
+<LabLink id="pixels" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"z=(x-\\mu_{train})/\\sigma_{train}"} />
+
+## Symboles
+
+x : entrée ; μtrain : moyenne d’entraînement ; σtrain : écart-type ; z : valeur standardisée.
+
+## Exemple calculé
+
+128 devient 0,502. Diviser encore par 255 donne 0,00197 : une entrée très différente.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+preprocess = keras.Sequential([keras.layers.Resizing(16, 16),
+    keras.layers.Rescaling(1.0 / 255)])
+```
+
+L’augmentation ne remplace pas un prétraitement cohérent. Elle est normalement désactivée à l’inférence.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

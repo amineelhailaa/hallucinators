@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Que casse un mélange indépendant des étiquettes ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/batches-epochs)
+
+## Fonctionnement
+
+Le gradient moyen combine plusieurs exemples. Des contributions opposées peuvent s’annuler. Mélanger change leurs interactions ; mélangez entrées et étiquettes ensemble. De grands lots réduisent souvent le bruit mais donnent moins de mises à jour. Le laboratoire utilise un mélange à graine fixe.
+
+## Exemple calculé
+
+Les gradients [2,−1] et [−2,3] donnent la moyenne [0,1]. SGD ne change que le second poids.
+
+## Idée reçue
+
+Comparez les lots en tenant compte du nombre différent de mises à jour.
+
+## Vérifiez votre compréhension
+
+<Check question={"Que casse un mélange indépendant des étiquettes ?"} answer={"Les entrées reçoivent les mauvaises cibles et la supervision devient incorrecte."} />
+
+<LabLink id="training" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"g_B=\\frac{1}{B}\\sum_{i\\in\\mathcal{B}}\\nabla_\\theta\\ell_i"} />
+
+## Symboles
+
+gB : gradient moyen ; B : taille ; ℬ : exemples ; θ : paramètres ; ℓi : perte individuelle.
+
+## Exemple calculé
+
+Les gradients [2,−1] et [−2,3] donnent la moyenne [0,1]. SGD ne change que le second poids.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+model.fit(x_train, y_train, shuffle=True, batch_size=32)
+```
+
+Comparez les lots en tenant compte du nombre différent de mises à jour.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

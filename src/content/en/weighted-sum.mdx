@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Learning objectives
+
+What changes z when every input is zero?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/preprocessing)
+
+## How it works
+
+A neuron first multiplies each input by a weight and adds the products. Bias adds an offset independent of the input. Positive and negative weights can amplify or oppose an input’s contribution. Weights are parameters, not the incoming pixel values. Training changes the parameters while a forward pass calculates outputs from their current values.
+
+## Worked example
+
+For x=[2,3], w=[0.5,-1], b=2, the sum is 1−3+2=0.
+
+## Common misconception
+
+A large input is not automatically important: its contribution also depends on its weight.
+
+## Check your understanding
+
+<Check question={"What changes z when every input is zero?"} answer={"Only the bias: z=b."} />
+
+<LabLink id="neuron" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"z=\\sum_i w_i x_i+b"} />
+
+## Symbols
+
+xi: input i; wi: its weight; b: bias; z: pre-activation.
+
+## Worked example
+
+For x=[2,3], w=[0.5,-1], b=2, the sum is 1−3+2=0.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+neuron = keras.layers.Dense(1, activation=None)
+y = neuron(keras.ops.array([[2.0, 3.0]]))
+```
+
+A large input is not automatically important: its contribution also depends on its weight.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

@@ -1,0 +1,1478 @@
+[
+  {
+    "id": "pixels",
+    "lab": "pixels",
+    "title": [
+      "Pixels and channels",
+      "Pixels et canaux",
+      "البكسلات والقنوات"
+    ],
+    "body": [
+      "A digital image is a grid of measurements, not a collection of named objects. A grayscale cell contains one intensity; an RGB cell contains three values in a fixed red, green, blue order. The network receives these values. It does not receive the words “edge” or “arrow”. Neighboring pixels matter because their joint arrangement creates a pattern.",
+      "Une image numérique est une grille de mesures, pas une liste d’objets nommés. Une cellule grise contient une intensité ; une cellule RVB contient trois valeurs dans l’ordre rouge, vert, bleu. Le réseau reçoit ces nombres, pas les mots « bord » ou « flèche ». Leur arrangement spatial crée le motif.",
+      "الصورة الرقمية شبكة قياسات وليست قائمة بأسماء الأشياء. يحتوي البكسل الرمادي على شدة واحدة وبكسل RGB على ثلاث قيم بالترتيب الأحمر والأخضر والأزرق. تستقبل الشبكة هذه الأعداد، لا الكلمات «حافة» أو «سهم». ينشأ النمط من ترتيب البكسلات المتجاورة."
+    ],
+    "example": [
+      "The RGB pixel [255, 128, 0] becomes [1, 0.502, 0] after division by 255. Its three channels belong to one spatial location.",
+      "Le pixel RVB [255, 128, 0] devient [1, 0,502, 0] après division par 255. Les trois canaux appartiennent au même emplacement.",
+      "يصبح البكسل [255,128,0] بعد القسمة على 255 مساوياً [1,0.502,0]. تنتمي القنوات الثلاث إلى موقع واحد."
+    ],
+    "caveat": [
+      "RGB is not the same order as OpenCV’s default BGR. Reordering channels changes the input.",
+      "L’ordre RVB diffère du BGR par défaut d’OpenCV. Changer cet ordre modifie l’entrée.",
+      "يختلف RGB عن ترتيب BGR الافتراضي في OpenCV. تبديل القنوات يغيّر المدخل."
+    ],
+    "question": [
+      "How many scalar values are in a 2×2 RGB image?",
+      "Combien de nombres dans une image RVB de 2×2 ?",
+      "كم قيمة عددية في صورة RGB بحجم 2×2؟"
+    ],
+    "answer": [
+      "12: four locations times three channels.",
+      "12 : quatre emplacements et trois canaux.",
+      "12: أربعة مواقع مضروبة في ثلاث قنوات."
+    ],
+    "formula": "x_{y,x,c}=I_{y,x,c}/255",
+    "symbols": [
+      "I: 8-bit intensity; x: normalized intensity; y,x: row and column; c: channel.",
+      "I : intensité 8 bits ; x : intensité normalisée ; y,x : ligne et colonne ; c : canal.",
+      "I: شدة بعمق 8 بت؛ x: الشدة المطبعة؛ y,x: الصف والعمود؛ c: القناة."
+    ],
+    "code": "x = keras.ops.convert_to_tensor(image, dtype=\"float32\") / 255.0"
+  },
+  {
+    "id": "tensors",
+    "lab": "pixels",
+    "title": [
+      "Shapes, axes and batches",
+      "Formes, axes et lots",
+      "الأشكال والمحاور والدفعات"
+    ],
+    "body": [
+      "A tensor is a multidimensional array. Shape names the size of each axis; dtype names how each value is represented. We use channels-last ordering: batch, height, width, channels. The batch axis separates independent examples; convolution must not mix neighboring samples. A float32 value uses four bytes.",
+      "Un tenseur est un tableau multidimensionnel. La forme donne la taille des axes ; le type décrit les valeurs. Nous utilisons lot, hauteur, largeur, canaux. Le lot sépare les exemples indépendants : la convolution ne mélange pas les images. Un float32 occupe quatre octets.",
+      "الموتر مصفوفة متعددة الأبعاد. يحدد الشكل حجم كل محور ويحدد النوع تمثيل القيم. نستخدم ترتيب الدفعة ثم الارتفاع ثم العرض ثم القنوات. يفصل محور الدفعة الأمثلة المستقلة ولا تخلط الالتفافات الصور. تشغل قيمة float32 أربعة بايتات."
+    ],
+    "example": [
+      "A batch [32,16,16,1] has 8,192 values, requiring 32,768 bytes in float32 before intermediate activations.",
+      "Le lot [32,16,16,1] contient 8 192 valeurs : 32 768 octets en float32 avant les activations intermédiaires.",
+      "تضم الدفعة [32,16,16,1] عدد 8192 قيمة وتحتاج 32768 بايتاً في float32 قبل التنشيطات الوسيطة."
+    ],
+    "caveat": [
+      "Reshape does not resize an image. It only reinterprets the same number of values.",
+      "Reshape ne redimensionne pas l’image ; il réorganise le même nombre de valeurs.",
+      "إعادة التشكيل لا تعيد تحجيم الصورة بل تعيد تنظيم العدد نفسه من القيم."
+    ],
+    "question": [
+      "Does [1,16,16,3] contain one image or three?",
+      "[1,16,16,3] contient-il une ou trois images ?",
+      "هل [1,16,16,3] صورة واحدة أم ثلاث؟"
+    ],
+    "answer": [
+      "One RGB image. Three is the channel count.",
+      "Une image RVB. Trois est le nombre de canaux.",
+      "صورة RGB واحدة؛ الثلاثة عدد القنوات."
+    ],
+    "formula": "N=B\\cdot H\\cdot W\\cdot C",
+    "symbols": [
+      "B: batch size; H,W: spatial dimensions; C: channels; N: scalar count.",
+      "B : taille du lot ; H,W : dimensions spatiales ; C : canaux ; N : nombre de valeurs.",
+      "B: حجم الدفعة؛ H,W: الأبعاد المكانية؛ C: القنوات؛ N: عدد القيم."
+    ],
+    "code": "x = keras.ops.zeros((32, 16, 16, 1), dtype=\"float32\")\nprint(x.shape)"
+  },
+  {
+    "id": "preprocessing",
+    "lab": "pixels",
+    "title": [
+      "Preprocessing without surprises",
+      "Prétraitement cohérent",
+      "معالجة مسبقة متسقة"
+    ],
+    "body": [
+      "Decode bytes into pixels, choose the color order, resize with a documented aspect-ratio policy, and normalize once. Stretching changes geometry; letterboxing preserves geometry but adds borders. Fit learned normalization statistics only on training data. The identical pipeline must run during inference or the model receives a different distribution.",
+      "Décodez les octets, choisissez les couleurs, redimensionnez selon une règle explicite et normalisez une fois. L’étirement modifie la géométrie ; les bandes préservent les proportions. Calculez les statistiques seulement sur l’entraînement. Utilisez exactement le même traitement en prédiction.",
+      "فكّ ترميز البايتات وحدد ترتيب الألوان وسياسة الأبعاد ثم طبّع مرة واحدة. يغيّر التمديد الشكل الهندسي بينما يحفظ الحشو النسب. احسب إحصاءات التطبيع من التدريب فقط. استخدم الخطوات نفسها عند التنبؤ كي لا يتغير توزيع المدخلات."
+    ],
+    "example": [
+      "An intensity of 128 becomes 0.502. Dividing this result by 255 again gives 0.00197, a very different input.",
+      "128 devient 0,502. Diviser encore par 255 donne 0,00197 : une entrée très différente.",
+      "تصبح 128 مساوية 0.502؛ قسمتها ثانية على 255 تعطي 0.00197 وهي قيمة مختلفة جداً."
+    ],
+    "caveat": [
+      "Data augmentation is not a replacement for consistent preprocessing. Random augmentation is normally disabled for inference.",
+      "L’augmentation ne remplace pas un prétraitement cohérent. Elle est normalement désactivée à l’inférence.",
+      "زيادة البيانات ليست بديلاً عن معالجة متسقة وتُعطل التحويلات العشوائية عادة عند التنبؤ."
+    ],
+    "question": [
+      "Should validation images define the training mean?",
+      "La validation doit-elle définir la moyenne d’entraînement ?",
+      "هل تحدد صور التحقق متوسط التدريب؟"
+    ],
+    "answer": [
+      "No. That leaks information about the validation distribution into model preparation.",
+      "Non. Cela introduit des informations de validation dans la préparation.",
+      "لا؛ فهذا يسرّب معلومات من التحقق إلى إعداد النموذج."
+    ],
+    "formula": "z=(x-\\mu_{train})/\\sigma_{train}",
+    "symbols": [
+      "x: input; μtrain: training mean; σtrain: training standard deviation; z: standardized value.",
+      "x : entrée ; μtrain : moyenne d’entraînement ; σtrain : écart-type ; z : valeur standardisée.",
+      "x: المدخل؛ μtrain: متوسط التدريب؛ σtrain: انحرافه المعياري؛ z: القيمة المعيارية."
+    ],
+    "code": "preprocess = keras.Sequential([keras.layers.Resizing(16, 16),\n    keras.layers.Rescaling(1.0 / 255)])"
+  },
+  {
+    "id": "weighted-sum",
+    "lab": "neuron",
+    "title": [
+      "Weights, inputs and bias",
+      "Poids, entrées et biais",
+      "الأوزان والمدخلات والانحياز"
+    ],
+    "body": [
+      "A neuron first multiplies each input by a weight and adds the products. Bias adds an offset independent of the input. Positive and negative weights can amplify or oppose an input’s contribution. Weights are parameters, not the incoming pixel values. Training changes the parameters while a forward pass calculates outputs from their current values.",
+      "Un neurone multiplie chaque entrée par son poids puis additionne les produits. Le biais ajoute un décalage indépendant. Les poids positifs et négatifs renforcent ou compensent les contributions. Les poids sont des paramètres distincts des pixels. L’entraînement les modifie ; la propagation avant utilise leurs valeurs actuelles.",
+      "يضرب العصبون كل مدخل في وزن ويجمع النتائج. يضيف الانحياز إزاحة مستقلة عن المدخل. تعزز الأوزان الموجبة المساهمة وتعارضها السالبة. الأوزان معاملات وليست قيم البكسلات؛ يغيرها التدريب ويستخدم المرور الأمامي قيمها الحالية."
+    ],
+    "example": [
+      "For x=[2,3], w=[0.5,-1], b=2, the sum is 1−3+2=0.",
+      "Pour x=[2,3], w=[0,5,-1], b=2, la somme vaut 1−3+2=0.",
+      "إذا x=[2,3] وw=[0.5,-1] وb=2 فالمجموع 1−3+2=0."
+    ],
+    "caveat": [
+      "A large input is not automatically important: its contribution also depends on its weight.",
+      "Une grande entrée n’est pas forcément importante : sa contribution dépend du poids.",
+      "كبر المدخل لا يجعله مهماً تلقائياً؛ مساهمته تعتمد أيضاً على وزنه."
+    ],
+    "question": [
+      "What changes z when every input is zero?",
+      "Qu’est-ce qui change z si toutes les entrées sont nulles ?",
+      "ما الذي يغيّر z عندما تكون المدخلات صفراً؟"
+    ],
+    "answer": [
+      "Only the bias: z=b.",
+      "Seulement le biais : z=b.",
+      "الانحياز فقط؛ z=b."
+    ],
+    "formula": "z=\\sum_i w_i x_i+b",
+    "symbols": [
+      "xi: input i; wi: its weight; b: bias; z: pre-activation.",
+      "xi : entrée i ; wi : poids ; b : biais ; z : préactivation.",
+      "xi: المدخل i؛ wi: وزنه؛ b: الانحياز؛ z: القيمة قبل التنشيط."
+    ],
+    "code": "neuron = keras.layers.Dense(1, activation=None)\ny = neuron(keras.ops.array([[2.0, 3.0]]))"
+  },
+  {
+    "id": "affine-neuron",
+    "lab": "neuron",
+    "title": [
+      "Dot products and affine functions",
+      "Produits scalaires et fonctions affines",
+      "الضرب الداخلي والتحويل التآلفي"
+    ],
+    "body": [
+      "A dot product measures an input along a weighted direction. With bias, the neuron defines an affine function. In two dimensions, a fixed output corresponds to a line. Changing the weights rotates or scales that line; changing the bias translates it. “Linear layer” is common terminology even though a layer with bias is mathematically affine.",
+      "Le produit scalaire mesure l’entrée dans une direction pondérée. Avec biais, la fonction est affine. En deux dimensions, une sortie fixe correspond à une droite. Les poids changent son orientation ou son échelle ; le biais la déplace. Une couche dite linéaire avec biais est mathématiquement affine.",
+      "يقيس الضرب الداخلي المدخل في اتجاه موزون. مع الانحياز تصبح الدالة تآلفية. في بُعدين تمثل القيمة الثابتة خطاً؛ تغير الأوزان اتجاهه أو مقياسه ويحركه الانحياز. تسمى الطبقة خطية شائعاً رغم كونها تآلفية مع الانحياز."
+    ],
+    "example": [
+      "z=2x₁+x₂−3 has z=0 at (1,1) and (0,3). Both points lie on its boundary.",
+      "z=2x₁+x₂−3 vaut zéro en (1,1) et (0,3). Les deux points appartiennent à sa frontière.",
+      "تساوي z=2x₁+x₂−3 صفراً عند (1,1) و(0,3) وتقع النقطتان على الحد نفسه."
+    ],
+    "caveat": [
+      "An affine boundary cannot solve every classification problem; XOR is a counterexample.",
+      "Une frontière affine ne résout pas tous les problèmes ; XOR en est un contre-exemple.",
+      "لا يحل حد تآلفي جميع مسائل التصنيف؛ XOR مثال مضاد."
+    ],
+    "question": [
+      "Is f(x)=2x+3 linear in the strict mathematical sense?",
+      "f(x)=2x+3 est-elle strictement linéaire ?",
+      "هل f(x)=2x+3 خطية بالمعنى الرياضي الدقيق؟"
+    ],
+    "answer": [
+      "No. f(0)=3, so it is affine, not a linear map through the origin.",
+      "Non. f(0)=3 ; elle est affine et ne passe pas par l’origine.",
+      "لا؛ f(0)=3 فهي تآلفية ولا تمر بالأصل."
+    ],
+    "formula": "z=w^T x+b",
+    "symbols": [
+      "wᵀx: dot product; w: normal direction; b: offset; z: scalar output.",
+      "wᵀx : produit scalaire ; w : direction normale ; b : décalage ; z : sortie scalaire.",
+      "wᵀx: الضرب الداخلي؛ w: اتجاه عمودي على الحد؛ b: الإزاحة؛ z: خرج عددي."
+    ],
+    "code": "layer = keras.layers.Dense(1, use_bias=True)"
+  },
+  {
+    "id": "activation-neuron",
+    "lab": "neuron",
+    "title": [
+      "A neuron’s output and sensitivity",
+      "Sortie et sensibilité d’un neurone",
+      "خرج العصبون وحساسيته"
+    ],
+    "body": [
+      "Activation transforms the weighted sum into the neuron’s output. The local derivative tells us how a small change in the sum affects that output. Saturated sigmoid outputs change very little even when the sum changes. This derivative becomes a factor in backpropagation. Activation is a numerical function, not a biological on/off switch.",
+      "L’activation transforme la somme en sortie. Sa dérivée locale mesure l’effet d’une petite variation. Une sigmoïde saturée change peu malgré une variation de la somme. La dérivée participe à la rétropropagation. L’activation est une fonction numérique, pas un interrupteur biologique.",
+      "يحوّل التنشيط المجموع الموزون إلى خرج. تقيس المشتقة المحلية أثر تغير صغير في المجموع. تتغير سيغمويد المشبعة قليلاً حتى عند تغير المجموع. تدخل هذه المشتقة في الانتشار العكسي؛ التنشيط دالة عددية وليس مفتاحاً بيولوجياً."
+    ],
+    "example": [
+      "For sigmoid, z=0 gives a=0.5 and derivative 0.25. At z=8, a≈0.9997 and derivative≈0.00034.",
+      "La sigmoïde donne à z=0 : a=0,5, dérivée=0,25. À z=8 : a≈0,9997, dérivée≈0,00034.",
+      "عند z=0 تعطي سيغمويد a=0.5 ومشتقة 0.25؛ عند z=8 تعطي نحو 0.9997 ومشتقة 0.00034."
+    ],
+    "caveat": [
+      "Sigmoid values are not automatically calibrated probabilities. Their interpretation depends on training and evaluation.",
+      "Les sorties sigmoïdes ne sont pas automatiquement des probabilités calibrées.",
+      "قيم سيغمويد ليست احتمالات معايرة تلقائياً؛ يعتمد تفسيرها على التدريب والتقييم."
+    ],
+    "question": [
+      "Why can saturation slow learning?",
+      "Pourquoi la saturation ralentit-elle l’apprentissage ?",
+      "لماذا قد يبطئ التشبع التعلم؟"
+    ],
+    "answer": [
+      "Its small derivative shrinks the gradient passed to earlier parameters.",
+      "Sa petite dérivée réduit le gradient transmis aux paramètres précédents.",
+      "لأن مشتقتها الصغيرة تقلّص التدرج المنقول إلى المعاملات السابقة."
+    ],
+    "formula": "a=\\sigma(z),\\quad \\frac{\\partial a}{\\partial w_i}=\\sigma^{\\prime}(z)x_i",
+    "symbols": [
+      "a: activation; σ: activation function; z: weighted sum; wi: weight; xi: input.",
+      "a : activation ; σ : fonction ; z : somme ; wi : poids ; xi : entrée.",
+      "a: التنشيط؛ σ: دالته؛ z: المجموع؛ wi: الوزن؛ xi: المدخل."
+    ],
+    "code": "layer = keras.layers.Dense(1, activation=\"sigmoid\")"
+  },
+  {
+    "id": "linear-collapse",
+    "lab": "composition",
+    "title": [
+      "Why depth needs nonlinearity",
+      "Pourquoi la profondeur exige la non-linéarité",
+      "لماذا يحتاج العمق إلى اللاخطية"
+    ],
+    "body": [
+      "Composing affine functions changes their coefficients but not their family. Ten affine layers still produce one affine transformation. A nonlinear activation prevents this general collapse. Depth can then reuse intermediate representations to form more expressive functions, although depth alone does not guarantee better learning.",
+      "Composer des fonctions affines change leurs coefficients, pas leur famille. Dix couches affines restent une transformation affine. Une activation non linéaire empêche cette réduction générale. La profondeur peut alors réutiliser des représentations, sans garantir un meilleur apprentissage.",
+      "يغير تركيب الدوال التآلفية معاملات الدالة لا نوعها. تبقى عشر طبقات تآلفية تحويلاً تآلفياً واحداً. يمنع التنشيط غير الخطي هذا الاختزال العام ويتيح إعادة استخدام التمثيلات؛ لا يضمن العمق وحده تعلماً أفضل."
+    ],
+    "example": [
+      "f₁(x)=2x+1 and f₂(h)=3h−4 compose to 6x−1. Adding ReLU between them introduces a bend at x=−0.5.",
+      "f₁(x)=2x+1 puis f₂(h)=3h−4 donnent 6x−1. ReLU entre les deux crée un angle à x=−0,5.",
+      "تركيب f₁(x)=2x+1 وf₂(h)=3h−4 يعطي 6x−1. تضيف ReLU بينهما انعطافاً عند x=−0.5."
+    ],
+    "caveat": [
+      "More layers without nonlinearities do not create arbitrary nonlinear boundaries.",
+      "Plus de couches sans non-linéarité ne créent pas de frontières non linéaires quelconques.",
+      "زيادة الطبقات بلا لاخطية لا تنشئ حدوداً غير خطية عامة."
+    ],
+    "question": [
+      "What does replacing every activation by identity do?",
+      "Que produit le remplacement des activations par l’identité ?",
+      "ماذا يحدث عند استبدال كل تنشيط بدالة الهوية؟"
+    ],
+    "answer": [
+      "The network becomes an affine map, regardless of its hidden depth.",
+      "Le réseau devient une application affine, quelle que soit sa profondeur.",
+      "تصبح الشبكة تحويلاً تآلفياً مهما بلغ عمقها."
+    ],
+    "formula": "W_2(W_1x+b_1)+b_2=(W_2W_1)x+W_2b_1+b_2",
+    "symbols": [
+      "W1,W2: weight matrices; b1,b2: biases; x: input vector.",
+      "W1,W2 : matrices de poids ; b1,b2 : biais ; x : vecteur d’entrée.",
+      "W1,W2: مصفوفتا الأوزان؛ b1,b2: الانحيازان؛ x: متجه المدخل."
+    ],
+    "code": "linear_stack = keras.Sequential([keras.layers.Dense(4), keras.layers.Dense(1)])"
+  },
+  {
+    "id": "activation-functions",
+    "lab": "composition",
+    "title": [
+      "ReLU, sigmoid and tanh",
+      "ReLU, sigmoïde et tanh",
+      "ReLU وسيغمويد وtanh"
+    ],
+    "body": [
+      "ReLU keeps positive inputs and clips negative ones to zero. Sigmoid maps to (0,1); tanh maps to (−1,1). ReLU is nonlinear globally even though each side is linear. Sigmoid and tanh saturate for large magnitudes. Choose activations for the role of the layer, not because one is universally best.",
+      "ReLU garde les valeurs positives et annule les négatives. La sigmoïde produit (0,1), tanh (−1,1). ReLU est globalement non linéaire malgré ses morceaux linéaires. Sigmoïde et tanh saturent. Le choix dépend du rôle de la couche.",
+      "تبقي ReLU القيم الموجبة وتصفّر السالبة. مجال سيغمويد (0,1) وtanh هو (−1,1). ReLU غير خطية كلياً رغم خطية كل جزء. تتشبع سيغمويد وtanh للقيم الكبيرة؛ اختر التنشيط حسب وظيفة الطبقة."
+    ],
+    "example": [
+      "ReLU(−2)=0 and ReLU(3)=3. Its derivative is zero for negative inputs and one for positive inputs. At zero, implementations choose a convention.",
+      "ReLU(−2)=0 et ReLU(3)=3. La dérivée vaut zéro du côté négatif et un du côté positif. À zéro, une convention est choisie.",
+      "ReLU(−2)=0 وReLU(3)=3. مشتقتها صفر للسالب وواحد للموجب؛ عند الصفر يُختار اصطلاح تنفيذي."
+    ],
+    "caveat": [
+      "A ReLU neuron can remain inactive for all examples and receive zero gradient through its activation.",
+      "Un neurone ReLU peut rester inactif pour tous les exemples et recevoir un gradient nul.",
+      "قد يظل عصبون ReLU غير نشط لكل الأمثلة ويتلقى تدرجاً صفرياً."
+    ],
+    "question": [
+      "Why is ReLU nonlinear if positive inputs pass unchanged?",
+      "Pourquoi ReLU est-elle non linéaire si les positifs ne changent pas ?",
+      "لماذا ReLU غير خطية رغم إبقاء القيم الموجبة؟"
+    ],
+    "answer": [
+      "The function changes rule at zero; it cannot be represented by one affine formula globally.",
+      "La règle change à zéro ; une seule formule affine ne suffit pas partout.",
+      "لأن قاعدتها تتغير عند الصفر ولا تصفها صيغة تآلفية واحدة على المجال كله."
+    ],
+    "formula": "\\operatorname{ReLU}(z)=\\max(0,z),\\quad \\sigma(z)=\\frac{1}{1+e^{-z}}",
+    "symbols": [
+      "z: pre-activation; e: exponential base; σ: sigmoid. tanh derivative is 1−tanh²(z).",
+      "z : préactivation ; e : base exponentielle ; σ : sigmoïde. La dérivée de tanh est 1−tanh²(z).",
+      "z: ما قبل التنشيط؛ e: أساس الأس؛ σ: سيغمويد. مشتقة tanh هي 1−tanh²(z)."
+    ],
+    "code": "keras.layers.Activation(\"relu\")\nkeras.layers.Activation(\"tanh\")"
+  },
+  {
+    "id": "xor",
+    "lab": "composition",
+    "title": [
+      "Solve XOR with hidden units",
+      "Résoudre XOR avec des neurones cachés",
+      "حل XOR بوحدات خفية"
+    ],
+    "body": [
+      "XOR assigns one to inputs that differ and zero to inputs that match. A single affine boundary cannot separate the diagonal pairs. Hidden ReLU units can create two half-space features whose combination separates them. This is a small explicit example of feature construction, not a claim that training always finds these exact weights.",
+      "XOR vaut un si les entrées diffèrent, zéro sinon. Une frontière affine unique ne sépare pas les diagonales. Deux unités ReLU construisent des caractéristiques combinables. Cet exemple prouve une possibilité, sans affirmer que tout entraînement trouve ces poids.",
+      "تساوي XOR واحداً عندما يختلف المدخلان وصفراً عندما يتطابقان. لا يفصل خط تآلفي واحد الزوجين القطريين. تبني وحدتا ReLU سمتين يمكن جمعهما للفصل. هذا يبين إمكانية التمثيل ولا يضمن أن يجد التدريب هذه الأوزان نفسها."
+    ],
+    "example": [
+      "h₁=ReLU(x₁−x₂), h₂=ReLU(x₂−x₁); y=h₁+h₂. On binary inputs, outputs are 0,1,1,0.",
+      "h₁=ReLU(x₁−x₂), h₂=ReLU(x₂−x₁), y=h₁+h₂. Les sorties binaires sont 0,1,1,0.",
+      "لتكن h₁=ReLU(x₁−x₂) وh₂=ReLU(x₂−x₁) وy=h₁+h₂. تكون المخرجات الثنائية 0,1,1,0."
+    ],
+    "caveat": [
+      "The hidden units are learned numerical features, not necessarily named human concepts.",
+      "Les unités cachées sont des caractéristiques numériques, pas forcément des concepts humains nommés.",
+      "الوحدات الخفية سمات عددية وليست بالضرورة مفاهيم بشرية مسماة."
+    ],
+    "question": [
+      "What happens to this construction without ReLU?",
+      "Que devient cette construction sans ReLU ?",
+      "ماذا يحدث لهذا التركيب من دون ReLU؟"
+    ],
+    "answer": [
+      "The terms cancel: (x₁−x₂)+(x₂−x₁)=0 for every input.",
+      "Les termes s’annulent pour toute entrée.",
+      "يلغي الحدّان بعضهما ويكون المجموع صفراً لكل مدخل."
+    ],
+    "formula": "y=\\max(0,x_1-x_2)+\\max(0,x_2-x_1)",
+    "symbols": [
+      "x1,x2: binary inputs; y: XOR output; hidden units compute the two maxima.",
+      "x1,x2 : entrées binaires ; y : sortie XOR ; les unités calculent les maxima.",
+      "x1,x2: مدخلان ثنائيان؛ y: خرج XOR؛ الوحدتان تحسبان القيمتين العظميين."
+    ],
+    "code": "model = keras.Sequential([keras.Input((2,)),\n    keras.layers.Dense(2, activation=\"relu\"), keras.layers.Dense(1)])"
+  },
+  {
+    "id": "vector-layers",
+    "lab": "composition",
+    "title": [
+      "Layers are vector functions",
+      "Les couches sont des fonctions vectorielles",
+      "الطبقات دوال متجهة"
+    ],
+    "body": [
+      "A layer usually outputs many values at once. Each output unit uses its own weights but reads the preceding representation. Matrix multiplication groups these neuron calculations. Later layers receive activations, not the original pixels directly, unless a skip connection explicitly supplies them. The whole model is a composition of vector functions.",
+      "Une couche produit plusieurs valeurs. Chaque unité a ses poids et lit la représentation précédente. Une multiplication matricielle regroupe les calculs. Les couches suivantes reçoivent les activations, pas directement les pixels sauf connexion explicite. Le modèle compose des fonctions vectorielles.",
+      "تنتج الطبقة عدة قيم معاً. لكل وحدة أوزانها وتقرأ التمثيل السابق. يجمع الضرب المصفوفي حسابات العصبونات. تستقبل الطبقات اللاحقة التنشيطات لا البكسلات مباشرة إلا بوصلة تجاوز صريحة. النموذج تركيب دوال متجهة."
+    ],
+    "example": [
+      "A dense layer maps 128 features to 16 activations with a 128×16 weight matrix and 16 biases.",
+      "Une couche dense passe de 128 caractéristiques à 16 activations avec 128×16 poids et 16 biais.",
+      "تحول طبقة كثيفة 128 سمة إلى 16 تنشيطاً بمصفوفة 128×16 و16 انحيازاً."
+    ],
+    "caveat": [
+      "A hidden layer does not add a new training label for every neuron. Its features are shaped by the final objective.",
+      "Une couche cachée n’exige pas une étiquette par neurone ; l’objectif final façonne ses caractéristiques.",
+      "لا تحتاج الطبقة الخفية هدفاً مستقلاً لكل عصبون؛ يشكلها الهدف النهائي."
+    ],
+    "question": [
+      "What shape follows a [32,128] input through Dense(16)?",
+      "Quelle forme après Dense(16) pour [32,128] ?",
+      "ما الشكل بعد Dense(16) لمدخل [32,128]؟"
+    ],
+    "answer": [
+      "[32,16]. The batch count stays 32.",
+      "[32,16]. Le nombre d’exemples reste 32.",
+      "[32,16]؛ يبقى عدد الأمثلة 32."
+    ],
+    "formula": "h^{(l)}=\\phi(W^{(l)}h^{(l-1)}+b^{(l)})",
+    "symbols": [
+      "h: layer representation; l: layer index; W: weights; b: bias; φ: activation.",
+      "h : représentation ; l : couche ; W : poids ; b : biais ; φ : activation.",
+      "h: التمثيل؛ l: رقم الطبقة؛ W: الأوزان؛ b: الانحياز؛ φ: التنشيط."
+    ],
+    "code": "hidden = keras.layers.Dense(16, activation=\"relu\")(features)"
+  },
+  {
+    "id": "representations",
+    "lab": "composition",
+    "title": [
+      "Hidden representations and boundaries",
+      "Représentations et frontières",
+      "التمثيلات الخفية والحدود"
+    ],
+    "body": [
+      "Hidden representations transform the coordinates in which a task is solved. A difficult boundary in input space may become simple in feature space. Inspect the four XOR points before and after the hidden layer. Visualizations reveal values and patterns but do not establish a unique explanation of the model’s reasoning.",
+      "Les représentations changent les coordonnées du problème. Une frontière difficile dans l’entrée peut devenir simple dans l’espace des caractéristiques. Inspectez XOR avant et après la couche. Une visualisation montre des valeurs sans prouver une explication unique du raisonnement.",
+      "تغير التمثيلات إحداثيات المسألة. قد يصبح حد معقد في فضاء المدخلات بسيطاً في فضاء السمات. افحص نقاط XOR قبل الطبقة وبعدها. تظهر الرسوم قيماً وأنماطاً لكنها لا تثبت تفسيراً فريداً لاستدلال النموذج."
+    ],
+    "example": [
+      "XOR points (0,0) and (1,1) map to (0,0); (1,0) maps to (1,0), and (0,1) to (0,1). The sum of hidden coordinates separates their labels.",
+      "Les points XOR (0,0) et (1,1) deviennent (0,0), les autres (1,0) et (0,1). Leur somme sépare les étiquettes.",
+      "تصبح (0,0) و(1,1) عند XOR النقطة (0,0)، وتصبح النقطتان الأخريان (1,0) و(0,1). يفصل مجموع الإحداثيات أهدافها."
+    ],
+    "caveat": [
+      "Discarding a distinction between different labels can make the task impossible for later layers.",
+      "Perdre une distinction entre étiquettes différentes peut rendre la tâche impossible ensuite.",
+      "قد يجعل فقدان فرق بين هدفين مختلفين المهمة مستحيلة للطبقات التالية."
+    ],
+    "question": [
+      "Can a downstream deterministic head distinguish identical hidden vectors?",
+      "Une tête déterministe distingue-t-elle deux vecteurs cachés identiques ?",
+      "هل يميز رأس حتمي متجهين خفيين متطابقين؟"
+    ],
+    "answer": [
+      "No: the same input to that head gives the same output.",
+      "Non : la même entrée donne la même sortie.",
+      "لا؛ المدخل نفسه يعطي الخرج نفسه."
+    ],
+    "formula": "f(x)=g(h(x))",
+    "symbols": [
+      "h: feature extractor; g: prediction head; f: complete model; x: input.",
+      "h : extracteur ; g : tête ; f : modèle complet ; x : entrée.",
+      "h: مستخرج السمات؛ g: رأس التنبؤ؛ f: النموذج الكامل؛ x: المدخل."
+    ],
+    "code": "inspector = keras.Model(model.inputs, model.layers[0].output)"
+  },
+  {
+    "id": "initialization",
+    "lab": "composition",
+    "title": [
+      "Parameters, initialization and capacity",
+      "Paramètres, initialisation et capacité",
+      "المعاملات والتهيئة والسعة"
+    ],
+    "body": [
+      "Parameters are trainable values; hyperparameters configure learning. Random initialization breaks symmetry between units. Identically initialized hidden units can receive identical updates and remain redundant. Glorot and He initialization scale randomness with layer dimensions. More parameters increase capacity but can also encourage overfitting.",
+      "Les paramètres sont appris ; les hyperparamètres règlent l’apprentissage. L’initialisation aléatoire brise la symétrie. Des unités identiques peuvent recevoir les mêmes mises à jour. Glorot et He adaptent l’échelle aux dimensions. Plus de paramètres peut aussi favoriser le surapprentissage.",
+      "المعاملات قيم متعلمة والمعاملات الفائقة تضبط التدريب. تكسر التهيئة العشوائية التناظر؛ قد تتلقى الوحدات المتطابقة تحديثات متطابقة. تضبط تهيئتا Glorot وHe المقياس حسب الأبعاد. تزيد المعاملات السعة وقد تزيد فرط التكيّف."
+    ],
+    "example": [
+      "Dense(16) after 128 features has 128×16+16=2,064 parameters. Batch size is a hyperparameter and adds no weights.",
+      "Dense(16) après 128 entrées possède 128×16+16=2 064 paramètres. La taille du lot n’ajoute aucun poids.",
+      "تمتلك Dense(16) بعد 128 مدخلاً 128×16+16=2064 معاملاً. لا يضيف حجم الدفعة أوزاناً."
+    ],
+    "caveat": [
+      "A random seed improves reproducibility but does not promise bit-identical results across every platform.",
+      "Une graine aide la reproductibilité sans garantir l’identité bit à bit entre plateformes.",
+      "تحسن البذرة قابلية التكرار لكنها لا تضمن تطابق البتات عبر جميع المنصات."
+    ],
+    "question": [
+      "Is learning rate a learned weight?",
+      "Le taux d’apprentissage est-il un poids appris ?",
+      "هل معدل التعلم وزن متعلم؟"
+    ],
+    "answer": [
+      "No. It is a chosen hyperparameter controlling update size.",
+      "Non, c’est un hyperparamètre qui règle la taille des mises à jour.",
+      "لا؛ إنه معامل فائق يضبط حجم التحديث."
+    ],
+    "formula": "P_{dense}=n_{in}n_{out}+n_{out}",
+    "symbols": [
+      "P: parameter count; nin: input features; nout: output units, including one bias each.",
+      "P : paramètres ; nin : entrées ; nout : sorties avec un biais chacune.",
+      "P: عدد المعاملات؛ nin: المدخلات؛ nout: الوحدات ولكل منها انحياز."
+    ],
+    "code": "keras.layers.Dense(16, kernel_initializer=keras.initializers.HeNormal(seed=7))"
+  },
+  {
+    "id": "loss-objective",
+    "lab": "loss",
+    "title": [
+      "Predictions, targets and loss",
+      "Prédictions, cibles et perte",
+      "التنبؤ والأهداف والخسارة"
+    ],
+    "body": [
+      "A prediction is what the current model outputs; a target is the value supplied by the dataset. Loss measures disagreement in a way that gives a learning signal. The training objective usually averages losses across samples, possibly adding regularization. A metric describes performance but need not be differentiable or serve as the optimized loss.",
+      "La prédiction vient du modèle ; la cible vient des données. La perte mesure leur désaccord et fournit un signal d’apprentissage. L’objectif moyenne les pertes et peut ajouter une régularisation. Une mesure de performance n’est pas forcément différentiable ni optimisée directement.",
+      "التنبؤ خرج النموذج الحالي والهدف قيمة البيانات. تقيس الخسارة الاختلاف بطريقة تعطي إشارة تعلم. يُحسب متوسط خسائر الأمثلة وقد تضاف إليه عقوبة تنظيم. يصف المقياس الأداء لكنه ليس بالضرورة قابلاً للاشتقاق أو هدف التحسين."
+    ],
+    "example": [
+      "For prediction 3 and target 1, squared error is (3−1)²=4. Prediction 1.5 gives 0.25.",
+      "Pour une prédiction 3 et une cible 1, l’erreur carrée vaut 4. Une prédiction 1,5 donne 0,25.",
+      "للتنبؤ 3 والهدف 1 يكون مربع الخطأ 4؛ للتنبؤ 1.5 يصبح 0.25."
+    ],
+    "caveat": [
+      "Accuracy alone supplies no useful gradient through an argmax decision.",
+      "L’exactitude seule ne fournit pas de gradient utile à travers argmax.",
+      "لا توفر صحة التصنيف وحدها تدرجاً مفيداً عبر قرار argmax."
+    ],
+    "question": [
+      "Does zero training loss prove generalization?",
+      "Une perte nulle prouve-t-elle la généralisation ?",
+      "هل تثبت خسارة تدريب صفرية التعميم؟"
+    ],
+    "answer": [
+      "No. The model may memorize training examples and fail on unseen ones.",
+      "Non, il peut mémoriser les exemples et échouer sur de nouvelles données.",
+      "لا؛ قد يحفظ النموذج أمثلة التدريب ويفشل على أمثلة جديدة."
+    ],
+    "formula": "L=\\frac{1}{N}\\sum_{n=1}^N\\ell(f_\\theta(x_n),y_n)",
+    "symbols": [
+      "N: samples; ℓ: sample loss; fθ: model with parameters θ; xn,yn: input and target.",
+      "N : exemples ; ℓ : perte individuelle ; fθ : modèle ; xn,yn : entrée et cible.",
+      "N: الأمثلة؛ ℓ: خسارة المثال؛ fθ: النموذج بمعاملاته θ؛ xn,yn: المدخل والهدف."
+    ],
+    "code": "model.compile(optimizer=\"adam\", loss=\"mse\", metrics=[\"mae\"])"
+  },
+  {
+    "id": "chain-rule",
+    "lab": "backprop",
+    "title": [
+      "Gradients and the chain rule",
+      "Gradients et règle de la chaîne",
+      "التدرجات وقاعدة السلسلة"
+    ],
+    "body": [
+      "A derivative measures local sensitivity. A gradient collects derivatives with respect to all parameters. Backpropagation applies the chain rule from the loss through the computational graph, reusing intermediate results. Shared weights accumulate contributions from every place they are used. Backpropagation calculates gradients; it does not itself choose an update rule.",
+      "Une dérivée mesure la sensibilité locale. Le gradient regroupe les dérivées des paramètres. La rétropropagation applique la chaîne dans le graphe et réutilise les résultats. Un poids partagé accumule les contributions de tous ses usages. Le calcul du gradient ne choisit pas la mise à jour.",
+      "تقيس المشتقة الحساسية المحلية ويجمع التدرج مشتقات المعاملات. يطبق الانتشار العكسي قاعدة السلسلة عبر الرسم الحسابي ويعيد استخدام النتائج. يجمع الوزن المشترك مساهمات جميع مواضع استخدامه. حساب التدرج لا يحدد قاعدة التحديث."
+    ],
+    "example": [
+      "x=2,w=0.5,b=0,target=3 gives z=1 and L=(1−3)²=4. dL/dz=−4, dz/dw=2, so dL/dw=−8.",
+      "x=2,w=0,5,b=0,cible=3 donnent z=1 et L=4. dL/dz=−4 et dz/dw=2, donc dL/dw=−8.",
+      "إذا x=2,w=0.5,b=0 والهدف 3 يكون z=1 وL=4. تكون dL/dz=−4 وdz/dw=2 فيكون dL/dw=−8."
+    ],
+    "caveat": [
+      "Gradients describe local changes. A very large step need not reduce loss.",
+      "Le gradient décrit un changement local ; un grand pas peut augmenter la perte.",
+      "يصف التدرج تغيراً محلياً؛ قد تزيد خطوة كبيرة الخسارة."
+    ],
+    "question": [
+      "Why do early weights depend on later layers during backpropagation?",
+      "Pourquoi les premiers poids dépendent-ils des couches suivantes ?",
+      "لماذا تعتمد تدرجات الأوزان الأولى على الطبقات اللاحقة؟"
+    ],
+    "answer": [
+      "Their influence on loss passes through those layers, so their derivatives multiply along the graph.",
+      "Leur effet sur la perte passe par ces couches, dont les dérivées se multiplient.",
+      "لأن تأثيرها على الخسارة يمر عبر تلك الطبقات فتتضاعف مشتقات المسار."
+    ],
+    "formula": "\\frac{\\partial L}{\\partial w}=\\frac{\\partial L}{\\partial a}\\frac{\\partial a}{\\partial z}\\frac{\\partial z}{\\partial w}",
+    "symbols": [
+      "L: loss; a: activation; z: pre-activation; w: parameter.",
+      "L : perte ; a : activation ; z : préactivation ; w : paramètre.",
+      "L: الخسارة؛ a: التنشيط؛ z: قبل التنشيط؛ w: المعامل."
+    ],
+    "code": "import tensorflow as tf\nwith tf.GradientTape() as tape:\n    prediction = model(x, training=True)\n    loss = tf.reduce_mean((prediction - y) ** 2)\ngradients = tape.gradient(loss, model.trainable_variables)"
+  },
+  {
+    "id": "optimizers",
+    "lab": "backprop",
+    "title": [
+      "SGD, momentum and Adam",
+      "SGD, momentum et Adam",
+      "SGD والزخم وAdam"
+    ],
+    "body": [
+      "SGD subtracts a scaled gradient from each parameter. Momentum combines the current gradient with a moving direction from previous steps. Adam tracks moving estimates of gradients and squared gradients, with bias correction. Learning rate controls update scale, not model capacity. Comparing optimizers requires controlling data, initialization, and training budget.",
+      "SGD soustrait un gradient multiplié par le taux. Le momentum conserve une direction des étapes précédentes. Adam suit les gradients et leurs carrés avec correction initiale. Le taux règle l’échelle du pas, pas la capacité. Comparez à données, initialisation et budget contrôlés.",
+      "يطرح SGD تدرجاً مضروباً في معدل التعلم. يجمع الزخم الاتجاه السابق مع التدرج الحالي. يتتبع Adam متوسطَي التدرجات ومربعاتها مع تصحيح الانحياز. يحدد المعدل مقياس الخطوة لا السعة؛ قارن المحسنات ببيانات وتهيئة وميزانية ثابتة."
+    ],
+    "example": [
+      "With w=0.5, gradient=−8 and learning rate=0.1, SGD produces w=1.3. The negative gradient means increasing w locally helps.",
+      "Avec w=0,5, gradient=−8 et taux=0,1, SGD donne w=1,3. Un gradient négatif invite ici à augmenter w.",
+      "إذا w=0.5 والتدرج −8 والمعدل 0.1 يعطي SGD الوزن 1.3. يشير التدرج السالب إلى فائدة الزيادة محلياً."
+    ],
+    "caveat": [
+      "Adam is not guaranteed to outperform SGD on every task. Optimizer state must be reset for a fresh experiment.",
+      "Adam ne domine pas toujours SGD. Réinitialisez son état pour une nouvelle expérience.",
+      "لا يتفوق Adam على SGD دائماً ويجب إعادة ضبط حالة المحسن لتجربة جديدة."
+    ],
+    "question": [
+      "Does a smaller learning rate always mean better training?",
+      "Un taux plus petit est-il toujours meilleur ?",
+      "هل معدل أصغر أفضل دائماً؟"
+    ],
+    "answer": [
+      "No. It may be stable but too slow to learn within the chosen budget.",
+      "Non. Il peut être stable mais trop lent pour le budget choisi.",
+      "لا؛ قد يكون مستقراً لكنه بطيء جداً ضمن ميزانية التدريب."
+    ],
+    "formula": "w_{t+1}=w_t-\\eta\\nabla_w L",
+    "symbols": [
+      "t: update index; η: learning rate; ∇wL: gradient with respect to w.",
+      "t : étape ; η : taux ; ∇wL : gradient selon w.",
+      "t: رقم التحديث؛ η: معدل التعلم؛ ∇wL: تدرج الخسارة بالنسبة إلى w."
+    ],
+    "code": "optimizer = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)\n# Alternative: keras.optimizers.Adam(learning_rate=0.001)"
+  },
+  {
+    "id": "batches-epochs",
+    "lab": "training",
+    "title": [
+      "Samples, batches and epochs",
+      "Exemples, lots et époques",
+      "الأمثلة والدفعات ودورات التدريب"
+    ],
+    "body": [
+      "A sample is one labeled example. A batch groups samples for one gradient calculation and optimizer update. An epoch is one pass through the training dataset. Iterations count updates, not examples. The last batch can be smaller unless explicitly dropped. Batch size changes the number and noise of updates, not the network’s parameter count.",
+      "Un exemple est une observation étiquetée. Un lot sert à un calcul de gradient et une mise à jour. Une époque parcourt toutes les données. Les itérations comptent les mises à jour. Le dernier lot peut être incomplet. La taille du lot change les mises à jour, pas les poids.",
+      "المثال عينة ذات هدف. تجمع الدفعة أمثلة لحساب تدرج وتحديث واحد. تمر دورة التدريب على مجموعة التدريب كلها. تعد التكرارات التحديثات لا الأمثلة. قد تكون الدفعة الأخيرة أصغر؛ لا يغير حجم الدفعة عدد معاملات الشبكة."
+    ],
+    "example": [
+      "100 samples with batch size 32 give batches 32,32,32,4: four updates per epoch and 12 over three epochs.",
+      "100 exemples par lots de 32 donnent 32,32,32,4 : quatre mises à jour par époque, douze sur trois époques.",
+      "100 مثال بحجم دفعة 32 تعطي 32,32,32,4: أربعة تحديثات في الدورة و12 في ثلاث دورات."
+    ],
+    "caveat": [
+      "An epoch is not one weight update unless the full dataset is one batch.",
+      "Une époque n’est une mise à jour que si les données forment un seul lot.",
+      "الدورة ليست تحديثاً واحداً إلا إذا كانت كل البيانات دفعة واحدة."
+    ],
+    "question": [
+      "How many updates for 512 samples, batch 64, two epochs?",
+      "Combien de mises à jour pour 512 exemples, lot 64, deux époques ?",
+      "كم تحديثاً لـ512 مثالاً بحجم 64 ودورتين؟"
+    ],
+    "answer": [
+      "16: eight batches per epoch times two.",
+      "16 : huit lots par époque fois deux.",
+      "16: ثماني دفعات في كل دورة مضروبة في اثنتين."
+    ],
+    "formula": "U=E\\left\\lceil N/B\\right\\rceil",
+    "symbols": [
+      "U: updates; E: epochs; N: samples; B: batch size; ceiling keeps the last partial batch.",
+      "U : mises à jour ; E : époques ; N : exemples ; B : lot ; plafond pour le dernier lot.",
+      "U: التحديثات؛ E: الدورات؛ N: الأمثلة؛ B: حجم الدفعة؛ التقريب للأعلى يحتفظ بالدفعة الجزئية."
+    ],
+    "code": "model.fit(x_train, y_train, batch_size=32, epochs=10)"
+  },
+  {
+    "id": "batch-gradients",
+    "lab": "training",
+    "title": [
+      "Shuffling and batch gradients",
+      "Mélange et gradients par lot",
+      "الخلط وتدرجات الدفعات"
+    ],
+    "body": [
+      "The mean batch gradient combines the influence of several samples. Conflicting examples can cancel components. Shuffling changes which examples interact in each update; shuffle inputs and labels together. Larger batches often reduce sampling noise but provide fewer updates per epoch. Our worker uses a seeded shuffle so the sample order can be reproduced.",
+      "Le gradient moyen combine plusieurs exemples. Des contributions opposées peuvent s’annuler. Mélanger change leurs interactions ; mélangez entrées et étiquettes ensemble. De grands lots réduisent souvent le bruit mais donnent moins de mises à jour. Le laboratoire utilise un mélange à graine fixe.",
+      "يجمع متوسط تدرج الدفعة تأثير عدة أمثلة وقد تلغي مساهماتها بعضها. يغيّر الخلط تفاعل الأمثلة في كل تحديث؛ اخلط المدخلات والأهداف معاً. تقلل الدفعات الأكبر الضجيج غالباً لكنها تعطي تحديثات أقل. يستخدم العامل خلطاً قابلاً للتكرار ببذرة."
+    ],
+    "example": [
+      "Gradients [2,−1] and [−2,3] average to [0,1]. This batch changes the second weight but not the first under SGD.",
+      "Les gradients [2,−1] et [−2,3] donnent la moyenne [0,1]. SGD ne change que le second poids.",
+      "متوسط [2,−1] و[−2,3] هو [0,1]؛ يغيّر SGD الوزن الثاني فقط لهذه الدفعة."
+    ],
+    "caveat": [
+      "Do not compare batch sizes using epochs alone without acknowledging different update counts.",
+      "Comparez les lots en tenant compte du nombre différent de mises à jour.",
+      "لا تقارن أحجام الدفعات بالدورات فقط دون مراعاة اختلاف عدد التحديثات."
+    ],
+    "question": [
+      "What breaks if labels are shuffled independently?",
+      "Que casse un mélange indépendant des étiquettes ?",
+      "ماذا يفسد عند خلط الأهداف مستقلة؟"
+    ],
+    "answer": [
+      "Inputs become paired with the wrong targets, so training optimizes incorrect supervision.",
+      "Les entrées reçoivent les mauvaises cibles et la supervision devient incorrecte.",
+      "ترتبط المدخلات بأهداف خاطئة فيحسن التدريب إشرافاً غير صحيح."
+    ],
+    "formula": "g_B=\\frac{1}{B}\\sum_{i\\in\\mathcal{B}}\\nabla_\\theta\\ell_i",
+    "symbols": [
+      "gB: batch gradient; B: count; ℬ: selected samples; θ: parameters; ℓi: sample loss.",
+      "gB : gradient moyen ; B : taille ; ℬ : exemples ; θ : paramètres ; ℓi : perte individuelle.",
+      "gB: تدرج الدفعة؛ B: العدد؛ ℬ: الأمثلة المختارة؛ θ: المعاملات؛ ℓi: خسارة المثال."
+    ],
+    "code": "model.fit(x_train, y_train, shuffle=True, batch_size=32)"
+  },
+  {
+    "id": "data-splits",
+    "lab": "training",
+    "title": [
+      "Train, validation and test",
+      "Entraînement, validation et test",
+      "التدريب والتحقق والاختبار"
+    ],
+    "body": [
+      "Training data drives parameter updates. Validation guides configuration and model selection. Test estimates performance after choices are frozen. Related or duplicate examples must not cross splits. Split before augmentation, and preserve groups such as subjects where applicable. Repeatedly choosing settings from test results turns that test into validation.",
+      "L’entraînement modifie les poids. La validation guide les choix. Le test estime les performances après fixation des choix. Évitez doublons et groupes communs entre ensembles. Séparez avant augmentation. Choisir souvent selon le test le transforme en validation.",
+      "تحدّث بيانات التدريب المعاملات وتوجّه بيانات التحقق الاختيارات. يقيس الاختبار الأداء بعد تثبيت القرارات. امنع عبور المكررات والمجموعات المرتبطة بين الأجزاء وافصل قبل زيادة البيانات. تكرار الاختيار بنتائج الاختبار يحوله إلى تحقق."
+    ],
+    "example": [
+      "Our synthetic generator creates 512/128/128 distinct examples. Only the first 512 drive updates; the last 128 are evaluated on explicit request.",
+      "Notre générateur crée 512/128/128 exemples distincts. Seuls les 512 premiers modifient les poids ; les derniers sont testés sur demande.",
+      "ينشئ مولدنا 512/128/128 مثالاً متميزاً. تحدث أول 512 الأوزان وتُقيّم آخر 128 عند الطلب الصريح."
+    ],
+    "caveat": [
+      "High scores from leaked duplicates do not demonstrate generalization.",
+      "Un score élevé avec des doublons entre ensembles ne prouve pas la généralisation.",
+      "لا تثبت الدرجات المرتفعة مع تسرب المكررات التعميم."
+    ],
+    "question": [
+      "Which split should choose the best epoch?",
+      "Quel ensemble choisit la meilleure époque ?",
+      "أي جزء يحدد أفضل دورة؟"
+    ],
+    "answer": [
+      "Validation, not the held-out test.",
+      "La validation, pas le test réservé.",
+      "التحقق وليس الاختبار المحجوز."
+    ],
+    "formula": "\\mathcal{D}_{train}\\cap\\mathcal{D}_{test}=\\varnothing",
+    "symbols": [
+      "D: dataset membership; ∩: overlap; ∅: no shared examples. Also check related groups.",
+      "D : ensemble ; ∩ : recouvrement ; ∅ : aucun exemple partagé. Vérifiez aussi les groupes.",
+      "D: مجموعة الأمثلة؛ ∩: التقاطع؛ ∅: بلا أمثلة مشتركة. افحص المجموعات المرتبطة أيضاً."
+    ],
+    "code": "history = model.fit(x_train, y_train,\n    validation_data=(x_val, y_val), epochs=10)"
+  },
+  {
+    "id": "local-convolution",
+    "lab": "convolution",
+    "title": [
+      "Locality and shared weights",
+      "Localité et poids partagés",
+      "المحلية والأوزان المشتركة"
+    ],
+    "body": [
+      "A convolution looks at local patches rather than connecting every pixel to every output. One kernel is reused across spatial locations. Each output is a neuron with a local weighted sum and bias. This sharing reduces parameters and lets a detector respond to the same local pattern in several locations. It does not make the entire classifier position-independent.",
+      "Une convolution observe des régions locales. Un noyau est réutilisé dans l’espace. Chaque sortie est une somme locale plus biais. Le partage réduit les paramètres et détecte un motif à plusieurs endroits. Il ne rend pas tout le classifieur indépendant de la position.",
+      "يرى الالتفاف رقعاً محلية بدلاً من وصل كل بكسل بكل خرج. تستخدم النواة نفسها عبر المواقع. كل خرج مجموع موزون محلي وانحياز. يقلل الاشتراك المعاملات ويتيح كشف نمط في مواقع عدة لكنه لا يجعل المصنف كله مستقلاً عن الموقع."
+    ],
+    "example": [
+      "A 3×3 grayscale kernel has nine weights and one bias, whether it scans a 16×16 or a 64×64 image.",
+      "Un noyau gris 3×3 possède neuf poids et un biais pour une image 16×16 ou 64×64.",
+      "للنواة الرمادية 3×3 تسعة أوزان وانحياز واحد سواء على صورة 16×16 أو 64×64."
+    ],
+    "caveat": [
+      "The sliding kernel is learned during training; it does not gain a separate weight set at every position.",
+      "Le noyau est appris mais ne possède pas un jeu distinct à chaque position.",
+      "تتعلم النواة في التدريب ولا تمتلك أوزاناً مستقلة لكل موقع."
+    ],
+    "question": [
+      "How many parameters for four 3×3 filters on one channel?",
+      "Combien de paramètres pour quatre filtres 3×3 à un canal ?",
+      "كم معاملاً لأربعة مرشحات 3×3 على قناة واحدة؟"
+    ],
+    "answer": [
+      "(9+1)×4=40, including biases.",
+      "(9+1)×4=40 avec les biais.",
+      "(9+1)×4=40 مع الانحيازات."
+    ],
+    "formula": "y_{i,j,o}=b_o+\\sum_{u,v,c}K_{u,v,c,o}x_{i+u,j+v,c}",
+    "symbols": [
+      "i,j: output position; u,v: kernel offsets; c: input channel; o: output filter; K: shared weights; b: bias.",
+      "i,j : position ; u,v : décalages ; c : canal ; o : filtre ; K : poids partagés ; b : biais.",
+      "i,j: الموقع؛ u,v: إزاحات النواة؛ c: قناة المدخل؛ o: المرشح؛ K: الأوزان المشتركة؛ b: الانحياز."
+    ],
+    "code": "keras.layers.Conv2D(4, 3, padding=\"same\", activation=\"relu\")"
+  },
+  {
+    "id": "channels-filters",
+    "lab": "convolution",
+    "title": [
+      "Channels, kernels and feature maps",
+      "Canaux, noyaux et cartes",
+      "القنوات والنوى وخرائط السمات"
+    ],
+    "body": [
+      "Each convolution filter spans all input channels and produces one output channel. It sums channel contributions before adding a bias. Multiple filters can respond differently to the same patch. Deep-learning libraries commonly call cross-correlation “convolution”: the kernel is not flipped during the scan. Learned kernels can accommodate this convention.",
+      "Chaque filtre couvre tous les canaux et produit un canal de sortie. Les contributions sont additionnées avant le biais. Plusieurs filtres réagissent différemment. Les bibliothèques calculent généralement une corrélation croisée sans retourner le noyau, appelée convolution par convention.",
+      "يمتد كل مرشح عبر قنوات المدخل كلها وينتج قناة خرج واحدة. تُجمع مساهمات القنوات قبل إضافة الانحياز. تستجيب المرشحات بطرق مختلفة للرقعة. تحسب المكتبات عادة ارتباطاً متقاطعاً بلا قلب للنواة وتسميه التفافاً اصطلاحاً."
+    ],
+    "example": [
+      "Eight 3×3 filters receiving four channels have (3×3×4+1)×8=296 parameters.",
+      "Huit filtres 3×3 recevant quatre canaux ont (3×3×4+1)×8=296 paramètres.",
+      "ثمانية مرشحات 3×3 تستقبل أربع قنوات لها (3×3×4+1)×8=296 معاملاً."
+    ],
+    "caveat": [
+      "A 3×3 RGB filter is not only nine weights. It has 27 weights because it spans three channels.",
+      "Un filtre RVB 3×3 a 27 poids, pas neuf.",
+      "مرشح RGB بحجم 3×3 له 27 وزناً وليس تسعة."
+    ],
+    "question": [
+      "Do eight filters create eight independent RGB images?",
+      "Huit filtres créent-ils huit images RVB indépendantes ?",
+      "هل تنشئ ثمانية مرشحات ثماني صور RGB مستقلة؟"
+    ],
+    "answer": [
+      "No. They create eight feature channels; their values are not necessarily colors.",
+      "Non. Ils créent huit canaux de caractéristiques, pas forcément des couleurs.",
+      "لا؛ تنشئ ثماني قنوات سمات لا تمثل بالضرورة ألواناً."
+    ],
+    "formula": "P=(K_hK_wC_{in}+1)C_{out}",
+    "symbols": [
+      "Kh,Kw: kernel dimensions; Cin: input channels; Cout: filters; 1: one bias per filter.",
+      "Kh,Kw : dimensions ; Cin : canaux ; Cout : filtres ; 1 : biais par filtre.",
+      "Kh,Kw: أبعاد النواة؛ Cin: قنوات المدخل؛ Cout: المرشحات؛ 1: انحياز لكل مرشح."
+    ],
+    "code": "keras.layers.Conv2D(8, 3, padding=\"same\", activation=\"relu\")"
+  },
+  {
+    "id": "stride-padding",
+    "lab": "convolution",
+    "title": [
+      "Stride, padding and dilation",
+      "Pas, remplissage et dilatation",
+      "الخطوة والحشو والتوسيع"
+    ],
+    "body": [
+      "Stride sets the distance between sampled patch origins. Padding adds values around the image so edge positions can participate. Dilation spaces kernel elements farther apart without adding weights. “Same” padding gives ceil(input/stride), not always the original size. Invalid configurations should be rejected rather than displayed with impossible shapes.",
+      "Le pas règle la distance entre régions. Le remplissage ajoute des valeurs aux bords. La dilatation espace les éléments sans ajouter de poids. « Same » donne plafond(entrée/pas), pas toujours la taille initiale. Rejetez les configurations impossibles.",
+      "تحدد الخطوة المسافة بين بدايات الرقع. يضيف الحشو قيماً حول الصورة. يباعد التوسيع بين عناصر النواة بلا أوزان جديدة. يعطي same سقف(حجم المدخل/الخطوة) وليس الحجم الأصلي دائماً. يجب رفض الأشكال غير الممكنة."
+    ],
+    "example": [
+      "Input 7, kernel 3, stride 2, no padding gives floor((7−3)/2)+1=3. Same padding gives ceil(7/2)=4.",
+      "Entrée 7, noyau 3, pas 2, sans remplissage : 3 sorties. Avec same : 4.",
+      "لمدخل 7 ونواة 3 وخطوة 2 بلا حشو يكون الخرج 3؛ مع same يكون 4."
+    ],
+    "caveat": [
+      "Padding changes boundary behavior. It does not guarantee complete translation invariance.",
+      "Le remplissage change les bords sans garantir l’invariance aux translations.",
+      "يغيّر الحشو سلوك الحدود ولا يضمن الثبات الكامل للإزاحة."
+    ],
+    "question": [
+      "What is the effective size of a 3-wide kernel with dilation 2?",
+      "Quelle taille effective pour un noyau 3 dilaté par 2 ?",
+      "ما الحجم الفعال لنواة 3 بتوسيع 2؟"
+    ],
+    "answer": [
+      "(3−1)×2+1=5, still using three positions along that axis.",
+      "5, avec toujours trois positions sur cet axe.",
+      "5، مع بقاء ثلاثة عناصر على ذلك المحور."
+    ],
+    "formula": "O=\\left\\lfloor\\frac{I+P_l+P_r-d(K-1)-1}{S}\\right\\rfloor+1",
+    "symbols": [
+      "I,O: input/output size; Pl,Pr: padding; d: dilation; K: kernel width; S: stride.",
+      "I,O : tailles ; Pl,Pr : remplissage ; d : dilatation ; K : noyau ; S : pas.",
+      "I,O: الحجم؛ Pl,Pr: الحشو؛ d: التوسيع؛ K: عرض النواة؛ S: الخطوة."
+    ],
+    "code": "keras.layers.Conv2D(4, 3, strides=2, padding=\"same\")\n# Dilation > 1 requires stride 1 in Keras."
+  },
+  {
+    "id": "conv-relu",
+    "lab": "convolution",
+    "title": [
+      "Convolution followed by activation",
+      "Convolution puis activation",
+      "الالتفاف ثم التنشيط"
+    ],
+    "body": [
+      "Convolution itself is affine when bias is included. ReLU applies independently to every output position and channel. The two operations have different jobs: convolution combines inputs; activation creates nonlinearity. Intermediate feature maps retain a spatial grid. Inspect their numeric values before interpreting bright areas as meaningful features.",
+      "La convolution avec biais est affine. ReLU agit sur chaque position et canal. La convolution combine ; l’activation apporte la non-linéarité. Les cartes gardent une grille spatiale. Inspectez les nombres avant d’interpréter les zones lumineuses.",
+      "الالتفاف مع الانحياز تآلفي. تعمل ReLU على كل موقع وقناة. يدمج الالتفاف المدخلات ويضيف التنشيط اللاخطية. تحفظ خرائط السمات شبكة مكانية؛ افحص الأعداد قبل تفسير المناطق المضيئة."
+    ],
+    "example": [
+      "A convolution output [−3,2,0,5] becomes [0,2,0,5] through ReLU without changing its shape.",
+      "La sortie [−3,2,0,5] devient [0,2,0,5] avec ReLU sans changer de forme.",
+      "يصبح خرج [−3,2,0,5] بعد ReLU مساوياً [0,2,0,5] من دون تغير الشكل."
+    ],
+    "caveat": [
+      "Convolution alone does not supply the nonlinear expressive power of a deep CNN.",
+      "La convolution seule ne fournit pas toute l’expressivité non linéaire du CNN.",
+      "لا يوفر الالتفاف وحده القدرة التعبيرية غير الخطية لشبكة عميقة."
+    ],
+    "question": [
+      "Does ReLU add trainable parameters?",
+      "ReLU ajoute-t-elle des paramètres entraînables ?",
+      "هل تضيف ReLU معاملات متعلمة؟"
+    ],
+    "answer": [
+      "Standard ReLU adds none; its rule is fixed.",
+      "ReLU standard n’en ajoute aucun ; sa règle est fixe.",
+      "لا تضيف ReLU القياسية معاملات؛ قاعدتها ثابتة."
+    ],
+    "formula": "a_{i,j,c}=\\max(0,z_{i,j,c})",
+    "symbols": [
+      "z: convolution pre-activation; a: activated feature map; i,j,c: row, column, channel.",
+      "z : préactivation ; a : carte activée ; i,j,c : ligne, colonne, canal.",
+      "z: قبل التنشيط؛ a: خريطة منشطة؛ i,j,c: صف وعمود وقناة."
+    ],
+    "code": "keras.layers.Conv2D(4, 3, padding=\"same\", activation=\"relu\")"
+  },
+  {
+    "id": "pooling",
+    "lab": "pooling",
+    "title": [
+      "Pooling and receptive fields",
+      "Regroupement et champs réceptifs",
+      "التجميع والمجالات الاستقبالية"
+    ],
+    "body": [
+      "Max pooling keeps the largest value in each window. Average pooling keeps the mean. Both reduce spatial detail and normally have no trainable weights. Later units see larger regions of the original image because preceding windows combine information. Pooling can improve tolerance to some local shifts but can also erase task-relevant distinctions.",
+      "Max pooling conserve le maximum ; average pooling la moyenne. Ils réduisent le détail sans poids appris. Les unités suivantes voient de plus grandes régions originales. Le regroupement peut tolérer certaines petites translations mais perdre des distinctions utiles.",
+      "يحفظ التجميع الأعظمي أكبر قيمة ويحفظ المتوسط الحسابي في النوع الآخر. يقللان التفاصيل عادة بلا أوزان متعلمة. ترى الوحدات اللاحقة مناطق أكبر من الصورة الأصلية. قد يزيد التسامح مع إزاحات صغيرة لكنه قد يمحو فروقاً مهمة."
+    ],
+    "example": [
+      "Windows [1,0,0,0] and [0,1,0,0] both max-pool to 1 and average-pool to 0.25. Their within-window positions are lost.",
+      "[1,0,0,0] et [0,1,0,0] donnent tous deux max=1 et moyenne=0,25. La position locale disparaît.",
+      "تعطي [1,0,0,0] و[0,1,0,0] أكبر قيمة 1 ومتوسطاً 0.25؛ يُفقد الموقع داخل النافذة."
+    ],
+    "caveat": [
+      "Pooling is not invertible in general. Flatten is a reshape, but pooling discards values.",
+      "Le pooling n’est généralement pas inversible ; contrairement à Flatten, il supprime des informations.",
+      "التجميع ليس قابلاً للعكس عموماً؛ بخلاف Flatten يحذف معلومات."
+    ],
+    "question": [
+      "Can a later dense layer recover which of those two windows occurred?",
+      "Une couche dense retrouve-t-elle laquelle de ces fenêtres existait ?",
+      "هل تستعيد طبقة كثيفة أي النافذتين حدثت؟"
+    ],
+    "answer": [
+      "Not from the identical pooled value alone.",
+      "Pas avec la seule valeur groupée identique.",
+      "ليس من القيمة المجمعة المتطابقة وحدها."
+    ],
+    "formula": "r_l=r_{l-1}+(k_l-1)j_{l-1},\\quad j_l=j_{l-1}s_l",
+    "symbols": [
+      "r: receptive-field size; j: effective spacing; k: kernel size; s: stride; l: layer.",
+      "r : champ réceptif ; j : espacement ; k : noyau ; s : pas ; l : couche.",
+      "r: المجال الاستقبالي؛ j: التباعد الفعال؛ k: النواة؛ s: الخطوة؛ l: الطبقة."
+    ],
+    "code": "keras.layers.MaxPooling2D(pool_size=2)\nkeras.layers.AveragePooling2D(pool_size=2)"
+  },
+  {
+    "id": "dropout-batchnorm",
+    "lab": "training",
+    "title": [
+      "Dropout and batch normalization",
+      "Dropout et normalisation par lot",
+      "الإسقاط وتطبيع الدفعة"
+    ],
+    "body": [
+      "Dropout randomly zeros selected activations during training and rescales the retained ones. Standard inference disables this randomness. Batch normalization uses batch statistics in training and stored moving statistics in inference. Its scale and offset are trainable; moving statistics are state but not ordinary gradient-trained weights. Training mode therefore matters beyond weight updates.",
+      "Dropout annule des activations aléatoires et ajuste les restantes en entraînement ; il est désactivé en prédiction. Batch normalization utilise les statistiques du lot puis des moyennes mobiles à l’inférence. Échelle et décalage sont appris ; les moyennes sont un état. Le mode compte donc.",
+      "يصفّر الإسقاط تنشيطات عشوائية في التدريب ويعيد مقياس الباقي؛ يُعطل في التنبؤ المعتاد. يستخدم تطبيع الدفعة إحصاءاتها في التدريب وإحصاءات متحركة في الاستدلال. المقياس والإزاحة متعلمان بينما الإحصاءات حالة غير متعلمة بالتدرج المعتاد."
+    ],
+    "example": [
+      "With dropout rate 0.5, a retained activation 2 is scaled to 4 during training; the expected value remains 2.",
+      "Avec un taux 0,5, une activation conservée de 2 devient 4 en entraînement ; son espérance reste 2.",
+      "بمعدل إسقاط 0.5 تصبح القيمة المحتفظ بها 2 مساوية 4 في التدريب ويبقى توقعها 2."
+    ],
+    "caveat": [
+      "Calling a frozen model with training=True can still change batch-normalization behavior and activate dropout.",
+      "training=True peut activer dropout et modifier la normalisation même sans optimisation.",
+      "قد يفعل training=True الإسقاط ويغير سلوك التطبيع حتى من دون تحديث المحسن."
+    ],
+    "question": [
+      "Should normal inference use training=True?",
+      "L’inférence normale doit-elle utiliser training=True ?",
+      "هل يستخدم الاستدلال العادي training=True؟"
+    ],
+    "answer": [
+      "No. Use evaluation behavior, normally training=False.",
+      "Non, utilisez normalement training=False.",
+      "لا؛ استخدم عادة training=False."
+    ],
+    "formula": "\\hat{x}=(x-\\mu_B)/\\sqrt{\\sigma_B^2+\\epsilon},\\quad y=\\gamma\\hat{x}+\\beta",
+    "symbols": [
+      "μB,σB²: batch mean and variance; ε: numerical stabilizer; γ,β: learned scale and offset.",
+      "μB,σB² : moyenne et variance ; ε : stabilisateur ; γ,β : échelle et décalage appris.",
+      "μB,σB²: متوسط وتباين الدفعة؛ ε: مثبت عددي؛ γ,β: مقياس وإزاحة متعلمان."
+    ],
+    "code": "keras.layers.Dropout(0.5)\nkeras.layers.BatchNormalization()\nprediction = model(x, training=False)"
+  },
+  {
+    "id": "flatten",
+    "lab": "flatten",
+    "title": [
+      "Flatten preserves order",
+      "Flatten conserve l’ordre",
+      "يحفظ Flatten الترتيب"
+    ],
+    "body": [
+      "Flatten converts each sample’s spatial and channel axes into one feature axis. It does not average, sort, or learn values. With channels-last ordering, the channel index varies fastest, then column, then row. Given the original shape, you can reconstruct the tensor. A mirrored image generally produces a different ordered vector.",
+      "Flatten transforme les axes spatiaux et les canaux en un axe de caractéristiques. Il ne moyenne, ne trie et n’apprend rien. En canaux derniers, le canal varie le plus vite, puis la colonne et la ligne. La forme initiale permet la reconstruction. Un miroir donne généralement un autre vecteur.",
+      "يحوّل Flatten المحاور المكانية والقنوات إلى محور سمات واحد لكل مثال. لا يوسّط ولا يرتّب ولا يتعلم قيماً. في ترتيب القنوات أخيراً تتغير القناة أولاً ثم العمود فالصف. يتيح الشكل الأصلي إعادة البناء ويعطي الانعكاس عادة متجهاً مختلفاً."
+    ],
+    "example": [
+      "A 2×2×1 tensor [[1,2],[3,4]] becomes [1,2,3,4]. Mirroring gives [2,1,4,3], not the same vector.",
+      "[[1,2],[3,4]] devient [1,2,3,4]. Son miroir donne [2,1,4,3], un autre vecteur.",
+      "تصبح [[1,2],[3,4]] المتجه [1,2,3,4] ويعطي انعكاسها [2,1,4,3] وهو مختلف."
+    ],
+    "caveat": [
+      "Flatten has zero trainable parameters. Learned weights belong to subsequent layers.",
+      "Flatten possède zéro paramètre appris ; les poids sont dans les couches suivantes.",
+      "لا يملك Flatten معاملات قابلة للتدريب؛ الأوزان في الطبقات التالية."
+    ],
+    "question": [
+      "What shape does [32,4,4,8] become?",
+      "Quelle forme après [32,4,4,8] ?",
+      "ما شكل [32,4,4,8] بعد Flatten؟"
+    ],
+    "answer": [
+      "[32,128], keeping the 32 independent examples.",
+      "[32,128], en conservant 32 exemples indépendants.",
+      "[32,128] مع حفظ 32 مثالاً مستقلاً."
+    ],
+    "formula": "k=(yW+x)C+c",
+    "symbols": [
+      "k: flat index; y,x: row and column; W: width; C: channels; c: channel index.",
+      "k : indice plat ; y,x : ligne et colonne ; W : largeur ; C : canaux ; c : canal.",
+      "k: الفهرس المسطح؛ y,x: الصف والعمود؛ W: العرض؛ C: القنوات؛ c: رقم القناة."
+    ],
+    "code": "flat = keras.layers.Flatten()(feature_maps)"
+  },
+  {
+    "id": "dense-head",
+    "lab": "flatten",
+    "title": [
+      "Where the learned connections live",
+      "Où vivent les connexions apprises",
+      "أين توجد الوصلات المتعلمة"
+    ],
+    "body": [
+      "After flattening, each dense output reads every feature with its own weight. Spatial identity is implicit in the vector index, so different positions can get different weights. A dense head can learn useful combinations but can also become large and position-sensitive. Bias adds one parameter per output unit.",
+      "Après Flatten, chaque sortie dense lit toutes les caractéristiques avec ses poids. La position est implicite dans l’indice, donc les positions peuvent recevoir des poids différents. La tête combine les caractéristiques mais peut être volumineuse et sensible à la position. Un biais existe par sortie.",
+      "بعد Flatten يقرأ كل خرج كثيف جميع السمات بأوزانه الخاصة. تبقى الهوية المكانية ضمنية في الفهرس فتحصل المواقع على أوزان مختلفة. يتعلم الرأس التركيبات لكنه قد يصبح كبيراً وحساساً للموقع. يضاف انحياز لكل وحدة خرج."
+    ],
+    "example": [
+      "128 flattened features into 16 units require 2,048 weights plus 16 biases. Selecting one feature reveals 16 outgoing connections.",
+      "128 caractéristiques vers 16 unités demandent 2 048 poids et 16 biais. Une caractéristique possède 16 connexions sortantes.",
+      "تحتاج 128 سمة إلى 16 وحدة 2048 وزناً و16 انحيازاً. تكشف سمة واحدة 16 وصلة خارجة."
+    ],
+    "caveat": [
+      "The flattened values are activations, not automatically weights or probabilities.",
+      "Les valeurs aplaties sont des activations, pas des poids ni automatiquement des probabilités.",
+      "القيم المسطحة تنشيطات وليست أوزاناً أو احتمالات تلقائياً."
+    ],
+    "question": [
+      "Does one flat feature use the same weight for every output?",
+      "Une caractéristique utilise-t-elle le même poids pour toutes les sorties ?",
+      "هل تستخدم السمة المسطحة الوزن نفسه لكل خرج؟"
+    ],
+    "answer": [
+      "No. Dense weights form a feature-by-output matrix.",
+      "Non. Les poids forment une matrice caractéristiques × sorties.",
+      "لا؛ تشكل الأوزان مصفوفة سمات × مخارج."
+    ],
+    "formula": "z_j=\\sum_{k=0}^{127}W_{k,j}a_k+b_j",
+    "symbols": [
+      "ak: flat feature; Wkj: connection to output j; bj: output bias; zj: pre-activation.",
+      "ak : caractéristique ; Wkj : connexion ; bj : biais ; zj : préactivation.",
+      "ak: السمة؛ Wkj: الوصلة إلى j؛ bj: انحياز الخرج؛ zj: قبل التنشيط."
+    ],
+    "code": "head = keras.layers.Dense(16, activation=\"relu\")(flat)"
+  },
+  {
+    "id": "global-average",
+    "lab": "pooling",
+    "title": [
+      "Flatten versus global average pooling",
+      "Flatten ou moyenne globale",
+      "Flatten مقابل التجميع المتوسط الشامل"
+    ],
+    "body": [
+      "Global average pooling computes one average per channel. It reduces a spatial map to its channel count and discards within-channel position information. Flatten preserves all values in a known order. Neither operation has trainable weights. The choice changes the prediction head’s size and what distinctions remain available.",
+      "La moyenne globale produit une moyenne par canal et perd la position interne. Flatten conserve toutes les valeurs dans un ordre connu. Aucun n’a de poids appris. Le choix change la taille de la tête et les distinctions encore possibles.",
+      "يحسب التجميع المتوسط الشامل متوسطاً لكل قناة ويفقد معلومات الموقع داخلها. يحفظ Flatten كل القيم بترتيب معروف. لا يملك أيهما أوزاناً؛ يغير الاختيار حجم الرأس والفروق المتاحة له."
+    ],
+    "example": [
+      "A 4×4×8 map becomes 128 features with Flatten, but only 8 with global average pooling. Dense(16) then has 2,064 versus 144 parameters.",
+      "Une carte 4×4×8 donne 128 caractéristiques par Flatten ou 8 par moyenne globale. Dense(16) possède alors 2 064 ou 144 paramètres.",
+      "تعطي خريطة 4×4×8 عدد 128 سمة مع Flatten و8 مع المتوسط الشامل. تمتلك Dense(16) بعدها 2064 أو144 معاملاً."
+    ],
+    "caveat": [
+      "Averaging is unsuitable when the discarded position is itself the target, unless other features encode it.",
+      "La moyenne peut être inadaptée si la position perdue est précisément la cible.",
+      "قد لا يناسب المتوسط مهمة يكون الموقع المفقود نفسه هدفها إلا إذا رُمز في سمات أخرى."
+    ],
+    "question": [
+      "Can two differently arranged maps have the same global averages?",
+      "Deux cartes arrangées différemment ont-elles les mêmes moyennes ?",
+      "هل يمكن لخريطتين بترتيبين مختلفين امتلاك المتوسطات نفسها؟"
+    ],
+    "answer": [
+      "Yes. Equal channel sums give equal averages even when arrangements differ.",
+      "Oui, des sommes égales donnent des moyennes égales malgré des arrangements différents.",
+      "نعم؛ تعطي المجاميع المتساوية متوسطات متساوية رغم اختلاف الترتيب."
+    ],
+    "formula": "g_c=\\frac{1}{HW}\\sum_{y,x}a_{y,x,c}",
+    "symbols": [
+      "gc: pooled channel; H,W: map size; a: feature value; c: channel.",
+      "gc : canal groupé ; H,W : dimensions ; a : valeur ; c : canal.",
+      "gc: القناة المجمعة؛ H,W: الأبعاد؛ a: قيمة السمة؛ c: القناة."
+    ],
+    "code": "features = keras.layers.GlobalAveragePooling2D()(feature_maps)"
+  },
+  {
+    "id": "logits-softmax",
+    "lab": "loss",
+    "title": [
+      "Logits, sigmoid and softmax",
+      "Logits, sigmoïde et softmax",
+      "Logits وسيغمويد وsoftmax"
+    ],
+    "body": [
+      "Logits are unconstrained output scores. Softmax converts several logits into positive values summing to one for mutually exclusive classes. Sigmoid processes each logit independently and fits binary or multi-label tasks. Argmax selects a class but discards score information. Subtract the maximum logit before exponentiation to avoid overflow.",
+      "Les logits sont des scores libres. Softmax les transforme en valeurs positives de somme un pour des classes exclusives. La sigmoïde traite chaque logit indépendamment pour le binaire ou le multi-étiquette. Argmax choisit mais perd les scores. Soustrayez le maximum pour stabiliser le calcul.",
+      "الـlogits درجات غير مقيدة. يحول softmax عدة درجات إلى قيم موجبة مجموعها واحد للفئات المتنافية. تعالج سيغمويد كل درجة مستقلة للثنائي أو متعدد التسميات. يختار argmax فئة ويفقد تفاصيل الدرجات. اطرح أكبر درجة قبل الأس لتجنب الفيض."
+    ],
+    "example": [
+      "Logits [0,0,0,0] yield four probabilities of 0.25. Adding 100 to every logit leaves these probabilities unchanged.",
+      "[0,0,0,0] donne quatre probabilités de 0,25. Ajouter 100 partout ne les change pas.",
+      "تعطي [0,0,0,0] أربع قيم 0.25؛ إضافة 100 للجميع لا يغيرها."
+    ],
+    "caveat": [
+      "A score near one can still be wrong or poorly calibrated, especially outside the training distribution.",
+      "Un score proche de un peut être faux ou mal calibré hors distribution.",
+      "قد تكون درجة قريبة من واحد خاطئة أو غير معايرة خارج توزيع التدريب."
+    ],
+    "question": [
+      "Why not four independent sigmoids for exactly one arrow direction?",
+      "Pourquoi pas quatre sigmoïdes pour une seule direction ?",
+      "لماذا لا نستخدم أربع سيغمويدات لاتجاه سهم واحد؟"
+    ],
+    "answer": [
+      "They do not enforce a mutually exclusive distribution; softmax matches that target structure.",
+      "Elles n’imposent pas une distribution exclusive ; softmax correspond à cette cible.",
+      "لا تفرض توزيعاً متنافياً؛ يلائم softmax هذه البنية المستهدفة."
+    ],
+    "formula": "p_i=\\frac{e^{z_i-m}}{\\sum_j e^{z_j-m}},\\quad m=\\max_j z_j",
+    "symbols": [
+      "zi: class logit; m: stabilizing maximum; pi: softmax score; j: all classes.",
+      "zi : logit ; m : maximum ; pi : score ; j : classes.",
+      "zi: درجة الفئة؛ m: الحد الأقصى للاستقرار؛ pi: درجة softmax؛ j: جميع الفئات."
+    ],
+    "code": "logits = keras.layers.Dense(4)(features)\nprobabilities = keras.ops.softmax(logits, axis=-1)"
+  },
+  {
+    "id": "cross-entropy",
+    "lab": "loss",
+    "title": [
+      "Cross-entropy and target encoding",
+      "Entropie croisée et codage des cibles",
+      "الإنتروبيا المتقاطعة وترميز الأهداف"
+    ],
+    "body": [
+      "Categorical cross-entropy penalizes low probability assigned to the correct class. One-hot targets work with categorical loss; integer class IDs work with sparse categorical loss. Binary cross-entropy matches binary or independent multi-label targets. A logits-aware loss computes a stable combination without applying softmax twice.",
+      "L’entropie croisée pénalise une faible probabilité de la classe correcte. Le codage one-hot utilise la perte catégorielle ; les entiers la version sparse. La version binaire convient au binaire ou aux étiquettes indépendantes. Une perte adaptée aux logits évite un double softmax.",
+      "تعاقب الإنتروبيا المتقاطعة انخفاض احتمال الفئة الصحيحة. تستخدم أهداف one-hot الخسارة الفئوية والأعداد الصحيحة نسختها المتناثرة. يلائم النوع الثنائي الأهداف الثنائية أو المستقلة. تستخدم خسارة logits حساباً مستقراً بلا تطبيق softmax مرتين."
+    ],
+    "example": [
+      "Correct-class probability 0.8 gives −ln(0.8)=0.223; 0.01 gives 4.605. Confidently wrong predictions cost much more.",
+      "Une probabilité correcte 0,8 donne 0,223 ; 0,01 donne 4,605. Une erreur confiante coûte davantage.",
+      "احتمال الفئة الصحيحة 0.8 يعطي 0.223 و0.01 يعطي 4.605؛ الخطأ الواثق أعلى تكلفة."
+    ],
+    "caveat": [
+      "Cross-entropy is not calculated on an argmax class ID. It needs the score distribution or logits.",
+      "La perte ne se calcule pas sur la classe argmax ; elle utilise les scores ou logits.",
+      "لا تُحسب الخسارة على رقم argmax بل تحتاج توزيع الدرجات أو logits."
+    ],
+    "question": [
+      "Which Keras loss matches integer labels and raw logits?",
+      "Quelle perte Keras pour entiers et logits bruts ?",
+      "أي خسارة Keras تناسب أهدافاً صحيحة وlogits خاماً؟"
+    ],
+    "answer": [
+      "SparseCategoricalCrossentropy(from_logits=True).",
+      "SparseCategoricalCrossentropy(from_logits=True).",
+      "SparseCategoricalCrossentropy(from_logits=True)."
+    ],
+    "formula": "L=-\\sum_i y_i\\log p_i,\\quad \\frac{\\partial L}{\\partial z_i}=p_i-y_i",
+    "symbols": [
+      "yi: one-hot target; pi: softmax score; zi: logit; L: sample loss with natural logarithm.",
+      "yi : cible one-hot ; pi : score ; zi : logit ; L : perte, logarithme naturel.",
+      "yi: الهدف one-hot؛ pi: درجة softmax؛ zi: logit؛ L: خسارة المثال باللوغاريتم الطبيعي."
+    ],
+    "code": "loss = keras.losses.SparseCategoricalCrossentropy(from_logits=True)"
+  },
+  {
+    "id": "regression-loss",
+    "lab": "tasks",
+    "title": [
+      "Regression heads and error losses",
+      "Têtes de régression et pertes",
+      "رؤوس الانحدار وخسائر الخطأ"
+    ],
+    "body": [
+      "Regression predicts numerical quantities. Our two linear outputs estimate normalized x and y positions. MSE emphasizes large residuals; MAE is less sensitive to outliers; Huber combines quadratic and linear regions. Output constraints should match the target domain. A linear head can predict outside [0,1], even when training targets are normalized.",
+      "La régression prédit des quantités. Nos deux sorties linéaires estiment x et y normalisés. MSE accentue les grands résidus ; MAE est moins sensible ; Huber combine deux régions. Les contraintes de sortie doivent correspondre à la cible. Une tête linéaire peut dépasser [0,1].",
+      "يتنبأ الانحدار بكميات عددية. يقدر خرجانا الخطيان موضعي x وy المطبعين. تؤكد MSE الأخطاء الكبيرة وMAE أقل حساسية للشواذ ويجمع Huber منطقتين. اختر قيود الخرج حسب الهدف؛ قد يتجاوز الرأس الخطي [0,1] رغم تطبيع الأهداف."
+    ],
+    "example": [
+      "Prediction [0.8,0.2], target [0.5,0.4] gives MSE=(0.09+0.04)/2=0.065 and MAE=0.25.",
+      "[0,8;0,2] contre [0,5;0,4] donne MSE=0,065 et MAE=0,25.",
+      "التنبؤ [0.8,0.2] والهدف [0.5,0.4] يعطي MSE=0.065 وMAE=0.25."
+    ],
+    "caveat": [
+      "A CNN is not restricted to classification. The output head and objective establish the task.",
+      "Un CNN n’est pas réservé à la classification : tête et objectif définissent la tâche.",
+      "لا تقتصر CNN على التصنيف؛ يحدد الرأس والهدف المهمة."
+    ],
+    "question": [
+      "Would softmax fit two independent coordinates?",
+      "Softmax convient-il à deux coordonnées indépendantes ?",
+      "هل يلائم softmax إحداثيين مستقلين؟"
+    ],
+    "answer": [
+      "Usually no: it forces them to sum to one, an unrelated constraint.",
+      "Généralement non : leur somme serait forcée à un sans raison.",
+      "عادة لا؛ يفرض مجموعاً واحداً بلا علاقة بالمهمة."
+    ],
+    "formula": "L_{MSE}=\\frac{1}{D}\\sum_{d=1}^{D}(\\hat y_d-y_d)^2",
+    "symbols": [
+      "D: target dimensions; ŷd: prediction; yd: target; L: mean squared error.",
+      "D : dimensions ; ŷd : prédiction ; yd : cible ; L : erreur quadratique moyenne.",
+      "D: أبعاد الهدف؛ ŷd: التنبؤ؛ yd: الهدف؛ L: متوسط مربع الخطأ."
+    ],
+    "code": "position = keras.layers.Dense(2, activation=None)(features)\nmodel.compile(optimizer=\"adam\", loss=\"mse\", metrics=[\"mae\"])"
+  },
+  {
+    "id": "overfitting",
+    "lab": "training",
+    "title": [
+      "Generalization and regularization",
+      "Généralisation et régularisation",
+      "التعميم والتنظيم"
+    ],
+    "body": [
+      "Training fit and unseen-data performance are different. Underfitting means the model fails to capture useful structure; overfitting means it adapts too much to training-specific details. Compare training and validation curves. Weight decay, appropriate augmentation, dropout, and early stopping can help, but none guarantees generalization.",
+      "Ajustement et performance sur de nouvelles données diffèrent. Le sous-apprentissage manque de structure ; le surapprentissage suit trop les détails particuliers. Comparez les courbes. Décroissance des poids, augmentation, dropout et arrêt anticipé peuvent aider sans garantie.",
+      "يختلف ملاءمة التدريب عن أداء البيانات الجديدة. يفتقد نقص التكيّف البنية المفيدة ويتبع فرط التكيّف تفاصيل التدريب الخاصة. قارن المنحنيات؛ قد يساعد اضمحلال الأوزان والزيادة المناسبة والإسقاط والتوقف المبكر بلا ضمان."
+    ],
+    "example": [
+      "Training loss falling from 0.5 to 0.1 while validation rises from 0.6 to 0.9 suggests growing overfit. Select checkpoints using validation.",
+      "Une perte d’entraînement de 0,5 à 0,1 et validation de 0,6 à 0,9 suggère un surapprentissage. Choisissez par validation.",
+      "هبوط خسارة التدريب من 0.5 إلى0.1 مع صعود التحقق من0.6 إلى0.9 يشير إلى فرط تكيّف؛ اختر بالنظر إلى التحقق."
+    ],
+    "caveat": [
+      "A single noisy validation epoch is not enough to prove a trend. Inspect multiple epochs and data quality.",
+      "Une époque bruitée ne suffit pas ; examinez la tendance et la qualité des données.",
+      "لا تكفي دورة تحقق مشوشة لإثبات اتجاه؛ افحص عدة دورات وجودة البيانات."
+    ],
+    "question": [
+      "Should early stopping monitor held-out test loss?",
+      "L’arrêt anticipé doit-il surveiller la perte de test ?",
+      "هل يراقب التوقف المبكر خسارة الاختبار المحجوز؟"
+    ],
+    "answer": [
+      "No. Monitor validation loss and reserve test for final evaluation.",
+      "Non, surveillez la validation et réservez le test.",
+      "لا؛ راقب خسارة التحقق واحفظ الاختبار للتقييم النهائي."
+    ],
+    "formula": "L_{total}=L_{data}+\\lambda\\sum_i w_i^2",
+    "symbols": [
+      "λ: regularization strength; wi: selected weights; Ldata: prediction objective.",
+      "λ : force de régularisation ; wi : poids ; Ldata : objectif de prédiction.",
+      "λ: قوة التنظيم؛ wi: الأوزان المختارة؛ Ldata: هدف التنبؤ."
+    ],
+    "code": "callback = keras.callbacks.EarlyStopping(\n    monitor=\"val_loss\", patience=3, restore_best_weights=True)"
+  },
+  {
+    "id": "transformations",
+    "lab": "transformations",
+    "title": [
+      "When a transformation changes the label",
+      "Quand une transformation change l’étiquette",
+      "متى يغير التحويل الهدف"
+    ],
+    "body": [
+      "Invariance means the output stays the same under a transformation; equivariance means it changes in a predictable corresponding way. Shifting a circle should usually preserve its shape label. Rotating an up arrow clockwise changes its direction to right. For position regression, shifting the object should change its coordinates. Augmentation must respect the label semantics.",
+      "L’invariance conserve la sortie ; l’équivariance la transforme de façon correspondante. Déplacer un cercle garde sa classe. Tourner une flèche haute de 90° change sa classe vers droite. Déplacer un objet change ses coordonnées. L’augmentation doit respecter ces significations.",
+      "الثبات يعني بقاء الخرج والتكافؤ التحويلي يعني تغيره بطريقة مقابلة. تحافظ إزاحة دائرة عادة على فئتها. يحول دوران سهم أعلى مع عقارب الساعة إلى يمين. تغير إزاحة الجسم إحداثيات الانحدار. يجب أن تحترم الزيادة معنى الأهداف."
+    ],
+    "example": [
+      "Mirroring [[1,2],[3,4]] changes the flat vector to [2,1,4,3]. A shared convolution can still respond, but its maps and dense outputs may change.",
+      "Le miroir donne [2,1,4,3]. Le filtre partagé peut réagir, mais cartes et sorties denses peuvent changer.",
+      "يعطي انعكاس المثال [2,1,4,3]. قد يستجيب مرشح مشترك لكن خرائطه والخرج الكثيف قد يتغيران."
+    ],
+    "caveat": [
+      "Pooling and shared kernels do not guarantee invariance to every shift, flip or rotation.",
+      "Pooling et noyaux partagés ne garantissent pas toutes les invariances.",
+      "لا يضمن التجميع والنوى المشتركة الثبات لكل إزاحة أو انعكاس أو دوران."
+    ],
+    "question": [
+      "Can you rotate arrows and keep their old direction labels?",
+      "Peut-on tourner des flèches sans modifier les étiquettes ?",
+      "هل يمكنك تدوير الأسهم والإبقاء على اتجاهاتها القديمة؟"
+    ],
+    "answer": [
+      "No. That creates contradictory supervision unless the task deliberately ignores direction.",
+      "Non, sauf si la tâche ignore volontairement la direction.",
+      "لا؛ يخلق ذلك إشرافاً متناقضاً إلا إذا تجاهلت المهمة الاتجاه عمداً."
+    ],
+    "formula": "f(Tx)=f(x)\\ \\text{(invariance)},\\quad f(Tx)=T\\prime f(x)\\ \\text{(equivariance)}",
+    "symbols": [
+      "T: input transform; T′: corresponding output transform; f: model.",
+      "T : transformation d’entrée ; T′ : transformation de sortie ; f : modèle.",
+      "T: تحويل المدخل؛ T′: تحويل الخرج المقابل؛ f: النموذج."
+    ],
+    "code": "# Use label-preserving augmentation only.\naugment = keras.layers.RandomTranslation(0.1, 0.1)"
+  },
+  {
+    "id": "leakage-confidence",
+    "lab": "transformations",
+    "title": [
+      "Leakage, shift and confidence",
+      "Fuite, changement et confiance",
+      "التسرب وتغير التوزيع والثقة"
+    ],
+    "body": [
+      "A model can exploit shortcuts unrelated to the intended task. Duplicates across splits inflate evaluation. Distribution shift changes the relationship between training and deployment examples. Softmax normalizes available scores even for unfamiliar inputs, so a high score is not evidence that the input belongs to a known class. Evaluate failures and data provenance.",
+      "Le modèle peut exploiter des raccourcis. Les doublons gonflent l’évaluation. Un changement de distribution sépare entraînement et utilisation. Softmax normalise même les entrées inconnues ; un score élevé ne prouve pas une classe connue. Examinez les erreurs et l’origine des données.",
+      "قد يستغل النموذج اختصارات لا تتعلق بالمهمة. ترفع المكررات عبر الأجزاء التقييم ظاهرياً. يغير تبدل التوزيع العلاقة بين التدريب والاستخدام. يطبّع softmax حتى المدخلات غير المألوفة؛ لا تثبت درجة عالية انتماء المدخل لفئة معروفة. افحص الإخفاقات والمصدر."
+    ],
+    "example": [
+      "A four-class model must still assign four scores to a blank image. Scores summing to one do not mean the image is a valid arrow.",
+      "Même une image vide reçoit quatre scores de somme un ; cela ne prouve pas qu’elle est une flèche.",
+      "تمنح صورة فارغة أربع درجات مجموعها واحد؛ لا يعني ذلك أنها سهم صالح."
+    ],
+    "caveat": [
+      "Do not describe attention or feature brightness as proof of causal reasoning.",
+      "Ne présentez pas la luminosité d’une carte comme preuve d’un raisonnement causal.",
+      "لا تصف سطوع السمات أو الانتباه بأنه دليل استدلال سببي."
+    ],
+    "question": [
+      "Why evaluate on examples from a new source?",
+      "Pourquoi évaluer une nouvelle source ?",
+      "لماذا نقيم أمثلة من مصدر جديد؟"
+    ],
+    "answer": [
+      "It tests sensitivity to distribution differences that an internal split can miss.",
+      "Cela révèle des changements que la séparation interne peut manquer.",
+      "يكشف الحساسية لفروق توزيعية قد لا يظهرها الفصل الداخلي."
+    ],
+    "formula": "\\sum_i p_i=1\\ \\not\\Rightarrow\\ \\text{input is in distribution}",
+    "symbols": [
+      "pi: normalized class score; the implication is false for unfamiliar inputs.",
+      "pi : score normalisé ; l’implication est fausse pour des entrées inconnues.",
+      "pi: درجة فئة مطبعة؛ لا يصح الاستنتاج للمدخلات غير المألوفة."
+    ],
+    "code": "scores = keras.ops.softmax(model(unfamiliar_x, training=False))"
+  },
+  {
+    "id": "keras-workflow",
+    "lab": "inference",
+    "title": [
+      "Build and train the complete CNN",
+      "Construire et entraîner le CNN",
+      "بناء CNN كاملة وتدريبها"
+    ],
+    "body": [
+      "Define input shape, backbone, head, objective and optimizer explicitly. Verify the model summary before fitting. Our backbone preserves 16×16 through same convolution, halves it twice with pooling, and flattens 4×4×8 into 128 features. Fit only training data, inspect validation, and record configuration along with results.",
+      "Définissez entrée, extracteur, tête, objectif et optimiseur. Vérifiez le résumé avant fit. Notre réseau garde 16×16 puis réduit deux fois et aplatit 4×4×8 en 128. Entraînez seulement sur l’ensemble prévu et consignez configuration et validation.",
+      "حدد الشكل والمستخرج والرأس والهدف والمحسن بوضوح وافحص الملخص قبل fit. يحفظ النموذج 16×16 ثم ينصفها مرتين ويسطح 4×4×8 إلى128. استخدم التدريب وحده للتحديث وسجل الإعدادات ونتائج التحقق."
+    ],
+    "example": [
+      "Parameter total: 40+296+2,064+68=2,468. Pooling, Flatten and standard ReLU contribute zero.",
+      "Total : 40+296+2 064+68=2 468. Pooling, Flatten et ReLU standard ajoutent zéro.",
+      "الإجمالي 40+296+2064+68=2468. يضيف التجميع وFlatten وReLU القياسية صفراً."
+    ],
+    "caveat": [
+      "A compiled model has an objective but has not learned until optimizer steps occur.",
+      "Un modèle compilé possède un objectif mais n’a pas appris avant les mises à jour.",
+      "يمتلك النموذج المجمّع هدفاً لكنه لا يتعلم قبل خطوات المحسن."
+    ],
+    "question": [
+      "What must change for position regression?",
+      "Que changer pour la régression de position ?",
+      "ماذا يتغير لانحدار الموقع؟"
+    ],
+    "answer": [
+      "Targets, a two-value linear head, regression loss and metrics; retrain the model.",
+      "Cibles, tête linéaire à deux valeurs, perte et mesures ; réentraînez.",
+      "الأهداف ورأس خطي بقيمتين وخسارة ومقاييس الانحدار ثم إعادة التدريب."
+    ],
+    "formula": "f=\\operatorname{head}\\circ\\operatorname{flatten}\\circ\\operatorname{backbone}",
+    "symbols": [
+      "f: model; ∘: function composition; backbone: convolution/pooling; head: dense outputs.",
+      "f : modèle ; ∘ : composition ; extracteur : convolution/pooling ; tête : sorties denses.",
+      "f: النموذج؛ ∘: تركيب الدوال؛ المستخرج: التفاف وتجميع؛ الرأس: المخارج الكثيفة."
+    ],
+    "code": "model = keras.Sequential([keras.Input((16,16,1)),\n    keras.layers.Conv2D(4,3,padding=\"same\",activation=\"relu\"),\n    keras.layers.MaxPooling2D(2),\n    keras.layers.Conv2D(8,3,padding=\"same\",activation=\"relu\"),\n    keras.layers.MaxPooling2D(2), keras.layers.Flatten(),\n    keras.layers.Dense(16,activation=\"relu\"), keras.layers.Dense(4)])"
+  },
+  {
+    "id": "evaluation",
+    "lab": "training",
+    "title": [
+      "Evaluate the task honestly",
+      "Évaluer la tâche honnêtement",
+      "تقييم المهمة بأمانة"
+    ],
+    "body": [
+      "A confusion matrix counts actual labels against predictions. Precision asks how many predicted positives are correct; recall asks how many actual positives were found. F1 combines them. Report per-class support and macro averages when imbalance matters. Regression uses residuals, MAE and RMSE, not classification accuracy. Keep evaluation independent of model selection.",
+      "La matrice compte classes réelles et prédites. La précision mesure les positifs prédits corrects ; le rappel les positifs retrouvés. F1 les combine. Donnez effectifs et moyennes macro en cas de déséquilibre. Pour la régression : résidus, MAE et RMSE. Séparez évaluation et sélection.",
+      "تعد مصفوفة الالتباس الأهداف مقابل التنبؤات. يقيس الإحكام صحة الإيجابيات المتنبأ بها والاستدعاء نسبة الإيجابيات الحقيقية المكتشفة. يجمع F1 الاثنين. اعرض دعم الفئات والمتوسط الكلي عند الاختلال. استخدم MAE وRMSE للانحدار وافصل التقييم عن الاختيار."
+    ],
+    "example": [
+      "TP=8, FP=2, FN=4 gives precision=0.8, recall=0.667, F1≈0.727. Predicting the majority class can still have high accuracy.",
+      "TP=8, FP=2, FN=4 : précision=0,8, rappel=0,667, F1≈0,727. La majorité seule peut donner une forte exactitude.",
+      "إذا TP=8 وFP=2 وFN=4 فالإحكام0.8 والاستدعاء0.667 وF1≈0.727. قد يحقق توقع الفئة الأكثر عدداً صحة مرتفعة."
+    ],
+    "caveat": [
+      "One aggregate score can hide a failing minority class. Always inspect class-level errors.",
+      "Une moyenne peut cacher une classe minoritaire en échec. Inspectez chaque classe.",
+      "قد يخفي مقياس واحد إخفاق فئة قليلة؛ افحص أخطاء كل فئة."
+    ],
+    "question": [
+      "What is RMSE if MSE is 0.04?",
+      "Quelle RMSE pour MSE=0,04 ?",
+      "ما RMSE عندما MSE=0.04؟"
+    ],
+    "answer": [
+      "0.2, in the same units as the target.",
+      "0,2, dans les unités de la cible.",
+      "0.2 بوحدة الهدف نفسها."
+    ],
+    "formula": "P=\\frac{TP}{TP+FP},\\quad R=\\frac{TP}{TP+FN},\\quad F_1=\\frac{2PR}{P+R}",
+    "symbols": [
+      "TP: true positives; FP: false positives; FN: false negatives; P: precision; R: recall. Define zero-denominator behavior explicitly.",
+      "TP : vrais positifs ; FP : faux positifs ; FN : faux négatifs ; P : précision ; R : rappel. Définissez les divisions par zéro.",
+      "TP: إيجابيات صحيحة؛ FP: كاذبة؛ FN: سلبيات كاذبة؛ P: الإحكام؛ R: الاستدعاء. حدد سلوك القسمة على صفر."
+    ],
+    "code": "test_results = model.evaluate(x_test, y_test, return_dict=True)"
+  },
+  {
+    "id": "saving-inference",
+    "lab": "inference",
+    "title": [
+      "Save, predict and transfer learning",
+      "Sauvegarde, prédiction et transfert",
+      "الحفظ والتنبؤ والتعلم بالنقل"
+    ],
+    "body": [
+      "Save topology, weights, label order and preprocessing together. Reload and compare predictions against the original model. Inference uses frozen parameters and evaluation mode; it needs no target. Transfer learning reuses learned representations, often training a new head before carefully unfreezing selected layers with a smaller learning rate. Recompile after changing trainable flags in Keras.",
+      "Sauvegardez architecture, poids, classes et prétraitement. Rechargez et comparez. L’inférence utilise les paramètres figés sans cible. Le transfert réutilise les représentations : entraînez une tête puis libérez certaines couches avec un faible taux. Recompilez après modification de trainable dans Keras.",
+      "احفظ البنية والأوزان وترتيب الفئات والمعالجة معاً وأعد التحميل وقارن. يستخدم الاستدلال معاملات ثابتة ووضع التقييم بلا هدف. يعيد النقل استخدام التمثيلات؛ درب رأساً جديداً ثم حرر طبقات مختارة بمعدل أصغر. أعد compile بعد تغيير trainable في Keras."
+    ],
+    "example": [
+      "The same image must produce matching scores before and after reload within a stated numerical tolerance. Check all weights remain unchanged after prediction.",
+      "Les scores avant/après rechargement doivent correspondre avec une tolérance définie. Vérifiez que la prédiction ne change aucun poids.",
+      "يجب توافق درجات الصورة قبل الحفظ وبعد التحميل ضمن سماحية عددية محددة؛ افحص ثبات كل الأوزان بعد التنبؤ."
+    ],
+    "caveat": [
+      "predict does not train. A wrong prediction does not update the model unless a separate learning step is requested.",
+      "predict n’entraîne pas ; une erreur ne modifie rien sans une étape d’apprentissage distincte.",
+      "predict لا يدرب؛ لا يغير التنبؤ الخاطئ النموذج إلا بخطوة تعلم منفصلة."
+    ],
+    "question": [
+      "Can you swap the saved class order without changing interpretation?",
+      "Peut-on échanger l’ordre des classes sans conséquence ?",
+      "هل يمكن تبديل ترتيب الفئات المحفوظة بلا تغيير التفسير؟"
+    ],
+    "answer": [
+      "No. Each output index must retain the label mapping used during training.",
+      "Non. Chaque indice doit garder sa correspondance d’entraînement.",
+      "لا؛ يجب أن يحتفظ كل فهرس بارتباط الفئة المستخدم في التدريب."
+    ],
+    "formula": "\\hat y=f_{\\theta^*}(x),\\quad \\theta^*\\ \\text{fixed}",
+    "symbols": [
+      "ŷ: prediction; x: preprocessed input; θ*: frozen learned parameters.",
+      "ŷ : prédiction ; x : entrée prétraitée ; θ* : paramètres appris figés.",
+      "ŷ: التنبؤ؛ x: المدخل المعالج؛ θ*: معاملات متعلمة ثابتة."
+    ],
+    "code": "model.save(\"arrow_cnn.keras\")\nloaded = keras.models.load_model(\"arrow_cnn.keras\")\nprediction = loaded(x, training=False)"
+  }
+]

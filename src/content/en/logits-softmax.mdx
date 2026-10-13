@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Learning objectives
+
+Why not four independent sigmoids for exactly one arrow direction?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/global-average)
+
+## How it works
+
+Logits are unconstrained output scores. Softmax converts several logits into positive values summing to one for mutually exclusive classes. Sigmoid processes each logit independently and fits binary or multi-label tasks. Argmax selects a class but discards score information. Subtract the maximum logit before exponentiation to avoid overflow.
+
+## Worked example
+
+Logits [0,0,0,0] yield four probabilities of 0.25. Adding 100 to every logit leaves these probabilities unchanged.
+
+## Common misconception
+
+A score near one can still be wrong or poorly calibrated, especially outside the training distribution.
+
+## Check your understanding
+
+<Check question={"Why not four independent sigmoids for exactly one arrow direction?"} answer={"They do not enforce a mutually exclusive distribution; softmax matches that target structure."} />
+
+<LabLink id="loss" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"p_i=\\frac{e^{z_i-m}}{\\sum_j e^{z_j-m}},\\quad m=\\max_j z_j"} />
+
+## Symbols
+
+zi: class logit; m: stabilizing maximum; pi: softmax score; j: all classes.
+
+## Worked example
+
+Logits [0,0,0,0] yield four probabilities of 0.25. Adding 100 to every logit leaves these probabilities unchanged.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+logits = keras.layers.Dense(4)(features)
+probabilities = keras.ops.softmax(logits, axis=-1)
+```
+
+A score near one can still be wrong or poorly calibrated, especially outside the training distribution.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

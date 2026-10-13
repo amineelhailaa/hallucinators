@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+Does zero training loss prove generalization?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/initialization)
+
+## How it works
+
+A prediction is what the current model outputs; a target is the value supplied by the dataset. Loss measures disagreement in a way that gives a learning signal. The training objective usually averages losses across samples, possibly adding regularization. A metric describes performance but need not be differentiable or serve as the optimized loss.
+
+## Worked example
+
+For prediction 3 and target 1, squared error is (3−1)²=4. Prediction 1.5 gives 0.25.
+
+## Common misconception
+
+Accuracy alone supplies no useful gradient through an argmax decision.
+
+## Check your understanding
+
+<Check question={"Does zero training loss prove generalization?"} answer={"No. The model may memorize training examples and fail on unseen ones."} />
+
+<LabLink id="loss" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"L=\\frac{1}{N}\\sum_{n=1}^N\\ell(f_\\theta(x_n),y_n)"} />
+
+## Symbols
+
+N: samples; ℓ: sample loss; fθ: model with parameters θ; xn,yn: input and target.
+
+## Worked example
+
+For prediction 3 and target 1, squared error is (3−1)²=4. Prediction 1.5 gives 0.25.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+model.compile(optimizer="adam", loss="mse", metrics=["mae"])
+```
+
+Accuracy alone supplies no useful gradient through an argmax decision.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

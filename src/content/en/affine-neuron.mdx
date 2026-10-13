@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+Is f(x)=2x+3 linear in the strict mathematical sense?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/weighted-sum)
+
+## How it works
+
+A dot product measures an input along a weighted direction. With bias, the neuron defines an affine function. In two dimensions, a fixed output corresponds to a line. Changing the weights rotates or scales that line; changing the bias translates it. “Linear layer” is common terminology even though a layer with bias is mathematically affine.
+
+## Worked example
+
+z=2x₁+x₂−3 has z=0 at (1,1) and (0,3). Both points lie on its boundary.
+
+## Common misconception
+
+An affine boundary cannot solve every classification problem; XOR is a counterexample.
+
+## Check your understanding
+
+<Check question={"Is f(x)=2x+3 linear in the strict mathematical sense?"} answer={"No. f(0)=3, so it is affine, not a linear map through the origin."} />
+
+<LabLink id="neuron" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"z=w^T x+b"} />
+
+## Symbols
+
+wᵀx: dot product; w: normal direction; b: offset; z: scalar output.
+
+## Worked example
+
+z=2x₁+x₂−3 has z=0 at (1,1) and (0,3). Both points lie on its boundary.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+layer = keras.layers.Dense(1, use_bias=True)
+```
+
+An affine boundary cannot solve every classification problem; XOR is a counterexample.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

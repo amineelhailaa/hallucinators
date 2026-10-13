@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Learning objectives
+
+Can a later dense layer recover which of those two windows occurred?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/conv-relu)
+
+## How it works
+
+Max pooling keeps the largest value in each window. Average pooling keeps the mean. Both reduce spatial detail and normally have no trainable weights. Later units see larger regions of the original image because preceding windows combine information. Pooling can improve tolerance to some local shifts but can also erase task-relevant distinctions.
+
+## Worked example
+
+Windows [1,0,0,0] and [0,1,0,0] both max-pool to 1 and average-pool to 0.25. Their within-window positions are lost.
+
+## Common misconception
+
+Pooling is not invertible in general. Flatten is a reshape, but pooling discards values.
+
+## Check your understanding
+
+<Check question={"Can a later dense layer recover which of those two windows occurred?"} answer={"Not from the identical pooled value alone."} />
+
+<LabLink id="pooling" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"r_l=r_{l-1}+(k_l-1)j_{l-1},\\quad j_l=j_{l-1}s_l"} />
+
+## Symbols
+
+r: receptive-field size; j: effective spacing; k: kernel size; s: stride; l: layer.
+
+## Worked example
+
+Windows [1,0,0,0] and [0,1,0,0] both max-pool to 1 and average-pool to 0.25. Their within-window positions are lost.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+keras.layers.MaxPooling2D(pool_size=2)
+keras.layers.AveragePooling2D(pool_size=2)
+```
+
+Pooling is not invertible in general. Flatten is a reshape, but pooling discards values.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

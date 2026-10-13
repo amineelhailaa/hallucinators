@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Huit filtres créent-ils huit images RVB indépendantes ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/local-convolution)
+
+## Fonctionnement
+
+Chaque filtre couvre tous les canaux et produit un canal de sortie. Les contributions sont additionnées avant le biais. Plusieurs filtres réagissent différemment. Les bibliothèques calculent généralement une corrélation croisée sans retourner le noyau, appelée convolution par convention.
+
+## Exemple calculé
+
+Huit filtres 3×3 recevant quatre canaux ont (3×3×4+1)×8=296 paramètres.
+
+## Idée reçue
+
+Un filtre RVB 3×3 a 27 poids, pas neuf.
+
+## Vérifiez votre compréhension
+
+<Check question={"Huit filtres créent-ils huit images RVB indépendantes ?"} answer={"Non. Ils créent huit canaux de caractéristiques, pas forcément des couleurs."} />
+
+<LabLink id="convolution" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"P=(K_hK_wC_{in}+1)C_{out}"} />
+
+## Symboles
+
+Kh,Kw : dimensions ; Cin : canaux ; Cout : filtres ; 1 : biais par filtre.
+
+## Exemple calculé
+
+Huit filtres 3×3 recevant quatre canaux ont (3×3×4+1)×8=296 paramètres.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+keras.layers.Conv2D(8, 3, padding="same", activation="relu")
+```
+
+Un filtre RVB 3×3 a 27 poids, pas neuf.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

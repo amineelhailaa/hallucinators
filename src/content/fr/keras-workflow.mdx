@@ -1,0 +1,68 @@
+<Section kind="explanation">
+## Objectifs
+
+Que changer pour la régression de position ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/leakage-confidence)
+
+## Fonctionnement
+
+Définissez entrée, extracteur, tête, objectif et optimiseur. Vérifiez le résumé avant fit. Notre réseau garde 16×16 puis réduit deux fois et aplatit 4×4×8 en 128. Entraînez seulement sur l’ensemble prévu et consignez configuration et validation.
+
+## Exemple calculé
+
+Total : 40+296+2 064+68=2 468. Pooling, Flatten et ReLU standard ajoutent zéro.
+
+## Idée reçue
+
+Un modèle compilé possède un objectif mais n’a pas appris avant les mises à jour.
+
+## Vérifiez votre compréhension
+
+<Check question={"Que changer pour la régression de position ?"} answer={"Cibles, tête linéaire à deux valeurs, perte et mesures ; réentraînez."} />
+
+<LabLink id="inference" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"f=\\operatorname{head}\\circ\\operatorname{flatten}\\circ\\operatorname{backbone}"} />
+
+## Symboles
+
+f : modèle ; ∘ : composition ; extracteur : convolution/pooling ; tête : sorties denses.
+
+## Exemple calculé
+
+Total : 40+296+2 064+68=2 468. Pooling, Flatten et ReLU standard ajoutent zéro.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+model = keras.Sequential([keras.Input((16,16,1)),
+    keras.layers.Conv2D(4,3,padding="same",activation="relu"),
+    keras.layers.MaxPooling2D(2),
+    keras.layers.Conv2D(8,3,padding="same",activation="relu"),
+    keras.layers.MaxPooling2D(2), keras.layers.Flatten(),
+    keras.layers.Dense(16,activation="relu"), keras.layers.Dense(4)])
+```
+
+Un modèle compilé possède un objectif mais n’a pas appris avant les mises à jour.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

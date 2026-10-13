@@ -1,0 +1,67 @@
+<Section kind="explanation">
+## Objectifs
+
+Pourquoi les premiers poids dépendent-ils des couches suivantes ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/loss-objective)
+
+## Fonctionnement
+
+Une dérivée mesure la sensibilité locale. Le gradient regroupe les dérivées des paramètres. La rétropropagation applique la chaîne dans le graphe et réutilise les résultats. Un poids partagé accumule les contributions de tous ses usages. Le calcul du gradient ne choisit pas la mise à jour.
+
+## Exemple calculé
+
+x=2,w=0,5,b=0,cible=3 donnent z=1 et L=4. dL/dz=−4 et dz/dw=2, donc dL/dw=−8.
+
+## Idée reçue
+
+Le gradient décrit un changement local ; un grand pas peut augmenter la perte.
+
+## Vérifiez votre compréhension
+
+<Check question={"Pourquoi les premiers poids dépendent-ils des couches suivantes ?"} answer={"Leur effet sur la perte passe par ces couches, dont les dérivées se multiplient."} />
+
+<LabLink id="backprop" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"\\frac{\\partial L}{\\partial w}=\\frac{\\partial L}{\\partial a}\\frac{\\partial a}{\\partial z}\\frac{\\partial z}{\\partial w}"} />
+
+## Symboles
+
+L : perte ; a : activation ; z : préactivation ; w : paramètre.
+
+## Exemple calculé
+
+x=2,w=0,5,b=0,cible=3 donnent z=1 et L=4. dL/dz=−4 et dz/dw=2, donc dL/dw=−8.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+import tensorflow as tf
+with tf.GradientTape() as tape:
+    prediction = model(x, training=True)
+    loss = tf.reduce_mean((prediction - y) ** 2)
+gradients = tape.gradient(loss, model.trainable_variables)
+```
+
+Le gradient décrit un changement local ; un grand pas peut augmenter la perte.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

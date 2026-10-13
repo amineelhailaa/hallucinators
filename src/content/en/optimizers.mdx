@@ -1,0 +1,78 @@
+<Section kind="explanation">
+## Learning objectives
+
+Does a smaller learning rate always mean better training?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/chain-rule)
+
+## How it works
+
+SGD subtracts a scaled gradient from each parameter. Momentum combines the current gradient with a moving direction from previous steps. Adam tracks moving estimates of gradients and squared gradients, with bias correction. Learning rate controls update scale, not model capacity. Comparing optimizers requires controlling data, initialization, and training budget.
+
+## Worked example
+
+With w=0.5, gradient=−8 and learning rate=0.1, SGD produces w=1.3. The negative gradient means increasing w locally helps.
+
+## Common misconception
+
+Adam is not guaranteed to outperform SGD on every task. Optimizer state must be reset for a fresh experiment.
+
+## Check your understanding
+
+<Check question={"Does a smaller learning rate always mean better training?"} answer={"No. It may be stable but too slow to learn within the chosen budget."} />
+
+<LabLink id="backprop" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"w_{t+1}=w_t-\\eta\\nabla_w L"} />
+
+## Symbols
+
+t: update index; η: learning rate; ∇wL: gradient with respect to w.
+
+## Worked example
+
+With w=0.5, gradient=−8 and learning rate=0.1, SGD produces w=1.3. The negative gradient means increasing w locally helps.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+optimizer = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
+# Alternative: keras.optimizers.Adam(learning_rate=0.001)
+```
+
+Adam is not guaranteed to outperform SGD on every task. Optimizer state must be reset for a fresh experiment.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>
+
+<Section kind="math">
+## Momentum and Adam state
+
+Momentum keeps a velocity: v starts at zero, then combines the old velocity with the new gradient. With β=0.9 and successive gradients 2 and −1, velocities are 2 and 0.8. The second update can still move in the old direction. Adam instead tracks exponentially averaged first and second moments and corrects their initial bias. With the first gradient 2, β₁=0.9 and β₂=0.999, m=0.2 and v=0.004; corrected estimates are 2 and 4. The first Adam step is approximately η in magnitude. Epsilon prevents division by zero. Resetting weights without resetting optimizer state does not reproduce a new experiment.
+
+<Formula value={"v_t=\\beta v_{t-1}+g_t,\\quad w_{t+1}=w_t-\\eta v_t"} />
+
+<Formula value={"m_t=\\beta_1m_{t-1}+(1-\\beta_1)g_t,\\quad v_t=\\beta_2v_{t-1}+(1-\\beta_2)g_t^2"} />
+
+<Formula value={"\\hat m_t=\\frac{m_t}{1-\\beta_1^t},\\quad \\hat v_t=\\frac{v_t}{1-\\beta_2^t},\\quad w_{t+1}=w_t-\\eta\\frac{\\hat m_t}{\\sqrt{\\hat v_t}+\\epsilon}"} />
+
+g: current gradient; β: momentum retention; m,v: moment estimates; t: update count; η: learning rate; ε: stabilizer. The symbol v is velocity in the first equation and second moment in the Adam equations.
+</Section>

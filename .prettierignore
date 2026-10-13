@@ -1,0 +1,7 @@
+node_modules/
+dist/
+src/content/**/*.mdx
+public/runs/
+docs/performance/
+playwright-report/
+test-results/

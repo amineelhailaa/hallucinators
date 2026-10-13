@@ -1,0 +1,1000 @@
+{
+  "chapters": [
+    {
+      "en": "Images are numbers",
+      "fr": "Les images sont des nombres",
+      "ar": "الصور أعداد"
+    },
+    {
+      "en": "One neuron",
+      "fr": "Un neurone",
+      "ar": "عصبون واحد"
+    },
+    {
+      "en": "Why nonlinearity matters",
+      "fr": "Pourquoi la non-linéarité",
+      "ar": "لماذا اللاخطية"
+    },
+    {
+      "en": "Functions built from functions",
+      "fr": "Des fonctions de fonctions",
+      "ar": "دوال من دوال"
+    },
+    {
+      "en": "How learning happens",
+      "fr": "Comment apprendre",
+      "ar": "كيف يحدث التعلم"
+    },
+    {
+      "en": "Batches and training loops",
+      "fr": "Lots et boucles",
+      "ar": "الدفعات وحلقات التدريب"
+    },
+    {
+      "en": "Convolution",
+      "fr": "Convolution",
+      "ar": "الالتفاف"
+    },
+    {
+      "en": "CNN building blocks",
+      "fr": "Briques du CNN",
+      "ar": "مكونات CNN"
+    },
+    {
+      "en": "Flatten and prediction heads",
+      "fr": "Flatten et têtes",
+      "ar": "التسطيح ورؤوس التنبؤ"
+    },
+    {
+      "en": "Classification and regression",
+      "fr": "Classification et régression",
+      "ar": "التصنيف والانحدار"
+    },
+    {
+      "en": "Generalization and transformations",
+      "fr": "Généralisation et transformations",
+      "ar": "التعميم والتحويلات"
+    },
+    {
+      "en": "Complete workflow",
+      "fr": "Flux complet",
+      "ar": "سير العمل الكامل"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "pixels",
+      "chapter": 1,
+      "order": 0,
+      "lab": "pixels",
+      "title": {
+        "en": "Pixels and channels",
+        "fr": "Pixels et canaux",
+        "ar": "البكسلات والقنوات"
+      },
+      "summary": {
+        "en": "How many scalar values are in a 2×2 RGB image?",
+        "fr": "Combien de nombres dans une image RVB de 2×2 ?",
+        "ar": "كم قيمة عددية في صورة RGB بحجم 2×2؟"
+      },
+      "prerequisites": [],
+      "conceptIds": [
+        "pixels"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "tensors",
+      "chapter": 1,
+      "order": 1,
+      "lab": "pixels",
+      "title": {
+        "en": "Shapes, axes and batches",
+        "fr": "Formes, axes et lots",
+        "ar": "الأشكال والمحاور والدفعات"
+      },
+      "summary": {
+        "en": "Does [1,16,16,3] contain one image or three?",
+        "fr": "[1,16,16,3] contient-il une ou trois images ?",
+        "ar": "هل [1,16,16,3] صورة واحدة أم ثلاث؟"
+      },
+      "prerequisites": [
+        "pixels"
+      ],
+      "conceptIds": [
+        "tensors"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "preprocessing",
+      "chapter": 1,
+      "order": 2,
+      "lab": "pixels",
+      "title": {
+        "en": "Preprocessing without surprises",
+        "fr": "Prétraitement cohérent",
+        "ar": "معالجة مسبقة متسقة"
+      },
+      "summary": {
+        "en": "Should validation images define the training mean?",
+        "fr": "La validation doit-elle définir la moyenne d’entraînement ?",
+        "ar": "هل تحدد صور التحقق متوسط التدريب؟"
+      },
+      "prerequisites": [
+        "tensors"
+      ],
+      "conceptIds": [
+        "preprocessing"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "weighted-sum",
+      "chapter": 2,
+      "order": 3,
+      "lab": "neuron",
+      "title": {
+        "en": "Weights, inputs and bias",
+        "fr": "Poids, entrées et biais",
+        "ar": "الأوزان والمدخلات والانحياز"
+      },
+      "summary": {
+        "en": "What changes z when every input is zero?",
+        "fr": "Qu’est-ce qui change z si toutes les entrées sont nulles ?",
+        "ar": "ما الذي يغيّر z عندما تكون المدخلات صفراً؟"
+      },
+      "prerequisites": [
+        "preprocessing"
+      ],
+      "conceptIds": [
+        "weighted-sum"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "affine-neuron",
+      "chapter": 2,
+      "order": 4,
+      "lab": "neuron",
+      "title": {
+        "en": "Dot products and affine functions",
+        "fr": "Produits scalaires et fonctions affines",
+        "ar": "الضرب الداخلي والتحويل التآلفي"
+      },
+      "summary": {
+        "en": "Is f(x)=2x+3 linear in the strict mathematical sense?",
+        "fr": "f(x)=2x+3 est-elle strictement linéaire ?",
+        "ar": "هل f(x)=2x+3 خطية بالمعنى الرياضي الدقيق؟"
+      },
+      "prerequisites": [
+        "weighted-sum"
+      ],
+      "conceptIds": [
+        "affine-neuron"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "activation-neuron",
+      "chapter": 2,
+      "order": 5,
+      "lab": "neuron",
+      "title": {
+        "en": "A neuron’s output and sensitivity",
+        "fr": "Sortie et sensibilité d’un neurone",
+        "ar": "خرج العصبون وحساسيته"
+      },
+      "summary": {
+        "en": "Why can saturation slow learning?",
+        "fr": "Pourquoi la saturation ralentit-elle l’apprentissage ?",
+        "ar": "لماذا قد يبطئ التشبع التعلم؟"
+      },
+      "prerequisites": [
+        "affine-neuron"
+      ],
+      "conceptIds": [
+        "activation-neuron"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "linear-collapse",
+      "chapter": 3,
+      "order": 6,
+      "lab": "composition",
+      "title": {
+        "en": "Why depth needs nonlinearity",
+        "fr": "Pourquoi la profondeur exige la non-linéarité",
+        "ar": "لماذا يحتاج العمق إلى اللاخطية"
+      },
+      "summary": {
+        "en": "What does replacing every activation by identity do?",
+        "fr": "Que produit le remplacement des activations par l’identité ?",
+        "ar": "ماذا يحدث عند استبدال كل تنشيط بدالة الهوية؟"
+      },
+      "prerequisites": [
+        "activation-neuron"
+      ],
+      "conceptIds": [
+        "linear-collapse"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "activation-functions",
+      "chapter": 3,
+      "order": 7,
+      "lab": "composition",
+      "title": {
+        "en": "ReLU, sigmoid and tanh",
+        "fr": "ReLU, sigmoïde et tanh",
+        "ar": "ReLU وسيغمويد وtanh"
+      },
+      "summary": {
+        "en": "Why is ReLU nonlinear if positive inputs pass unchanged?",
+        "fr": "Pourquoi ReLU est-elle non linéaire si les positifs ne changent pas ?",
+        "ar": "لماذا ReLU غير خطية رغم إبقاء القيم الموجبة؟"
+      },
+      "prerequisites": [
+        "linear-collapse"
+      ],
+      "conceptIds": [
+        "activation-functions"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "xor",
+      "chapter": 3,
+      "order": 8,
+      "lab": "composition",
+      "title": {
+        "en": "Solve XOR with hidden units",
+        "fr": "Résoudre XOR avec des neurones cachés",
+        "ar": "حل XOR بوحدات خفية"
+      },
+      "summary": {
+        "en": "What happens to this construction without ReLU?",
+        "fr": "Que devient cette construction sans ReLU ?",
+        "ar": "ماذا يحدث لهذا التركيب من دون ReLU؟"
+      },
+      "prerequisites": [
+        "activation-functions"
+      ],
+      "conceptIds": [
+        "xor"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "vector-layers",
+      "chapter": 4,
+      "order": 9,
+      "lab": "composition",
+      "title": {
+        "en": "Layers are vector functions",
+        "fr": "Les couches sont des fonctions vectorielles",
+        "ar": "الطبقات دوال متجهة"
+      },
+      "summary": {
+        "en": "What shape follows a [32,128] input through Dense(16)?",
+        "fr": "Quelle forme après Dense(16) pour [32,128] ?",
+        "ar": "ما الشكل بعد Dense(16) لمدخل [32,128]؟"
+      },
+      "prerequisites": [
+        "xor"
+      ],
+      "conceptIds": [
+        "vector-layers"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "representations",
+      "chapter": 4,
+      "order": 10,
+      "lab": "composition",
+      "title": {
+        "en": "Hidden representations and boundaries",
+        "fr": "Représentations et frontières",
+        "ar": "التمثيلات الخفية والحدود"
+      },
+      "summary": {
+        "en": "Can a downstream deterministic head distinguish identical hidden vectors?",
+        "fr": "Une tête déterministe distingue-t-elle deux vecteurs cachés identiques ?",
+        "ar": "هل يميز رأس حتمي متجهين خفيين متطابقين؟"
+      },
+      "prerequisites": [
+        "vector-layers"
+      ],
+      "conceptIds": [
+        "representations"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "initialization",
+      "chapter": 4,
+      "order": 11,
+      "lab": "composition",
+      "title": {
+        "en": "Parameters, initialization and capacity",
+        "fr": "Paramètres, initialisation et capacité",
+        "ar": "المعاملات والتهيئة والسعة"
+      },
+      "summary": {
+        "en": "Is learning rate a learned weight?",
+        "fr": "Le taux d’apprentissage est-il un poids appris ?",
+        "ar": "هل معدل التعلم وزن متعلم؟"
+      },
+      "prerequisites": [
+        "representations"
+      ],
+      "conceptIds": [
+        "initialization"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "loss-objective",
+      "chapter": 5,
+      "order": 12,
+      "lab": "loss",
+      "title": {
+        "en": "Predictions, targets and loss",
+        "fr": "Prédictions, cibles et perte",
+        "ar": "التنبؤ والأهداف والخسارة"
+      },
+      "summary": {
+        "en": "Does zero training loss prove generalization?",
+        "fr": "Une perte nulle prouve-t-elle la généralisation ?",
+        "ar": "هل تثبت خسارة تدريب صفرية التعميم؟"
+      },
+      "prerequisites": [
+        "initialization"
+      ],
+      "conceptIds": [
+        "loss-objective"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "chain-rule",
+      "chapter": 5,
+      "order": 13,
+      "lab": "backprop",
+      "title": {
+        "en": "Gradients and the chain rule",
+        "fr": "Gradients et règle de la chaîne",
+        "ar": "التدرجات وقاعدة السلسلة"
+      },
+      "summary": {
+        "en": "Why do early weights depend on later layers during backpropagation?",
+        "fr": "Pourquoi les premiers poids dépendent-ils des couches suivantes ?",
+        "ar": "لماذا تعتمد تدرجات الأوزان الأولى على الطبقات اللاحقة؟"
+      },
+      "prerequisites": [
+        "loss-objective"
+      ],
+      "conceptIds": [
+        "chain-rule"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "optimizers",
+      "chapter": 5,
+      "order": 14,
+      "lab": "backprop",
+      "title": {
+        "en": "SGD, momentum and Adam",
+        "fr": "SGD, momentum et Adam",
+        "ar": "SGD والزخم وAdam"
+      },
+      "summary": {
+        "en": "Does a smaller learning rate always mean better training?",
+        "fr": "Un taux plus petit est-il toujours meilleur ?",
+        "ar": "هل معدل أصغر أفضل دائماً؟"
+      },
+      "prerequisites": [
+        "chain-rule"
+      ],
+      "conceptIds": [
+        "optimizers"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "batches-epochs",
+      "chapter": 6,
+      "order": 15,
+      "lab": "training",
+      "title": {
+        "en": "Samples, batches and epochs",
+        "fr": "Exemples, lots et époques",
+        "ar": "الأمثلة والدفعات ودورات التدريب"
+      },
+      "summary": {
+        "en": "How many updates for 512 samples, batch 64, two epochs?",
+        "fr": "Combien de mises à jour pour 512 exemples, lot 64, deux époques ?",
+        "ar": "كم تحديثاً لـ512 مثالاً بحجم 64 ودورتين؟"
+      },
+      "prerequisites": [
+        "optimizers"
+      ],
+      "conceptIds": [
+        "batches-epochs"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "batch-gradients",
+      "chapter": 6,
+      "order": 16,
+      "lab": "training",
+      "title": {
+        "en": "Shuffling and batch gradients",
+        "fr": "Mélange et gradients par lot",
+        "ar": "الخلط وتدرجات الدفعات"
+      },
+      "summary": {
+        "en": "What breaks if labels are shuffled independently?",
+        "fr": "Que casse un mélange indépendant des étiquettes ?",
+        "ar": "ماذا يفسد عند خلط الأهداف مستقلة؟"
+      },
+      "prerequisites": [
+        "batches-epochs"
+      ],
+      "conceptIds": [
+        "batch-gradients"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "data-splits",
+      "chapter": 6,
+      "order": 17,
+      "lab": "training",
+      "title": {
+        "en": "Train, validation and test",
+        "fr": "Entraînement, validation et test",
+        "ar": "التدريب والتحقق والاختبار"
+      },
+      "summary": {
+        "en": "Which split should choose the best epoch?",
+        "fr": "Quel ensemble choisit la meilleure époque ?",
+        "ar": "أي جزء يحدد أفضل دورة؟"
+      },
+      "prerequisites": [
+        "batch-gradients"
+      ],
+      "conceptIds": [
+        "data-splits"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "local-convolution",
+      "chapter": 7,
+      "order": 18,
+      "lab": "convolution",
+      "title": {
+        "en": "Locality and shared weights",
+        "fr": "Localité et poids partagés",
+        "ar": "المحلية والأوزان المشتركة"
+      },
+      "summary": {
+        "en": "How many parameters for four 3×3 filters on one channel?",
+        "fr": "Combien de paramètres pour quatre filtres 3×3 à un canal ?",
+        "ar": "كم معاملاً لأربعة مرشحات 3×3 على قناة واحدة؟"
+      },
+      "prerequisites": [
+        "data-splits"
+      ],
+      "conceptIds": [
+        "local-convolution"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "channels-filters",
+      "chapter": 7,
+      "order": 19,
+      "lab": "convolution",
+      "title": {
+        "en": "Channels, kernels and feature maps",
+        "fr": "Canaux, noyaux et cartes",
+        "ar": "القنوات والنوى وخرائط السمات"
+      },
+      "summary": {
+        "en": "Do eight filters create eight independent RGB images?",
+        "fr": "Huit filtres créent-ils huit images RVB indépendantes ?",
+        "ar": "هل تنشئ ثمانية مرشحات ثماني صور RGB مستقلة؟"
+      },
+      "prerequisites": [
+        "local-convolution"
+      ],
+      "conceptIds": [
+        "channels-filters"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "stride-padding",
+      "chapter": 7,
+      "order": 20,
+      "lab": "convolution",
+      "title": {
+        "en": "Stride, padding and dilation",
+        "fr": "Pas, remplissage et dilatation",
+        "ar": "الخطوة والحشو والتوسيع"
+      },
+      "summary": {
+        "en": "What is the effective size of a 3-wide kernel with dilation 2?",
+        "fr": "Quelle taille effective pour un noyau 3 dilaté par 2 ?",
+        "ar": "ما الحجم الفعال لنواة 3 بتوسيع 2؟"
+      },
+      "prerequisites": [
+        "channels-filters"
+      ],
+      "conceptIds": [
+        "stride-padding"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "conv-relu",
+      "chapter": 8,
+      "order": 21,
+      "lab": "convolution",
+      "title": {
+        "en": "Convolution followed by activation",
+        "fr": "Convolution puis activation",
+        "ar": "الالتفاف ثم التنشيط"
+      },
+      "summary": {
+        "en": "Does ReLU add trainable parameters?",
+        "fr": "ReLU ajoute-t-elle des paramètres entraînables ?",
+        "ar": "هل تضيف ReLU معاملات متعلمة؟"
+      },
+      "prerequisites": [
+        "stride-padding"
+      ],
+      "conceptIds": [
+        "conv-relu"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "pooling",
+      "chapter": 8,
+      "order": 22,
+      "lab": "pooling",
+      "title": {
+        "en": "Pooling and receptive fields",
+        "fr": "Regroupement et champs réceptifs",
+        "ar": "التجميع والمجالات الاستقبالية"
+      },
+      "summary": {
+        "en": "Can a later dense layer recover which of those two windows occurred?",
+        "fr": "Une couche dense retrouve-t-elle laquelle de ces fenêtres existait ?",
+        "ar": "هل تستعيد طبقة كثيفة أي النافذتين حدثت؟"
+      },
+      "prerequisites": [
+        "conv-relu"
+      ],
+      "conceptIds": [
+        "pooling"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "dropout-batchnorm",
+      "chapter": 8,
+      "order": 23,
+      "lab": "training",
+      "title": {
+        "en": "Dropout and batch normalization",
+        "fr": "Dropout et normalisation par lot",
+        "ar": "الإسقاط وتطبيع الدفعة"
+      },
+      "summary": {
+        "en": "Should normal inference use training=True?",
+        "fr": "L’inférence normale doit-elle utiliser training=True ?",
+        "ar": "هل يستخدم الاستدلال العادي training=True؟"
+      },
+      "prerequisites": [
+        "pooling"
+      ],
+      "conceptIds": [
+        "dropout-batchnorm"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "flatten",
+      "chapter": 9,
+      "order": 24,
+      "lab": "flatten",
+      "title": {
+        "en": "Flatten preserves order",
+        "fr": "Flatten conserve l’ordre",
+        "ar": "يحفظ Flatten الترتيب"
+      },
+      "summary": {
+        "en": "What shape does [32,4,4,8] become?",
+        "fr": "Quelle forme après [32,4,4,8] ?",
+        "ar": "ما شكل [32,4,4,8] بعد Flatten؟"
+      },
+      "prerequisites": [
+        "dropout-batchnorm"
+      ],
+      "conceptIds": [
+        "flatten"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "dense-head",
+      "chapter": 9,
+      "order": 25,
+      "lab": "flatten",
+      "title": {
+        "en": "Where the learned connections live",
+        "fr": "Où vivent les connexions apprises",
+        "ar": "أين توجد الوصلات المتعلمة"
+      },
+      "summary": {
+        "en": "Does one flat feature use the same weight for every output?",
+        "fr": "Une caractéristique utilise-t-elle le même poids pour toutes les sorties ?",
+        "ar": "هل تستخدم السمة المسطحة الوزن نفسه لكل خرج؟"
+      },
+      "prerequisites": [
+        "flatten"
+      ],
+      "conceptIds": [
+        "dense-head"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "global-average",
+      "chapter": 9,
+      "order": 26,
+      "lab": "pooling",
+      "title": {
+        "en": "Flatten versus global average pooling",
+        "fr": "Flatten ou moyenne globale",
+        "ar": "Flatten مقابل التجميع المتوسط الشامل"
+      },
+      "summary": {
+        "en": "Can two differently arranged maps have the same global averages?",
+        "fr": "Deux cartes arrangées différemment ont-elles les mêmes moyennes ?",
+        "ar": "هل يمكن لخريطتين بترتيبين مختلفين امتلاك المتوسطات نفسها؟"
+      },
+      "prerequisites": [
+        "dense-head"
+      ],
+      "conceptIds": [
+        "global-average"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "logits-softmax",
+      "chapter": 10,
+      "order": 27,
+      "lab": "loss",
+      "title": {
+        "en": "Logits, sigmoid and softmax",
+        "fr": "Logits, sigmoïde et softmax",
+        "ar": "Logits وسيغمويد وsoftmax"
+      },
+      "summary": {
+        "en": "Why not four independent sigmoids for exactly one arrow direction?",
+        "fr": "Pourquoi pas quatre sigmoïdes pour une seule direction ?",
+        "ar": "لماذا لا نستخدم أربع سيغمويدات لاتجاه سهم واحد؟"
+      },
+      "prerequisites": [
+        "global-average"
+      ],
+      "conceptIds": [
+        "logits-softmax"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "cross-entropy",
+      "chapter": 10,
+      "order": 28,
+      "lab": "loss",
+      "title": {
+        "en": "Cross-entropy and target encoding",
+        "fr": "Entropie croisée et codage des cibles",
+        "ar": "الإنتروبيا المتقاطعة وترميز الأهداف"
+      },
+      "summary": {
+        "en": "Which Keras loss matches integer labels and raw logits?",
+        "fr": "Quelle perte Keras pour entiers et logits bruts ?",
+        "ar": "أي خسارة Keras تناسب أهدافاً صحيحة وlogits خاماً؟"
+      },
+      "prerequisites": [
+        "logits-softmax"
+      ],
+      "conceptIds": [
+        "cross-entropy"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "regression-loss",
+      "chapter": 10,
+      "order": 29,
+      "lab": "tasks",
+      "title": {
+        "en": "Regression heads and error losses",
+        "fr": "Têtes de régression et pertes",
+        "ar": "رؤوس الانحدار وخسائر الخطأ"
+      },
+      "summary": {
+        "en": "Would softmax fit two independent coordinates?",
+        "fr": "Softmax convient-il à deux coordonnées indépendantes ?",
+        "ar": "هل يلائم softmax إحداثيين مستقلين؟"
+      },
+      "prerequisites": [
+        "cross-entropy"
+      ],
+      "conceptIds": [
+        "regression-loss"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "overfitting",
+      "chapter": 11,
+      "order": 30,
+      "lab": "training",
+      "title": {
+        "en": "Generalization and regularization",
+        "fr": "Généralisation et régularisation",
+        "ar": "التعميم والتنظيم"
+      },
+      "summary": {
+        "en": "Should early stopping monitor held-out test loss?",
+        "fr": "L’arrêt anticipé doit-il surveiller la perte de test ?",
+        "ar": "هل يراقب التوقف المبكر خسارة الاختبار المحجوز؟"
+      },
+      "prerequisites": [
+        "regression-loss"
+      ],
+      "conceptIds": [
+        "overfitting"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "transformations",
+      "chapter": 11,
+      "order": 31,
+      "lab": "transformations",
+      "title": {
+        "en": "When a transformation changes the label",
+        "fr": "Quand une transformation change l’étiquette",
+        "ar": "متى يغير التحويل الهدف"
+      },
+      "summary": {
+        "en": "Can you rotate arrows and keep their old direction labels?",
+        "fr": "Peut-on tourner des flèches sans modifier les étiquettes ?",
+        "ar": "هل يمكنك تدوير الأسهم والإبقاء على اتجاهاتها القديمة؟"
+      },
+      "prerequisites": [
+        "overfitting"
+      ],
+      "conceptIds": [
+        "transformations"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "leakage-confidence",
+      "chapter": 11,
+      "order": 32,
+      "lab": "transformations",
+      "title": {
+        "en": "Leakage, shift and confidence",
+        "fr": "Fuite, changement et confiance",
+        "ar": "التسرب وتغير التوزيع والثقة"
+      },
+      "summary": {
+        "en": "Why evaluate on examples from a new source?",
+        "fr": "Pourquoi évaluer une nouvelle source ?",
+        "ar": "لماذا نقيم أمثلة من مصدر جديد؟"
+      },
+      "prerequisites": [
+        "transformations"
+      ],
+      "conceptIds": [
+        "leakage-confidence"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "keras-workflow",
+      "chapter": 12,
+      "order": 33,
+      "lab": "inference",
+      "title": {
+        "en": "Build and train the complete CNN",
+        "fr": "Construire et entraîner le CNN",
+        "ar": "بناء CNN كاملة وتدريبها"
+      },
+      "summary": {
+        "en": "What must change for position regression?",
+        "fr": "Que changer pour la régression de position ?",
+        "ar": "ماذا يتغير لانحدار الموقع؟"
+      },
+      "prerequisites": [
+        "leakage-confidence"
+      ],
+      "conceptIds": [
+        "keras-workflow"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "evaluation",
+      "chapter": 12,
+      "order": 34,
+      "lab": "training",
+      "title": {
+        "en": "Evaluate the task honestly",
+        "fr": "Évaluer la tâche honnêtement",
+        "ar": "تقييم المهمة بأمانة"
+      },
+      "summary": {
+        "en": "What is RMSE if MSE is 0.04?",
+        "fr": "Quelle RMSE pour MSE=0,04 ?",
+        "ar": "ما RMSE عندما MSE=0.04؟"
+      },
+      "prerequisites": [
+        "keras-workflow"
+      ],
+      "conceptIds": [
+        "evaluation"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    },
+    {
+      "id": "saving-inference",
+      "chapter": 12,
+      "order": 35,
+      "lab": "inference",
+      "title": {
+        "en": "Save, predict and transfer learning",
+        "fr": "Sauvegarde, prédiction et transfert",
+        "ar": "الحفظ والتنبؤ والتعلم بالنقل"
+      },
+      "summary": {
+        "en": "Can you swap the saved class order without changing interpretation?",
+        "fr": "Peut-on échanger l’ordre des classes sans conséquence ?",
+        "ar": "هل يمكن تبديل ترتيب الفئات المحفوظة بلا تغيير التفسير؟"
+      },
+      "prerequisites": [
+        "evaluation"
+      ],
+      "conceptIds": [
+        "saving-inference"
+      ],
+      "references": [
+        "https://keras.io/api/",
+        "https://en.d2l.ai/"
+      ]
+    }
+  ]
+}

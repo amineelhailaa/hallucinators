@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+Which Keras loss matches integer labels and raw logits?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/logits-softmax)
+
+## How it works
+
+Categorical cross-entropy penalizes low probability assigned to the correct class. One-hot targets work with categorical loss; integer class IDs work with sparse categorical loss. Binary cross-entropy matches binary or independent multi-label targets. A logits-aware loss computes a stable combination without applying softmax twice.
+
+## Worked example
+
+Correct-class probability 0.8 gives −ln(0.8)=0.223; 0.01 gives 4.605. Confidently wrong predictions cost much more.
+
+## Common misconception
+
+Cross-entropy is not calculated on an argmax class ID. It needs the score distribution or logits.
+
+## Check your understanding
+
+<Check question={"Which Keras loss matches integer labels and raw logits?"} answer={"SparseCategoricalCrossentropy(from_logits=True)."} />
+
+<LabLink id="loss" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"L=-\\sum_i y_i\\log p_i,\\quad \\frac{\\partial L}{\\partial z_i}=p_i-y_i"} />
+
+## Symbols
+
+yi: one-hot target; pi: softmax score; zi: logit; L: sample loss with natural logarithm.
+
+## Worked example
+
+Correct-class probability 0.8 gives −ln(0.8)=0.223; 0.01 gives 4.605. Confidently wrong predictions cost much more.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+loss = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+```
+
+Cross-entropy is not calculated on an argmax class ID. It needs the score distribution or logits.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

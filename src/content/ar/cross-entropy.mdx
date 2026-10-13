@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## أهداف التعلم
+
+أي خسارة Keras تناسب أهدافاً صحيحة وlogits خاماً؟
+
+اشرح الآلية وأعد الحساب واختبر المثال المضاد.
+
+## المتطلبات السابقة
+
+[الدرس السابق](#/ar/course/logits-softmax)
+
+## كيف يعمل
+
+تعاقب الإنتروبيا المتقاطعة انخفاض احتمال الفئة الصحيحة. تستخدم أهداف one-hot الخسارة الفئوية والأعداد الصحيحة نسختها المتناثرة. يلائم النوع الثنائي الأهداف الثنائية أو المستقلة. تستخدم خسارة logits حساباً مستقراً بلا تطبيق softmax مرتين.
+
+## مثال محسوب
+
+احتمال الفئة الصحيحة 0.8 يعطي 0.223 و0.01 يعطي 4.605؛ الخطأ الواثق أعلى تكلفة.
+
+## تصور خاطئ شائع
+
+لا تُحسب الخسارة على رقم argmax بل تحتاج توزيع الدرجات أو logits.
+
+## اختبر فهمك
+
+<Check question={"أي خسارة Keras تناسب أهدافاً صحيحة وlogits خاماً؟"} answer={"SparseCategoricalCrossentropy(from_logits=True)."} />
+
+<LabLink id="loss" />
+</Section>
+
+<Section kind="math">
+## المعادلة
+
+<Formula value={"L=-\\sum_i y_i\\log p_i,\\quad \\frac{\\partial L}{\\partial z_i}=p_i-y_i"} />
+
+## الرموز
+
+yi: الهدف one-hot؛ pi: درجة softmax؛ zi: logit؛ L: خسارة المثال باللوغاريتم الطبيعي.
+
+## مثال محسوب
+
+احتمال الفئة الصحيحة 0.8 يعطي 0.223 و0.01 يعطي 4.605؛ الخطأ الواثق أعلى تكلفة.
+</Section>
+
+<Section kind="code">
+## مثال Keras
+
+```python
+import keras
+loss = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+```
+
+لا تُحسب الخسارة على رقم argmax بل تحتاج توزيع الدرجات أو logits.
+</Section>
+
+<Section kind="explanation">
+## المصادر
+
+وثائق Keras الرسمية والكتاب المفتوح Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

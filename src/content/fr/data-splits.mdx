@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Objectifs
+
+Quel ensemble choisit la meilleure époque ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/batch-gradients)
+
+## Fonctionnement
+
+L’entraînement modifie les poids. La validation guide les choix. Le test estime les performances après fixation des choix. Évitez doublons et groupes communs entre ensembles. Séparez avant augmentation. Choisir souvent selon le test le transforme en validation.
+
+## Exemple calculé
+
+Notre générateur crée 512/128/128 exemples distincts. Seuls les 512 premiers modifient les poids ; les derniers sont testés sur demande.
+
+## Idée reçue
+
+Un score élevé avec des doublons entre ensembles ne prouve pas la généralisation.
+
+## Vérifiez votre compréhension
+
+<Check question={"Quel ensemble choisit la meilleure époque ?"} answer={"La validation, pas le test réservé."} />
+
+<LabLink id="training" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"\\mathcal{D}_{train}\\cap\\mathcal{D}_{test}=\\varnothing"} />
+
+## Symboles
+
+D : ensemble ; ∩ : recouvrement ; ∅ : aucun exemple partagé. Vérifiez aussi les groupes.
+
+## Exemple calculé
+
+Notre générateur crée 512/128/128 exemples distincts. Seuls les 512 premiers modifient les poids ; les derniers sont testés sur demande.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+history = model.fit(x_train, y_train,
+    validation_data=(x_val, y_val), epochs=10)
+```
+
+Un score élevé avec des doublons entre ensembles ne prouve pas la généralisation.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

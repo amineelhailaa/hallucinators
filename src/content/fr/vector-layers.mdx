@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Quelle forme après Dense(16) pour [32,128] ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/xor)
+
+## Fonctionnement
+
+Une couche produit plusieurs valeurs. Chaque unité a ses poids et lit la représentation précédente. Une multiplication matricielle regroupe les calculs. Les couches suivantes reçoivent les activations, pas directement les pixels sauf connexion explicite. Le modèle compose des fonctions vectorielles.
+
+## Exemple calculé
+
+Une couche dense passe de 128 caractéristiques à 16 activations avec 128×16 poids et 16 biais.
+
+## Idée reçue
+
+Une couche cachée n’exige pas une étiquette par neurone ; l’objectif final façonne ses caractéristiques.
+
+## Vérifiez votre compréhension
+
+<Check question={"Quelle forme après Dense(16) pour [32,128] ?"} answer={"[32,16]. Le nombre d’exemples reste 32."} />
+
+<LabLink id="composition" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"h^{(l)}=\\phi(W^{(l)}h^{(l-1)}+b^{(l)})"} />
+
+## Symboles
+
+h : représentation ; l : couche ; W : poids ; b : biais ; φ : activation.
+
+## Exemple calculé
+
+Une couche dense passe de 128 caractéristiques à 16 activations avec 128×16 poids et 16 biais.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+hidden = keras.layers.Dense(16, activation="relu")(features)
+```
+
+Une couche cachée n’exige pas une étiquette par neurone ; l’objectif final façonne ses caractéristiques.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

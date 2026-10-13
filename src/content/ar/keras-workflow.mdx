@@ -1,0 +1,68 @@
+<Section kind="explanation">
+## أهداف التعلم
+
+ماذا يتغير لانحدار الموقع؟
+
+اشرح الآلية وأعد الحساب واختبر المثال المضاد.
+
+## المتطلبات السابقة
+
+[الدرس السابق](#/ar/course/leakage-confidence)
+
+## كيف يعمل
+
+حدد الشكل والمستخرج والرأس والهدف والمحسن بوضوح وافحص الملخص قبل fit. يحفظ النموذج 16×16 ثم ينصفها مرتين ويسطح 4×4×8 إلى128. استخدم التدريب وحده للتحديث وسجل الإعدادات ونتائج التحقق.
+
+## مثال محسوب
+
+الإجمالي 40+296+2064+68=2468. يضيف التجميع وFlatten وReLU القياسية صفراً.
+
+## تصور خاطئ شائع
+
+يمتلك النموذج المجمّع هدفاً لكنه لا يتعلم قبل خطوات المحسن.
+
+## اختبر فهمك
+
+<Check question={"ماذا يتغير لانحدار الموقع؟"} answer={"الأهداف ورأس خطي بقيمتين وخسارة ومقاييس الانحدار ثم إعادة التدريب."} />
+
+<LabLink id="inference" />
+</Section>
+
+<Section kind="math">
+## المعادلة
+
+<Formula value={"f=\\operatorname{head}\\circ\\operatorname{flatten}\\circ\\operatorname{backbone}"} />
+
+## الرموز
+
+f: النموذج؛ ∘: تركيب الدوال؛ المستخرج: التفاف وتجميع؛ الرأس: المخارج الكثيفة.
+
+## مثال محسوب
+
+الإجمالي 40+296+2064+68=2468. يضيف التجميع وFlatten وReLU القياسية صفراً.
+</Section>
+
+<Section kind="code">
+## مثال Keras
+
+```python
+import keras
+model = keras.Sequential([keras.Input((16,16,1)),
+    keras.layers.Conv2D(4,3,padding="same",activation="relu"),
+    keras.layers.MaxPooling2D(2),
+    keras.layers.Conv2D(8,3,padding="same",activation="relu"),
+    keras.layers.MaxPooling2D(2), keras.layers.Flatten(),
+    keras.layers.Dense(16,activation="relu"), keras.layers.Dense(4)])
+```
+
+يمتلك النموذج المجمّع هدفاً لكنه لا يتعلم قبل خطوات المحسن.
+</Section>
+
+<Section kind="explanation">
+## المصادر
+
+وثائق Keras الرسمية والكتاب المفتوح Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

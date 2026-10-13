@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Le taux d’apprentissage est-il un poids appris ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/representations)
+
+## Fonctionnement
+
+Les paramètres sont appris ; les hyperparamètres règlent l’apprentissage. L’initialisation aléatoire brise la symétrie. Des unités identiques peuvent recevoir les mêmes mises à jour. Glorot et He adaptent l’échelle aux dimensions. Plus de paramètres peut aussi favoriser le surapprentissage.
+
+## Exemple calculé
+
+Dense(16) après 128 entrées possède 128×16+16=2 064 paramètres. La taille du lot n’ajoute aucun poids.
+
+## Idée reçue
+
+Une graine aide la reproductibilité sans garantir l’identité bit à bit entre plateformes.
+
+## Vérifiez votre compréhension
+
+<Check question={"Le taux d’apprentissage est-il un poids appris ?"} answer={"Non, c’est un hyperparamètre qui règle la taille des mises à jour."} />
+
+<LabLink id="composition" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"P_{dense}=n_{in}n_{out}+n_{out}"} />
+
+## Symboles
+
+P : paramètres ; nin : entrées ; nout : sorties avec un biais chacune.
+
+## Exemple calculé
+
+Dense(16) après 128 entrées possède 128×16+16=2 064 paramètres. La taille du lot n’ajoute aucun poids.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+keras.layers.Dense(16, kernel_initializer=keras.initializers.HeNormal(seed=7))
+```
+
+Une graine aide la reproductibilité sans garantir l’identité bit à bit entre plateformes.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

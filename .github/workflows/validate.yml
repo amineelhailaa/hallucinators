@@ -1,0 +1,49 @@
+name: Validate Hallucinators
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run test
+      - run: npm run build
+      - run: npm run check:bundle
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run test:browser
+      - name: Verify root-hosted build
+        run: VITE_BASE_PATH=/ npm run build
+      - name: Root smoke test
+        run: npx playwright test --project chromium e2e/root.spec.ts
+        env:
+          ROOT_BUILD: "1"
+      - uses: actions/upload-artifact@v7.0.2
+        if: failure()
+        with:
+          name: browser-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+  python-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.0.0
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: examples/requirements.txt
+      - run: pip install -r examples/requirements.txt
+      - run: python examples/cnn.py --task classification --epochs 1 --output /tmp/classification
+      - run: python examples/cnn.py --task regression --epochs 1 --output /tmp/regression
+        env:
+          TF_NUM_INTRAOP_THREADS: "2"
+          TF_NUM_INTEROP_THREADS: "2"

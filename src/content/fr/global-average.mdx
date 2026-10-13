@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Deux cartes arrangées différemment ont-elles les mêmes moyennes ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/dense-head)
+
+## Fonctionnement
+
+La moyenne globale produit une moyenne par canal et perd la position interne. Flatten conserve toutes les valeurs dans un ordre connu. Aucun n’a de poids appris. Le choix change la taille de la tête et les distinctions encore possibles.
+
+## Exemple calculé
+
+Une carte 4×4×8 donne 128 caractéristiques par Flatten ou 8 par moyenne globale. Dense(16) possède alors 2 064 ou 144 paramètres.
+
+## Idée reçue
+
+La moyenne peut être inadaptée si la position perdue est précisément la cible.
+
+## Vérifiez votre compréhension
+
+<Check question={"Deux cartes arrangées différemment ont-elles les mêmes moyennes ?"} answer={"Oui, des sommes égales donnent des moyennes égales malgré des arrangements différents."} />
+
+<LabLink id="pooling" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"g_c=\\frac{1}{HW}\\sum_{y,x}a_{y,x,c}"} />
+
+## Symboles
+
+gc : canal groupé ; H,W : dimensions ; a : valeur ; c : canal.
+
+## Exemple calculé
+
+Une carte 4×4×8 donne 128 caractéristiques par Flatten ou 8 par moyenne globale. Dense(16) possède alors 2 064 ou 144 paramètres.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+features = keras.layers.GlobalAveragePooling2D()(feature_maps)
+```
+
+La moyenne peut être inadaptée si la position perdue est précisément la cible.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

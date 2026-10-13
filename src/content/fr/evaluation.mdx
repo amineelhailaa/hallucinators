@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Quelle RMSE pour MSE=0,04 ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/keras-workflow)
+
+## Fonctionnement
+
+La matrice compte classes réelles et prédites. La précision mesure les positifs prédits corrects ; le rappel les positifs retrouvés. F1 les combine. Donnez effectifs et moyennes macro en cas de déséquilibre. Pour la régression : résidus, MAE et RMSE. Séparez évaluation et sélection.
+
+## Exemple calculé
+
+TP=8, FP=2, FN=4 : précision=0,8, rappel=0,667, F1≈0,727. La majorité seule peut donner une forte exactitude.
+
+## Idée reçue
+
+Une moyenne peut cacher une classe minoritaire en échec. Inspectez chaque classe.
+
+## Vérifiez votre compréhension
+
+<Check question={"Quelle RMSE pour MSE=0,04 ?"} answer={"0,2, dans les unités de la cible."} />
+
+<LabLink id="training" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"P=\\frac{TP}{TP+FP},\\quad R=\\frac{TP}{TP+FN},\\quad F_1=\\frac{2PR}{P+R}"} />
+
+## Symboles
+
+TP : vrais positifs ; FP : faux positifs ; FN : faux négatifs ; P : précision ; R : rappel. Définissez les divisions par zéro.
+
+## Exemple calculé
+
+TP=8, FP=2, FN=4 : précision=0,8, rappel=0,667, F1≈0,727. La majorité seule peut donner une forte exactitude.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+test_results = model.evaluate(x_test, y_test, return_dict=True)
+```
+
+Une moyenne peut cacher une classe minoritaire en échec. Inspectez chaque classe.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

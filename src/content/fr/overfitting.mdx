@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Objectifs
+
+L’arrêt anticipé doit-il surveiller la perte de test ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/regression-loss)
+
+## Fonctionnement
+
+Ajustement et performance sur de nouvelles données diffèrent. Le sous-apprentissage manque de structure ; le surapprentissage suit trop les détails particuliers. Comparez les courbes. Décroissance des poids, augmentation, dropout et arrêt anticipé peuvent aider sans garantie.
+
+## Exemple calculé
+
+Une perte d’entraînement de 0,5 à 0,1 et validation de 0,6 à 0,9 suggère un surapprentissage. Choisissez par validation.
+
+## Idée reçue
+
+Une époque bruitée ne suffit pas ; examinez la tendance et la qualité des données.
+
+## Vérifiez votre compréhension
+
+<Check question={"L’arrêt anticipé doit-il surveiller la perte de test ?"} answer={"Non, surveillez la validation et réservez le test."} />
+
+<LabLink id="training" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"L_{total}=L_{data}+\\lambda\\sum_i w_i^2"} />
+
+## Symboles
+
+λ : force de régularisation ; wi : poids ; Ldata : objectif de prédiction.
+
+## Exemple calculé
+
+Une perte d’entraînement de 0,5 à 0,1 et validation de 0,6 à 0,9 suggère un surapprentissage. Choisissez par validation.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+callback = keras.callbacks.EarlyStopping(
+    monitor="val_loss", patience=3, restore_best_weights=True)
+```
+
+Une époque bruitée ne suffit pas ; examinez la tendance et la qualité des données.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

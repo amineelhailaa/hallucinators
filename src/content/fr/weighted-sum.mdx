@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Objectifs
+
+Qu’est-ce qui change z si toutes les entrées sont nulles ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/preprocessing)
+
+## Fonctionnement
+
+Un neurone multiplie chaque entrée par son poids puis additionne les produits. Le biais ajoute un décalage indépendant. Les poids positifs et négatifs renforcent ou compensent les contributions. Les poids sont des paramètres distincts des pixels. L’entraînement les modifie ; la propagation avant utilise leurs valeurs actuelles.
+
+## Exemple calculé
+
+Pour x=[2,3], w=[0,5,-1], b=2, la somme vaut 1−3+2=0.
+
+## Idée reçue
+
+Une grande entrée n’est pas forcément importante : sa contribution dépend du poids.
+
+## Vérifiez votre compréhension
+
+<Check question={"Qu’est-ce qui change z si toutes les entrées sont nulles ?"} answer={"Seulement le biais : z=b."} />
+
+<LabLink id="neuron" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"z=\\sum_i w_i x_i+b"} />
+
+## Symboles
+
+xi : entrée i ; wi : poids ; b : biais ; z : préactivation.
+
+## Exemple calculé
+
+Pour x=[2,3], w=[0,5,-1], b=2, la somme vaut 1−3+2=0.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+neuron = keras.layers.Dense(1, activation=None)
+y = neuron(keras.ops.array([[2.0, 3.0]]))
+```
+
+Une grande entrée n’est pas forcément importante : sa contribution dépend du poids.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

@@ -1,0 +1,74 @@
+<Section kind="explanation">
+## Objectifs
+
+Softmax convient-il à deux coordonnées indépendantes ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/cross-entropy)
+
+## Fonctionnement
+
+La régression prédit des quantités. Nos deux sorties linéaires estiment x et y normalisés. MSE accentue les grands résidus ; MAE est moins sensible ; Huber combine deux régions. Les contraintes de sortie doivent correspondre à la cible. Une tête linéaire peut dépasser [0,1].
+
+## Exemple calculé
+
+[0,8;0,2] contre [0,5;0,4] donne MSE=0,065 et MAE=0,25.
+
+## Idée reçue
+
+Un CNN n’est pas réservé à la classification : tête et objectif définissent la tâche.
+
+## Vérifiez votre compréhension
+
+<Check question={"Softmax convient-il à deux coordonnées indépendantes ?"} answer={"Généralement non : leur somme serait forcée à un sans raison."} />
+
+<LabLink id="tasks" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"L_{MSE}=\\frac{1}{D}\\sum_{d=1}^{D}(\\hat y_d-y_d)^2"} />
+
+## Symboles
+
+D : dimensions ; ŷd : prédiction ; yd : cible ; L : erreur quadratique moyenne.
+
+## Exemple calculé
+
+[0,8;0,2] contre [0,5;0,4] donne MSE=0,065 et MAE=0,25.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+position = keras.layers.Dense(2, activation=None)(features)
+model.compile(optimizer="adam", loss="mse", metrics=["mae"])
+```
+
+Un CNN n’est pas réservé à la classification : tête et objectif définissent la tâche.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>
+
+<Section kind="math">
+## Huber et signification de l’objectif
+
+Le résidu r est prédiction moins cible. Huber est quadratique près de zéro et linéaire au-delà du seuil. À δ=1, r=0,5 donne 0,125 ; r=2 donne 1,5. MSE correspond naturellement à des erreurs gaussiennes, MAE à des erreurs de Laplace. Ce sont des choix de modèle, pas des interdictions. Une classification peut optimiser une erreur carrée adaptée, même si l’entropie croisée offre un objectif probabiliste utile.
+
+<Formula value={"L_\\delta(r)=\\begin{cases}\\frac12r^2&|r|\\le\\delta\\\\\\delta(|r|-\\frac12\\delta)&|r|>\\delta\\end{cases}"} />
+
+r : résidu ; δ : seuil positif ; Lδ : perte Huber.
+</Section>

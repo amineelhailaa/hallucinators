@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Learning objectives
+
+Does [1,16,16,3] contain one image or three?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/pixels)
+
+## How it works
+
+A tensor is a multidimensional array. Shape names the size of each axis; dtype names how each value is represented. We use channels-last ordering: batch, height, width, channels. The batch axis separates independent examples; convolution must not mix neighboring samples. A float32 value uses four bytes.
+
+## Worked example
+
+A batch [32,16,16,1] has 8,192 values, requiring 32,768 bytes in float32 before intermediate activations.
+
+## Common misconception
+
+Reshape does not resize an image. It only reinterprets the same number of values.
+
+## Check your understanding
+
+<Check question={"Does [1,16,16,3] contain one image or three?"} answer={"One RGB image. Three is the channel count."} />
+
+<LabLink id="pixels" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"N=B\\cdot H\\cdot W\\cdot C"} />
+
+## Symbols
+
+B: batch size; H,W: spatial dimensions; C: channels; N: scalar count.
+
+## Worked example
+
+A batch [32,16,16,1] has 8,192 values, requiring 32,768 bytes in float32 before intermediate activations.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+x = keras.ops.zeros((32, 16, 16, 1), dtype="float32")
+print(x.shape)
+```
+
+Reshape does not resize an image. It only reinterprets the same number of values.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

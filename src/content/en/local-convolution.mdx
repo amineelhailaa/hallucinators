@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+How many parameters for four 3×3 filters on one channel?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/data-splits)
+
+## How it works
+
+A convolution looks at local patches rather than connecting every pixel to every output. One kernel is reused across spatial locations. Each output is a neuron with a local weighted sum and bias. This sharing reduces parameters and lets a detector respond to the same local pattern in several locations. It does not make the entire classifier position-independent.
+
+## Worked example
+
+A 3×3 grayscale kernel has nine weights and one bias, whether it scans a 16×16 or a 64×64 image.
+
+## Common misconception
+
+The sliding kernel is learned during training; it does not gain a separate weight set at every position.
+
+## Check your understanding
+
+<Check question={"How many parameters for four 3×3 filters on one channel?"} answer={"(9+1)×4=40, including biases."} />
+
+<LabLink id="convolution" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"y_{i,j,o}=b_o+\\sum_{u,v,c}K_{u,v,c,o}x_{i+u,j+v,c}"} />
+
+## Symbols
+
+i,j: output position; u,v: kernel offsets; c: input channel; o: output filter; K: shared weights; b: bias.
+
+## Worked example
+
+A 3×3 grayscale kernel has nine weights and one bias, whether it scans a 16×16 or a 64×64 image.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+keras.layers.Conv2D(4, 3, padding="same", activation="relu")
+```
+
+The sliding kernel is learned during training; it does not gain a separate weight set at every position.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

@@ -1,0 +1,65 @@
+<Section kind="explanation">
+## Objectifs
+
+Peut-on échanger l’ordre des classes sans conséquence ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/evaluation)
+
+## Fonctionnement
+
+Sauvegardez architecture, poids, classes et prétraitement. Rechargez et comparez. L’inférence utilise les paramètres figés sans cible. Le transfert réutilise les représentations : entraînez une tête puis libérez certaines couches avec un faible taux. Recompilez après modification de trainable dans Keras.
+
+## Exemple calculé
+
+Les scores avant/après rechargement doivent correspondre avec une tolérance définie. Vérifiez que la prédiction ne change aucun poids.
+
+## Idée reçue
+
+predict n’entraîne pas ; une erreur ne modifie rien sans une étape d’apprentissage distincte.
+
+## Vérifiez votre compréhension
+
+<Check question={"Peut-on échanger l’ordre des classes sans conséquence ?"} answer={"Non. Chaque indice doit garder sa correspondance d’entraînement."} />
+
+<LabLink id="inference" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"\\hat y=f_{\\theta^*}(x),\\quad \\theta^*\\ \\text{fixed}"} />
+
+## Symboles
+
+ŷ : prédiction ; x : entrée prétraitée ; θ* : paramètres appris figés.
+
+## Exemple calculé
+
+Les scores avant/après rechargement doivent correspondre avec une tolérance définie. Vérifiez que la prédiction ne change aucun poids.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+model.save("arrow_cnn.keras")
+loaded = keras.models.load_model("arrow_cnn.keras")
+prediction = loaded(x, training=False)
+```
+
+predict n’entraîne pas ; une erreur ne modifie rien sans une étape d’apprentissage distincte.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+How many scalar values are in a 2×2 RGB image?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+Basic arithmetic; no neural-network experience required.
+
+## How it works
+
+A digital image is a grid of measurements, not a collection of named objects. A grayscale cell contains one intensity; an RGB cell contains three values in a fixed red, green, blue order. The network receives these values. It does not receive the words “edge” or “arrow”. Neighboring pixels matter because their joint arrangement creates a pattern.
+
+## Worked example
+
+The RGB pixel [255, 128, 0] becomes [1, 0.502, 0] after division by 255. Its three channels belong to one spatial location.
+
+## Common misconception
+
+RGB is not the same order as OpenCV’s default BGR. Reordering channels changes the input.
+
+## Check your understanding
+
+<Check question={"How many scalar values are in a 2×2 RGB image?"} answer={"12: four locations times three channels."} />
+
+<LabLink id="pixels" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"x_{y,x,c}=I_{y,x,c}/255"} />
+
+## Symbols
+
+I: 8-bit intensity; x: normalized intensity; y,x: row and column; c: channel.
+
+## Worked example
+
+The RGB pixel [255, 128, 0] becomes [1, 0.502, 0] after division by 255. Its three channels belong to one spatial location.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+x = keras.ops.convert_to_tensor(image, dtype="float32") / 255.0
+```
+
+RGB is not the same order as OpenCV’s default BGR. Reordering channels changes the input.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

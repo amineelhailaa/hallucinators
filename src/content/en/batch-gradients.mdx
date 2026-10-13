@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+What breaks if labels are shuffled independently?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/batches-epochs)
+
+## How it works
+
+The mean batch gradient combines the influence of several samples. Conflicting examples can cancel components. Shuffling changes which examples interact in each update; shuffle inputs and labels together. Larger batches often reduce sampling noise but provide fewer updates per epoch. Our worker uses a seeded shuffle so the sample order can be reproduced.
+
+## Worked example
+
+Gradients [2,−1] and [−2,3] average to [0,1]. This batch changes the second weight but not the first under SGD.
+
+## Common misconception
+
+Do not compare batch sizes using epochs alone without acknowledging different update counts.
+
+## Check your understanding
+
+<Check question={"What breaks if labels are shuffled independently?"} answer={"Inputs become paired with the wrong targets, so training optimizes incorrect supervision."} />
+
+<LabLink id="training" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"g_B=\\frac{1}{B}\\sum_{i\\in\\mathcal{B}}\\nabla_\\theta\\ell_i"} />
+
+## Symbols
+
+gB: batch gradient; B: count; ℬ: selected samples; θ: parameters; ℓi: sample loss.
+
+## Worked example
+
+Gradients [2,−1] and [−2,3] average to [0,1]. This batch changes the second weight but not the first under SGD.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+model.fit(x_train, y_train, shuffle=True, batch_size=32)
+```
+
+Do not compare batch sizes using epochs alone without acknowledging different update counts.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

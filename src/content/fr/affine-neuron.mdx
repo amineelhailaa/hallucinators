@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+f(x)=2x+3 est-elle strictement linéaire ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/weighted-sum)
+
+## Fonctionnement
+
+Le produit scalaire mesure l’entrée dans une direction pondérée. Avec biais, la fonction est affine. En deux dimensions, une sortie fixe correspond à une droite. Les poids changent son orientation ou son échelle ; le biais la déplace. Une couche dite linéaire avec biais est mathématiquement affine.
+
+## Exemple calculé
+
+z=2x₁+x₂−3 vaut zéro en (1,1) et (0,3). Les deux points appartiennent à sa frontière.
+
+## Idée reçue
+
+Une frontière affine ne résout pas tous les problèmes ; XOR en est un contre-exemple.
+
+## Vérifiez votre compréhension
+
+<Check question={"f(x)=2x+3 est-elle strictement linéaire ?"} answer={"Non. f(0)=3 ; elle est affine et ne passe pas par l’origine."} />
+
+<LabLink id="neuron" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"z=w^T x+b"} />
+
+## Symboles
+
+wᵀx : produit scalaire ; w : direction normale ; b : décalage ; z : sortie scalaire.
+
+## Exemple calculé
+
+z=2x₁+x₂−3 vaut zéro en (1,1) et (0,3). Les deux points appartiennent à sa frontière.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+layer = keras.layers.Dense(1, use_bias=True)
+```
+
+Une frontière affine ne résout pas tous les problèmes ; XOR en est un contre-exemple.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

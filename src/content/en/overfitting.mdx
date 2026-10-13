@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Learning objectives
+
+Should early stopping monitor held-out test loss?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/regression-loss)
+
+## How it works
+
+Training fit and unseen-data performance are different. Underfitting means the model fails to capture useful structure; overfitting means it adapts too much to training-specific details. Compare training and validation curves. Weight decay, appropriate augmentation, dropout, and early stopping can help, but none guarantees generalization.
+
+## Worked example
+
+Training loss falling from 0.5 to 0.1 while validation rises from 0.6 to 0.9 suggests growing overfit. Select checkpoints using validation.
+
+## Common misconception
+
+A single noisy validation epoch is not enough to prove a trend. Inspect multiple epochs and data quality.
+
+## Check your understanding
+
+<Check question={"Should early stopping monitor held-out test loss?"} answer={"No. Monitor validation loss and reserve test for final evaluation."} />
+
+<LabLink id="training" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"L_{total}=L_{data}+\\lambda\\sum_i w_i^2"} />
+
+## Symbols
+
+λ: regularization strength; wi: selected weights; Ldata: prediction objective.
+
+## Worked example
+
+Training loss falling from 0.5 to 0.1 while validation rises from 0.6 to 0.9 suggests growing overfit. Select checkpoints using validation.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+callback = keras.callbacks.EarlyStopping(
+    monitor="val_loss", patience=3, restore_best_weights=True)
+```
+
+A single noisy validation epoch is not enough to prove a trend. Inspect multiple epochs and data quality.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## أهداف التعلم
+
+ما الحجم الفعال لنواة 3 بتوسيع 2؟
+
+اشرح الآلية وأعد الحساب واختبر المثال المضاد.
+
+## المتطلبات السابقة
+
+[الدرس السابق](#/ar/course/channels-filters)
+
+## كيف يعمل
+
+تحدد الخطوة المسافة بين بدايات الرقع. يضيف الحشو قيماً حول الصورة. يباعد التوسيع بين عناصر النواة بلا أوزان جديدة. يعطي same سقف(حجم المدخل/الخطوة) وليس الحجم الأصلي دائماً. يجب رفض الأشكال غير الممكنة.
+
+## مثال محسوب
+
+لمدخل 7 ونواة 3 وخطوة 2 بلا حشو يكون الخرج 3؛ مع same يكون 4.
+
+## تصور خاطئ شائع
+
+يغيّر الحشو سلوك الحدود ولا يضمن الثبات الكامل للإزاحة.
+
+## اختبر فهمك
+
+<Check question={"ما الحجم الفعال لنواة 3 بتوسيع 2؟"} answer={"5، مع بقاء ثلاثة عناصر على ذلك المحور."} />
+
+<LabLink id="convolution" />
+</Section>
+
+<Section kind="math">
+## المعادلة
+
+<Formula value={"O=\\left\\lfloor\\frac{I+P_l+P_r-d(K-1)-1}{S}\\right\\rfloor+1"} />
+
+## الرموز
+
+I,O: الحجم؛ Pl,Pr: الحشو؛ d: التوسيع؛ K: عرض النواة؛ S: الخطوة.
+
+## مثال محسوب
+
+لمدخل 7 ونواة 3 وخطوة 2 بلا حشو يكون الخرج 3؛ مع same يكون 4.
+</Section>
+
+<Section kind="code">
+## مثال Keras
+
+```python
+import keras
+keras.layers.Conv2D(4, 3, strides=2, padding="same")
+# Dilation > 1 requires stride 1 in Keras.
+```
+
+يغيّر الحشو سلوك الحدود ولا يضمن الثبات الكامل للإزاحة.
+</Section>
+
+<Section kind="explanation">
+## المصادر
+
+وثائق Keras الرسمية والكتاب المفتوح Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

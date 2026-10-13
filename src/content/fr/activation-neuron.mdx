@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Pourquoi la saturation ralentit-elle l’apprentissage ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/affine-neuron)
+
+## Fonctionnement
+
+L’activation transforme la somme en sortie. Sa dérivée locale mesure l’effet d’une petite variation. Une sigmoïde saturée change peu malgré une variation de la somme. La dérivée participe à la rétropropagation. L’activation est une fonction numérique, pas un interrupteur biologique.
+
+## Exemple calculé
+
+La sigmoïde donne à z=0 : a=0,5, dérivée=0,25. À z=8 : a≈0,9997, dérivée≈0,00034.
+
+## Idée reçue
+
+Les sorties sigmoïdes ne sont pas automatiquement des probabilités calibrées.
+
+## Vérifiez votre compréhension
+
+<Check question={"Pourquoi la saturation ralentit-elle l’apprentissage ?"} answer={"Sa petite dérivée réduit le gradient transmis aux paramètres précédents."} />
+
+<LabLink id="neuron" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"a=\\sigma(z),\\quad \\frac{\\partial a}{\\partial w_i}=\\sigma^{\\prime}(z)x_i"} />
+
+## Symboles
+
+a : activation ; σ : fonction ; z : somme ; wi : poids ; xi : entrée.
+
+## Exemple calculé
+
+La sigmoïde donne à z=0 : a=0,5, dérivée=0,25. À z=8 : a≈0,9997, dérivée≈0,00034.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+layer = keras.layers.Dense(1, activation="sigmoid")
+```
+
+Les sorties sigmoïdes ne sont pas automatiquement des probabilités calibrées.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

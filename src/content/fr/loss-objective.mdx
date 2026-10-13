@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Une perte nulle prouve-t-elle la généralisation ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/initialization)
+
+## Fonctionnement
+
+La prédiction vient du modèle ; la cible vient des données. La perte mesure leur désaccord et fournit un signal d’apprentissage. L’objectif moyenne les pertes et peut ajouter une régularisation. Une mesure de performance n’est pas forcément différentiable ni optimisée directement.
+
+## Exemple calculé
+
+Pour une prédiction 3 et une cible 1, l’erreur carrée vaut 4. Une prédiction 1,5 donne 0,25.
+
+## Idée reçue
+
+L’exactitude seule ne fournit pas de gradient utile à travers argmax.
+
+## Vérifiez votre compréhension
+
+<Check question={"Une perte nulle prouve-t-elle la généralisation ?"} answer={"Non, il peut mémoriser les exemples et échouer sur de nouvelles données."} />
+
+<LabLink id="loss" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"L=\\frac{1}{N}\\sum_{n=1}^N\\ell(f_\\theta(x_n),y_n)"} />
+
+## Symboles
+
+N : exemples ; ℓ : perte individuelle ; fθ : modèle ; xn,yn : entrée et cible.
+
+## Exemple calculé
+
+Pour une prédiction 3 et une cible 1, l’erreur carrée vaut 4. Une prédiction 1,5 donne 0,25.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+model.compile(optimizer="adam", loss="mse", metrics=["mae"])
+```
+
+L’exactitude seule ne fournit pas de gradient utile à travers argmax.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

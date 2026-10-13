@@ -1,0 +1,506 @@
+[
+  {
+    "id": "pixels",
+    "lesson": "pixels",
+    "title": "Pixels and channels",
+    "english": "Pixels and channels",
+    "body": "A digital image is a grid of measurements, not a collection of named objects. A grayscale cell contains one intensity; an RGB cell contains three values in a fixed red, green, blue order. The network receives these values. It does not receive the words “edge” or “arrow”. Neighboring pixels matter because their joint arrangement creates a pattern."
+  },
+  {
+    "id": "tensors",
+    "lesson": "tensors",
+    "title": "Shapes, axes and batches",
+    "english": "Shapes, axes and batches",
+    "body": "A tensor is a multidimensional array. Shape names the size of each axis; dtype names how each value is represented. We use channels-last ordering: batch, height, width, channels. The batch axis separates independent examples; convolution must not mix neighboring samples. A float32 value uses four bytes."
+  },
+  {
+    "id": "preprocessing",
+    "lesson": "preprocessing",
+    "title": "Preprocessing without surprises",
+    "english": "Preprocessing without surprises",
+    "body": "Decode bytes into pixels, choose the color order, resize with a documented aspect-ratio policy, and normalize once. Stretching changes geometry; letterboxing preserves geometry but adds borders. Fit learned normalization statistics only on training data. The identical pipeline must run during inference or the model receives a different distribution."
+  },
+  {
+    "id": "weighted-sum",
+    "lesson": "weighted-sum",
+    "title": "Weights, inputs and bias",
+    "english": "Weights, inputs and bias",
+    "body": "A neuron first multiplies each input by a weight and adds the products. Bias adds an offset independent of the input. Positive and negative weights can amplify or oppose an input’s contribution. Weights are parameters, not the incoming pixel values. Training changes the parameters while a forward pass calculates outputs from their current values."
+  },
+  {
+    "id": "affine-neuron",
+    "lesson": "affine-neuron",
+    "title": "Dot products and affine functions",
+    "english": "Dot products and affine functions",
+    "body": "A dot product measures an input along a weighted direction. With bias, the neuron defines an affine function. In two dimensions, a fixed output corresponds to a line. Changing the weights rotates or scales that line; changing the bias translates it. “Linear layer” is common terminology even though a layer with bias is mathematically affine."
+  },
+  {
+    "id": "activation-neuron",
+    "lesson": "activation-neuron",
+    "title": "A neuron’s output and sensitivity",
+    "english": "A neuron’s output and sensitivity",
+    "body": "Activation transforms the weighted sum into the neuron’s output. The local derivative tells us how a small change in the sum affects that output. Saturated sigmoid outputs change very little even when the sum changes. This derivative becomes a factor in backpropagation. Activation is a numerical function, not a biological on/off switch."
+  },
+  {
+    "id": "linear-collapse",
+    "lesson": "linear-collapse",
+    "title": "Why depth needs nonlinearity",
+    "english": "Why depth needs nonlinearity",
+    "body": "Composing affine functions changes their coefficients but not their family. Ten affine layers still produce one affine transformation. A nonlinear activation prevents this general collapse. Depth can then reuse intermediate representations to form more expressive functions, although depth alone does not guarantee better learning."
+  },
+  {
+    "id": "activation-functions",
+    "lesson": "activation-functions",
+    "title": "ReLU, sigmoid and tanh",
+    "english": "ReLU, sigmoid and tanh",
+    "body": "ReLU keeps positive inputs and clips negative ones to zero. Sigmoid maps to (0,1); tanh maps to (−1,1). ReLU is nonlinear globally even though each side is linear. Sigmoid and tanh saturate for large magnitudes. Choose activations for the role of the layer, not because one is universally best."
+  },
+  {
+    "id": "xor",
+    "lesson": "xor",
+    "title": "Solve XOR with hidden units",
+    "english": "Solve XOR with hidden units",
+    "body": "XOR assigns one to inputs that differ and zero to inputs that match. A single affine boundary cannot separate the diagonal pairs. Hidden ReLU units can create two half-space features whose combination separates them. This is a small explicit example of feature construction, not a claim that training always finds these exact weights."
+  },
+  {
+    "id": "vector-layers",
+    "lesson": "vector-layers",
+    "title": "Layers are vector functions",
+    "english": "Layers are vector functions",
+    "body": "A layer usually outputs many values at once. Each output unit uses its own weights but reads the preceding representation. Matrix multiplication groups these neuron calculations. Later layers receive activations, not the original pixels directly, unless a skip connection explicitly supplies them. The whole model is a composition of vector functions."
+  },
+  {
+    "id": "representations",
+    "lesson": "representations",
+    "title": "Hidden representations and boundaries",
+    "english": "Hidden representations and boundaries",
+    "body": "Hidden representations transform the coordinates in which a task is solved. A difficult boundary in input space may become simple in feature space. Inspect the four XOR points before and after the hidden layer. Visualizations reveal values and patterns but do not establish a unique explanation of the model’s reasoning."
+  },
+  {
+    "id": "initialization",
+    "lesson": "initialization",
+    "title": "Parameters, initialization and capacity",
+    "english": "Parameters, initialization and capacity",
+    "body": "Parameters are trainable values; hyperparameters configure learning. Random initialization breaks symmetry between units. Identically initialized hidden units can receive identical updates and remain redundant. Glorot and He initialization scale randomness with layer dimensions. More parameters increase capacity but can also encourage overfitting."
+  },
+  {
+    "id": "loss-objective",
+    "lesson": "loss-objective",
+    "title": "Predictions, targets and loss",
+    "english": "Predictions, targets and loss",
+    "body": "A prediction is what the current model outputs; a target is the value supplied by the dataset. Loss measures disagreement in a way that gives a learning signal. The training objective usually averages losses across samples, possibly adding regularization. A metric describes performance but need not be differentiable or serve as the optimized loss."
+  },
+  {
+    "id": "chain-rule",
+    "lesson": "chain-rule",
+    "title": "Gradients and the chain rule",
+    "english": "Gradients and the chain rule",
+    "body": "A derivative measures local sensitivity. A gradient collects derivatives with respect to all parameters. Backpropagation applies the chain rule from the loss through the computational graph, reusing intermediate results. Shared weights accumulate contributions from every place they are used. Backpropagation calculates gradients; it does not itself choose an update rule."
+  },
+  {
+    "id": "optimizers",
+    "lesson": "optimizers",
+    "title": "SGD, momentum and Adam",
+    "english": "SGD, momentum and Adam",
+    "body": "SGD subtracts a scaled gradient from each parameter. Momentum combines the current gradient with a moving direction from previous steps. Adam tracks moving estimates of gradients and squared gradients, with bias correction. Learning rate controls update scale, not model capacity. Comparing optimizers requires controlling data, initialization, and training budget."
+  },
+  {
+    "id": "batches-epochs",
+    "lesson": "batches-epochs",
+    "title": "Samples, batches and epochs",
+    "english": "Samples, batches and epochs",
+    "body": "A sample is one labeled example. A batch groups samples for one gradient calculation and optimizer update. An epoch is one pass through the training dataset. Iterations count updates, not examples. The last batch can be smaller unless explicitly dropped. Batch size changes the number and noise of updates, not the network’s parameter count."
+  },
+  {
+    "id": "batch-gradients",
+    "lesson": "batch-gradients",
+    "title": "Shuffling and batch gradients",
+    "english": "Shuffling and batch gradients",
+    "body": "The mean batch gradient combines the influence of several samples. Conflicting examples can cancel components. Shuffling changes which examples interact in each update; shuffle inputs and labels together. Larger batches often reduce sampling noise but provide fewer updates per epoch. Our worker uses a seeded shuffle so the sample order can be reproduced."
+  },
+  {
+    "id": "data-splits",
+    "lesson": "data-splits",
+    "title": "Train, validation and test",
+    "english": "Train, validation and test",
+    "body": "Training data drives parameter updates. Validation guides configuration and model selection. Test estimates performance after choices are frozen. Related or duplicate examples must not cross splits. Split before augmentation, and preserve groups such as subjects where applicable. Repeatedly choosing settings from test results turns that test into validation."
+  },
+  {
+    "id": "local-convolution",
+    "lesson": "local-convolution",
+    "title": "Locality and shared weights",
+    "english": "Locality and shared weights",
+    "body": "A convolution looks at local patches rather than connecting every pixel to every output. One kernel is reused across spatial locations. Each output is a neuron with a local weighted sum and bias. This sharing reduces parameters and lets a detector respond to the same local pattern in several locations. It does not make the entire classifier position-independent."
+  },
+  {
+    "id": "channels-filters",
+    "lesson": "channels-filters",
+    "title": "Channels, kernels and feature maps",
+    "english": "Channels, kernels and feature maps",
+    "body": "Each convolution filter spans all input channels and produces one output channel. It sums channel contributions before adding a bias. Multiple filters can respond differently to the same patch. Deep-learning libraries commonly call cross-correlation “convolution”: the kernel is not flipped during the scan. Learned kernels can accommodate this convention."
+  },
+  {
+    "id": "stride-padding",
+    "lesson": "stride-padding",
+    "title": "Stride, padding and dilation",
+    "english": "Stride, padding and dilation",
+    "body": "Stride sets the distance between sampled patch origins. Padding adds values around the image so edge positions can participate. Dilation spaces kernel elements farther apart without adding weights. “Same” padding gives ceil(input/stride), not always the original size. Invalid configurations should be rejected rather than displayed with impossible shapes."
+  },
+  {
+    "id": "conv-relu",
+    "lesson": "conv-relu",
+    "title": "Convolution followed by activation",
+    "english": "Convolution followed by activation",
+    "body": "Convolution itself is affine when bias is included. ReLU applies independently to every output position and channel. The two operations have different jobs: convolution combines inputs; activation creates nonlinearity. Intermediate feature maps retain a spatial grid. Inspect their numeric values before interpreting bright areas as meaningful features."
+  },
+  {
+    "id": "pooling",
+    "lesson": "pooling",
+    "title": "Pooling and receptive fields",
+    "english": "Pooling and receptive fields",
+    "body": "Max pooling keeps the largest value in each window. Average pooling keeps the mean. Both reduce spatial detail and normally have no trainable weights. Later units see larger regions of the original image because preceding windows combine information. Pooling can improve tolerance to some local shifts but can also erase task-relevant distinctions."
+  },
+  {
+    "id": "dropout-batchnorm",
+    "lesson": "dropout-batchnorm",
+    "title": "Dropout and batch normalization",
+    "english": "Dropout and batch normalization",
+    "body": "Dropout randomly zeros selected activations during training and rescales the retained ones. Standard inference disables this randomness. Batch normalization uses batch statistics in training and stored moving statistics in inference. Its scale and offset are trainable; moving statistics are state but not ordinary gradient-trained weights. Training mode therefore matters beyond weight updates."
+  },
+  {
+    "id": "flatten",
+    "lesson": "flatten",
+    "title": "Flatten preserves order",
+    "english": "Flatten preserves order",
+    "body": "Flatten converts each sample’s spatial and channel axes into one feature axis. It does not average, sort, or learn values. With channels-last ordering, the channel index varies fastest, then column, then row. Given the original shape, you can reconstruct the tensor. A mirrored image generally produces a different ordered vector."
+  },
+  {
+    "id": "dense-head",
+    "lesson": "dense-head",
+    "title": "Where the learned connections live",
+    "english": "Where the learned connections live",
+    "body": "After flattening, each dense output reads every feature with its own weight. Spatial identity is implicit in the vector index, so different positions can get different weights. A dense head can learn useful combinations but can also become large and position-sensitive. Bias adds one parameter per output unit."
+  },
+  {
+    "id": "global-average",
+    "lesson": "global-average",
+    "title": "Flatten versus global average pooling",
+    "english": "Flatten versus global average pooling",
+    "body": "Global average pooling computes one average per channel. It reduces a spatial map to its channel count and discards within-channel position information. Flatten preserves all values in a known order. Neither operation has trainable weights. The choice changes the prediction head’s size and what distinctions remain available."
+  },
+  {
+    "id": "logits-softmax",
+    "lesson": "logits-softmax",
+    "title": "Logits, sigmoid and softmax",
+    "english": "Logits, sigmoid and softmax",
+    "body": "Logits are unconstrained output scores. Softmax converts several logits into positive values summing to one for mutually exclusive classes. Sigmoid processes each logit independently and fits binary or multi-label tasks. Argmax selects a class but discards score information. Subtract the maximum logit before exponentiation to avoid overflow."
+  },
+  {
+    "id": "cross-entropy",
+    "lesson": "cross-entropy",
+    "title": "Cross-entropy and target encoding",
+    "english": "Cross-entropy and target encoding",
+    "body": "Categorical cross-entropy penalizes low probability assigned to the correct class. One-hot targets work with categorical loss; integer class IDs work with sparse categorical loss. Binary cross-entropy matches binary or independent multi-label targets. A logits-aware loss computes a stable combination without applying softmax twice."
+  },
+  {
+    "id": "regression-loss",
+    "lesson": "regression-loss",
+    "title": "Regression heads and error losses",
+    "english": "Regression heads and error losses",
+    "body": "Regression predicts numerical quantities. Our two linear outputs estimate normalized x and y positions. MSE emphasizes large residuals; MAE is less sensitive to outliers; Huber combines quadratic and linear regions. Output constraints should match the target domain. A linear head can predict outside [0,1], even when training targets are normalized."
+  },
+  {
+    "id": "overfitting",
+    "lesson": "overfitting",
+    "title": "Generalization and regularization",
+    "english": "Generalization and regularization",
+    "body": "Training fit and unseen-data performance are different. Underfitting means the model fails to capture useful structure; overfitting means it adapts too much to training-specific details. Compare training and validation curves. Weight decay, appropriate augmentation, dropout, and early stopping can help, but none guarantees generalization."
+  },
+  {
+    "id": "transformations",
+    "lesson": "transformations",
+    "title": "When a transformation changes the label",
+    "english": "When a transformation changes the label",
+    "body": "Invariance means the output stays the same under a transformation; equivariance means it changes in a predictable corresponding way. Shifting a circle should usually preserve its shape label. Rotating an up arrow clockwise changes its direction to right. For position regression, shifting the object should change its coordinates. Augmentation must respect the label semantics."
+  },
+  {
+    "id": "leakage-confidence",
+    "lesson": "leakage-confidence",
+    "title": "Leakage, shift and confidence",
+    "english": "Leakage, shift and confidence",
+    "body": "A model can exploit shortcuts unrelated to the intended task. Duplicates across splits inflate evaluation. Distribution shift changes the relationship between training and deployment examples. Softmax normalizes available scores even for unfamiliar inputs, so a high score is not evidence that the input belongs to a known class. Evaluate failures and data provenance."
+  },
+  {
+    "id": "keras-workflow",
+    "lesson": "keras-workflow",
+    "title": "Build and train the complete CNN",
+    "english": "Build and train the complete CNN",
+    "body": "Define input shape, backbone, head, objective and optimizer explicitly. Verify the model summary before fitting. Our backbone preserves 16×16 through same convolution, halves it twice with pooling, and flattens 4×4×8 into 128 features. Fit only training data, inspect validation, and record configuration along with results."
+  },
+  {
+    "id": "evaluation",
+    "lesson": "evaluation",
+    "title": "Evaluate the task honestly",
+    "english": "Evaluate the task honestly",
+    "body": "A confusion matrix counts actual labels against predictions. Precision asks how many predicted positives are correct; recall asks how many actual positives were found. F1 combines them. Report per-class support and macro averages when imbalance matters. Regression uses residuals, MAE and RMSE, not classification accuracy. Keep evaluation independent of model selection."
+  },
+  {
+    "id": "saving-inference",
+    "lesson": "saving-inference",
+    "title": "Save, predict and transfer learning",
+    "english": "Save, predict and transfer learning",
+    "body": "Save topology, weights, label order and preprocessing together. Reload and compare predictions against the original model. Inference uses frozen parameters and evaluation mode; it needs no target. Transfer learning reuses learned representations, often training a new head before carefully unfreezing selected layers with a smaller learning rate. Recompile after changing trainable flags in Keras."
+  },
+  {
+    "id": "weight",
+    "lesson": "weighted-sum",
+    "title": "Weight",
+    "english": "Weight",
+    "body": "A trainable coefficient multiplying an input or feature."
+  },
+  {
+    "id": "bias",
+    "lesson": "weighted-sum",
+    "title": "Bias",
+    "english": "Bias",
+    "body": "A trainable offset added to a weighted sum."
+  },
+  {
+    "id": "neuron",
+    "lesson": "activation-neuron",
+    "title": "Neuron",
+    "english": "Neuron",
+    "body": "A weighted combination, bias and optional activation function."
+  },
+  {
+    "id": "tensor",
+    "lesson": "tensors",
+    "title": "Tensor",
+    "english": "Tensor",
+    "body": "A multidimensional numerical array with a shape and dtype."
+  },
+  {
+    "id": "channel",
+    "lesson": "channels-filters",
+    "title": "Channel",
+    "english": "Channel",
+    "body": "One value stream at each spatial location, such as red intensity or a learned feature."
+  },
+  {
+    "id": "activation",
+    "lesson": "activation-functions",
+    "title": "Activation",
+    "english": "Activation",
+    "body": "A function applied to pre-activations; nonlinear choices increase expressiveness."
+  },
+  {
+    "id": "relu",
+    "lesson": "activation-functions",
+    "title": "ReLU",
+    "english": "ReLU",
+    "body": "max(0,z): clips negative values, keeps positive ones. No trainable weights."
+  },
+  {
+    "id": "gradient",
+    "lesson": "chain-rule",
+    "title": "Gradient",
+    "english": "Gradient",
+    "body": "The vector of local derivatives of a scalar objective with respect to parameters."
+  },
+  {
+    "id": "backpropagation",
+    "lesson": "chain-rule",
+    "title": "Backpropagation",
+    "english": "Backpropagation",
+    "body": "Efficient chain-rule computation of gradients through a computational graph."
+  },
+  {
+    "id": "optimizer",
+    "lesson": "optimizers",
+    "title": "Optimizer",
+    "english": "Optimizer",
+    "body": "An algorithm using gradients and optional state to update parameters."
+  },
+  {
+    "id": "learning-rate",
+    "lesson": "optimizers",
+    "title": "Learning rate",
+    "english": "Learning rate",
+    "body": "A hyperparameter scaling optimizer updates. It is not a learned weight."
+  },
+  {
+    "id": "batch",
+    "lesson": "batches-epochs",
+    "title": "Batch",
+    "english": "Batch",
+    "body": "Samples combined for one gradient computation and optimizer update."
+  },
+  {
+    "id": "epoch",
+    "lesson": "batches-epochs",
+    "title": "Epoch",
+    "english": "Epoch",
+    "body": "One complete pass through the training samples."
+  },
+  {
+    "id": "iteration",
+    "lesson": "batches-epochs",
+    "title": "Iteration",
+    "english": "Iteration",
+    "body": "One optimization step; usually one batch, not a whole epoch."
+  },
+  {
+    "id": "kernel",
+    "lesson": "local-convolution",
+    "title": "Kernel / filter",
+    "english": "Kernel / filter",
+    "body": "Learned local weights reused across spatial positions. A filter spans input channels."
+  },
+  {
+    "id": "feature-map",
+    "lesson": "channels-filters",
+    "title": "Feature map",
+    "english": "Feature map",
+    "body": "Spatial activations produced by a filter; not necessarily a named human concept."
+  },
+  {
+    "id": "stride",
+    "lesson": "stride-padding",
+    "title": "Stride",
+    "english": "Stride",
+    "body": "Distance between successive patch origins in convolution or pooling."
+  },
+  {
+    "id": "padding",
+    "lesson": "stride-padding",
+    "title": "Padding",
+    "english": "Padding",
+    "body": "Added border values used to define output size and boundary behavior."
+  },
+  {
+    "id": "dilation",
+    "lesson": "stride-padding",
+    "title": "Dilation",
+    "english": "Dilation",
+    "body": "Spacing kernel elements apart without adding trainable weights."
+  },
+  {
+    "id": "flatten-term",
+    "lesson": "flatten",
+    "title": "Flatten",
+    "english": "Flatten",
+    "body": "A parameter-free reshape preserving values and order independently per sample."
+  },
+  {
+    "id": "receptive-field",
+    "lesson": "pooling",
+    "title": "Receptive field",
+    "english": "Receptive field",
+    "body": "The region of the original input that can affect an activation."
+  },
+  {
+    "id": "logit",
+    "lesson": "logits-softmax",
+    "title": "Logit",
+    "english": "Logit",
+    "body": "An unconstrained output score before sigmoid or softmax."
+  },
+  {
+    "id": "cross-entropy-term",
+    "lesson": "cross-entropy",
+    "title": "Cross-entropy",
+    "english": "Cross-entropy",
+    "body": "A distribution-based loss that penalizes low score for the correct target."
+  },
+  {
+    "id": "mse",
+    "lesson": "regression-loss",
+    "title": "Mean squared error / MSE",
+    "english": "Mean squared error / MSE",
+    "body": "Mean squared prediction residual; emphasizes larger errors."
+  },
+  {
+    "id": "mae",
+    "lesson": "regression-loss",
+    "title": "Mean absolute error / MAE",
+    "english": "Mean absolute error / MAE",
+    "body": "Mean absolute residual, in target units."
+  },
+  {
+    "id": "rmse",
+    "lesson": "evaluation",
+    "title": "Root mean squared error / RMSE",
+    "english": "Root mean squared error / RMSE",
+    "body": "Square root of MSE, returning to target units."
+  },
+  {
+    "id": "one-hot",
+    "lesson": "cross-entropy",
+    "title": "One-hot target",
+    "english": "One-hot target",
+    "body": "A class vector with one correct position set to one and all others zero."
+  },
+  {
+    "id": "parameter",
+    "lesson": "initialization",
+    "title": "Parameter",
+    "english": "Parameter",
+    "body": "A learned model value such as a weight or bias."
+  },
+  {
+    "id": "hyperparameter",
+    "lesson": "initialization",
+    "title": "Hyperparameter",
+    "english": "Hyperparameter",
+    "body": "An externally chosen setting, such as batch size or learning rate."
+  },
+  {
+    "id": "inference-term",
+    "lesson": "saving-inference",
+    "title": "Inference",
+    "english": "Inference",
+    "body": "Evaluation-mode forward computation with frozen parameters, without targets."
+  },
+  {
+    "id": "leakage",
+    "lesson": "data-splits",
+    "title": "Data leakage",
+    "english": "Data leakage",
+    "body": "Unintended information from held-out data influencing learning or selection."
+  },
+  {
+    "id": "precision",
+    "lesson": "evaluation",
+    "title": "Precision",
+    "english": "Precision",
+    "body": "TP/(TP+FP): fraction of predicted positives that are correct."
+  },
+  {
+    "id": "recall",
+    "lesson": "evaluation",
+    "title": "Recall",
+    "english": "Recall",
+    "body": "TP/(TP+FN): fraction of actual positives found."
+  },
+  {
+    "id": "f1-term",
+    "lesson": "evaluation",
+    "title": "F1 score",
+    "english": "F1 score",
+    "body": "Harmonic mean of precision and recall; inspect support and class imbalance too."
+  },
+  {
+    "id": "transfer",
+    "lesson": "saving-inference",
+    "title": "Transfer learning",
+    "english": "Transfer learning",
+    "body": "Reusing representations learned on another task before training a new head."
+  },
+  {
+    "id": "fine-tuning",
+    "lesson": "saving-inference",
+    "title": "Fine-tuning",
+    "english": "Fine-tuning",
+    "body": "Updating selected pretrained weights for a new task, often with a smaller learning rate."
+  }
+]

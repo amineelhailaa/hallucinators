@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Objectifs
+
+Pourquoi pas quatre sigmoïdes pour une seule direction ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/global-average)
+
+## Fonctionnement
+
+Les logits sont des scores libres. Softmax les transforme en valeurs positives de somme un pour des classes exclusives. La sigmoïde traite chaque logit indépendamment pour le binaire ou le multi-étiquette. Argmax choisit mais perd les scores. Soustrayez le maximum pour stabiliser le calcul.
+
+## Exemple calculé
+
+[0,0,0,0] donne quatre probabilités de 0,25. Ajouter 100 partout ne les change pas.
+
+## Idée reçue
+
+Un score proche de un peut être faux ou mal calibré hors distribution.
+
+## Vérifiez votre compréhension
+
+<Check question={"Pourquoi pas quatre sigmoïdes pour une seule direction ?"} answer={"Elles n’imposent pas une distribution exclusive ; softmax correspond à cette cible."} />
+
+<LabLink id="loss" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"p_i=\\frac{e^{z_i-m}}{\\sum_j e^{z_j-m}},\\quad m=\\max_j z_j"} />
+
+## Symboles
+
+zi : logit ; m : maximum ; pi : score ; j : classes.
+
+## Exemple calculé
+
+[0,0,0,0] donne quatre probabilités de 0,25. Ajouter 100 partout ne les change pas.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+logits = keras.layers.Dense(4)(features)
+probabilities = keras.ops.softmax(logits, axis=-1)
+```
+
+Un score proche de un peut être faux ou mal calibré hors distribution.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

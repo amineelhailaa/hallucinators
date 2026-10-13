@@ -1,0 +1,67 @@
+<Section kind="explanation">
+## أهداف التعلم
+
+لماذا تعتمد تدرجات الأوزان الأولى على الطبقات اللاحقة؟
+
+اشرح الآلية وأعد الحساب واختبر المثال المضاد.
+
+## المتطلبات السابقة
+
+[الدرس السابق](#/ar/course/loss-objective)
+
+## كيف يعمل
+
+تقيس المشتقة الحساسية المحلية ويجمع التدرج مشتقات المعاملات. يطبق الانتشار العكسي قاعدة السلسلة عبر الرسم الحسابي ويعيد استخدام النتائج. يجمع الوزن المشترك مساهمات جميع مواضع استخدامه. حساب التدرج لا يحدد قاعدة التحديث.
+
+## مثال محسوب
+
+إذا x=2,w=0.5,b=0 والهدف 3 يكون z=1 وL=4. تكون dL/dz=−4 وdz/dw=2 فيكون dL/dw=−8.
+
+## تصور خاطئ شائع
+
+يصف التدرج تغيراً محلياً؛ قد تزيد خطوة كبيرة الخسارة.
+
+## اختبر فهمك
+
+<Check question={"لماذا تعتمد تدرجات الأوزان الأولى على الطبقات اللاحقة؟"} answer={"لأن تأثيرها على الخسارة يمر عبر تلك الطبقات فتتضاعف مشتقات المسار."} />
+
+<LabLink id="backprop" />
+</Section>
+
+<Section kind="math">
+## المعادلة
+
+<Formula value={"\\frac{\\partial L}{\\partial w}=\\frac{\\partial L}{\\partial a}\\frac{\\partial a}{\\partial z}\\frac{\\partial z}{\\partial w}"} />
+
+## الرموز
+
+L: الخسارة؛ a: التنشيط؛ z: قبل التنشيط؛ w: المعامل.
+
+## مثال محسوب
+
+إذا x=2,w=0.5,b=0 والهدف 3 يكون z=1 وL=4. تكون dL/dz=−4 وdz/dw=2 فيكون dL/dw=−8.
+</Section>
+
+<Section kind="code">
+## مثال Keras
+
+```python
+import keras
+import tensorflow as tf
+with tf.GradientTape() as tape:
+    prediction = model(x, training=True)
+    loss = tf.reduce_mean((prediction - y) ** 2)
+gradients = tape.gradient(loss, model.trainable_variables)
+```
+
+يصف التدرج تغيراً محلياً؛ قد تزيد خطوة كبيرة الخسارة.
+</Section>
+
+<Section kind="explanation">
+## المصادر
+
+وثائق Keras الرسمية والكتاب المفتوح Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

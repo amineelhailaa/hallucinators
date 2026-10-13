@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Objectifs
+
+Quelle taille effective pour un noyau 3 dilaté par 2 ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/channels-filters)
+
+## Fonctionnement
+
+Le pas règle la distance entre régions. Le remplissage ajoute des valeurs aux bords. La dilatation espace les éléments sans ajouter de poids. « Same » donne plafond(entrée/pas), pas toujours la taille initiale. Rejetez les configurations impossibles.
+
+## Exemple calculé
+
+Entrée 7, noyau 3, pas 2, sans remplissage : 3 sorties. Avec same : 4.
+
+## Idée reçue
+
+Le remplissage change les bords sans garantir l’invariance aux translations.
+
+## Vérifiez votre compréhension
+
+<Check question={"Quelle taille effective pour un noyau 3 dilaté par 2 ?"} answer={"5, avec toujours trois positions sur cet axe."} />
+
+<LabLink id="convolution" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"O=\\left\\lfloor\\frac{I+P_l+P_r-d(K-1)-1}{S}\\right\\rfloor+1"} />
+
+## Symboles
+
+I,O : tailles ; Pl,Pr : remplissage ; d : dilatation ; K : noyau ; S : pas.
+
+## Exemple calculé
+
+Entrée 7, noyau 3, pas 2, sans remplissage : 3 sorties. Avec same : 4.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+keras.layers.Conv2D(4, 3, strides=2, padding="same")
+# Dilation > 1 requires stride 1 in Keras.
+```
+
+Le remplissage change les bords sans garantir l’invariance aux translations.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

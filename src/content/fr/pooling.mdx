@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Objectifs
+
+Une couche dense retrouve-t-elle laquelle de ces fenêtres existait ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/conv-relu)
+
+## Fonctionnement
+
+Max pooling conserve le maximum ; average pooling la moyenne. Ils réduisent le détail sans poids appris. Les unités suivantes voient de plus grandes régions originales. Le regroupement peut tolérer certaines petites translations mais perdre des distinctions utiles.
+
+## Exemple calculé
+
+[1,0,0,0] et [0,1,0,0] donnent tous deux max=1 et moyenne=0,25. La position locale disparaît.
+
+## Idée reçue
+
+Le pooling n’est généralement pas inversible ; contrairement à Flatten, il supprime des informations.
+
+## Vérifiez votre compréhension
+
+<Check question={"Une couche dense retrouve-t-elle laquelle de ces fenêtres existait ?"} answer={"Pas avec la seule valeur groupée identique."} />
+
+<LabLink id="pooling" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"r_l=r_{l-1}+(k_l-1)j_{l-1},\\quad j_l=j_{l-1}s_l"} />
+
+## Symboles
+
+r : champ réceptif ; j : espacement ; k : noyau ; s : pas ; l : couche.
+
+## Exemple calculé
+
+[1,0,0,0] et [0,1,0,0] donnent tous deux max=1 et moyenne=0,25. La position locale disparaît.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+keras.layers.MaxPooling2D(pool_size=2)
+keras.layers.AveragePooling2D(pool_size=2)
+```
+
+Le pooling n’est généralement pas inversible ; contrairement à Flatten, il supprime des informations.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Quelle forme après [32,4,4,8] ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/dropout-batchnorm)
+
+## Fonctionnement
+
+Flatten transforme les axes spatiaux et les canaux en un axe de caractéristiques. Il ne moyenne, ne trie et n’apprend rien. En canaux derniers, le canal varie le plus vite, puis la colonne et la ligne. La forme initiale permet la reconstruction. Un miroir donne généralement un autre vecteur.
+
+## Exemple calculé
+
+[[1,2],[3,4]] devient [1,2,3,4]. Son miroir donne [2,1,4,3], un autre vecteur.
+
+## Idée reçue
+
+Flatten possède zéro paramètre appris ; les poids sont dans les couches suivantes.
+
+## Vérifiez votre compréhension
+
+<Check question={"Quelle forme après [32,4,4,8] ?"} answer={"[32,128], en conservant 32 exemples indépendants."} />
+
+<LabLink id="flatten" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"k=(yW+x)C+c"} />
+
+## Symboles
+
+k : indice plat ; y,x : ligne et colonne ; W : largeur ; C : canaux ; c : canal.
+
+## Exemple calculé
+
+[[1,2],[3,4]] devient [1,2,3,4]. Son miroir donne [2,1,4,3], un autre vecteur.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+flat = keras.layers.Flatten()(feature_maps)
+```
+
+Flatten possède zéro paramètre appris ; les poids sont dans les couches suivantes.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

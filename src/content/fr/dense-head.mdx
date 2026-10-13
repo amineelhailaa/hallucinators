@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Une caractéristique utilise-t-elle le même poids pour toutes les sorties ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/flatten)
+
+## Fonctionnement
+
+Après Flatten, chaque sortie dense lit toutes les caractéristiques avec ses poids. La position est implicite dans l’indice, donc les positions peuvent recevoir des poids différents. La tête combine les caractéristiques mais peut être volumineuse et sensible à la position. Un biais existe par sortie.
+
+## Exemple calculé
+
+128 caractéristiques vers 16 unités demandent 2 048 poids et 16 biais. Une caractéristique possède 16 connexions sortantes.
+
+## Idée reçue
+
+Les valeurs aplaties sont des activations, pas des poids ni automatiquement des probabilités.
+
+## Vérifiez votre compréhension
+
+<Check question={"Une caractéristique utilise-t-elle le même poids pour toutes les sorties ?"} answer={"Non. Les poids forment une matrice caractéristiques × sorties."} />
+
+<LabLink id="flatten" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"z_j=\\sum_{k=0}^{127}W_{k,j}a_k+b_j"} />
+
+## Symboles
+
+ak : caractéristique ; Wkj : connexion ; bj : biais ; zj : préactivation.
+
+## Exemple calculé
+
+128 caractéristiques vers 16 unités demandent 2 048 poids et 16 biais. Une caractéristique possède 16 connexions sortantes.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+head = keras.layers.Dense(16, activation="relu")(flat)
+```
+
+Les valeurs aplaties sont des activations, pas des poids ni automatiquement des probabilités.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## Objectifs
+
+Pourquoi ReLU est-elle non linéaire si les positifs ne changent pas ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/linear-collapse)
+
+## Fonctionnement
+
+ReLU garde les valeurs positives et annule les négatives. La sigmoïde produit (0,1), tanh (−1,1). ReLU est globalement non linéaire malgré ses morceaux linéaires. Sigmoïde et tanh saturent. Le choix dépend du rôle de la couche.
+
+## Exemple calculé
+
+ReLU(−2)=0 et ReLU(3)=3. La dérivée vaut zéro du côté négatif et un du côté positif. À zéro, une convention est choisie.
+
+## Idée reçue
+
+Un neurone ReLU peut rester inactif pour tous les exemples et recevoir un gradient nul.
+
+## Vérifiez votre compréhension
+
+<Check question={"Pourquoi ReLU est-elle non linéaire si les positifs ne changent pas ?"} answer={"La règle change à zéro ; une seule formule affine ne suffit pas partout."} />
+
+<LabLink id="composition" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"\\operatorname{ReLU}(z)=\\max(0,z),\\quad \\sigma(z)=\\frac{1}{1+e^{-z}}"} />
+
+## Symboles
+
+z : préactivation ; e : base exponentielle ; σ : sigmoïde. La dérivée de tanh est 1−tanh²(z).
+
+## Exemple calculé
+
+ReLU(−2)=0 et ReLU(3)=3. La dérivée vaut zéro du côté négatif et un du côté positif. À zéro, une convention est choisie.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+keras.layers.Activation("relu")
+keras.layers.Activation("tanh")
+```
+
+Un neurone ReLU peut rester inactif pour tous les exemples et recevoir un gradient nul.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

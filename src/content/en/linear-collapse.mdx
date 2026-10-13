@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+What does replacing every activation by identity do?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/activation-neuron)
+
+## How it works
+
+Composing affine functions changes their coefficients but not their family. Ten affine layers still produce one affine transformation. A nonlinear activation prevents this general collapse. Depth can then reuse intermediate representations to form more expressive functions, although depth alone does not guarantee better learning.
+
+## Worked example
+
+f₁(x)=2x+1 and f₂(h)=3h−4 compose to 6x−1. Adding ReLU between them introduces a bend at x=−0.5.
+
+## Common misconception
+
+More layers without nonlinearities do not create arbitrary nonlinear boundaries.
+
+## Check your understanding
+
+<Check question={"What does replacing every activation by identity do?"} answer={"The network becomes an affine map, regardless of its hidden depth."} />
+
+<LabLink id="composition" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"W_2(W_1x+b_1)+b_2=(W_2W_1)x+W_2b_1+b_2"} />
+
+## Symbols
+
+W1,W2: weight matrices; b1,b2: biases; x: input vector.
+
+## Worked example
+
+f₁(x)=2x+1 and f₂(h)=3h−4 compose to 6x−1. Adding ReLU between them introduces a bend at x=−0.5.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+linear_stack = keras.Sequential([keras.layers.Dense(4), keras.layers.Dense(1)])
+```
+
+More layers without nonlinearities do not create arbitrary nonlinear boundaries.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

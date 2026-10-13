@@ -1,0 +1,74 @@
+<Section kind="explanation">
+## Learning objectives
+
+Would softmax fit two independent coordinates?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/cross-entropy)
+
+## How it works
+
+Regression predicts numerical quantities. Our two linear outputs estimate normalized x and y positions. MSE emphasizes large residuals; MAE is less sensitive to outliers; Huber combines quadratic and linear regions. Output constraints should match the target domain. A linear head can predict outside [0,1], even when training targets are normalized.
+
+## Worked example
+
+Prediction [0.8,0.2], target [0.5,0.4] gives MSE=(0.09+0.04)/2=0.065 and MAE=0.25.
+
+## Common misconception
+
+A CNN is not restricted to classification. The output head and objective establish the task.
+
+## Check your understanding
+
+<Check question={"Would softmax fit two independent coordinates?"} answer={"Usually no: it forces them to sum to one, an unrelated constraint."} />
+
+<LabLink id="tasks" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"L_{MSE}=\\frac{1}{D}\\sum_{d=1}^{D}(\\hat y_d-y_d)^2"} />
+
+## Symbols
+
+D: target dimensions; ŷd: prediction; yd: target; L: mean squared error.
+
+## Worked example
+
+Prediction [0.8,0.2], target [0.5,0.4] gives MSE=(0.09+0.04)/2=0.065 and MAE=0.25.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+position = keras.layers.Dense(2, activation=None)(features)
+model.compile(optimizer="adam", loss="mse", metrics=["mae"])
+```
+
+A CNN is not restricted to classification. The output head and objective establish the task.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>
+
+<Section kind="math">
+## Huber and the meaning of the objective
+
+Let r be prediction minus target. Huber uses a quadratic region near zero and a linear region for larger residuals. At δ=1, r=0.5 gives 0.125 and r=2 gives 1.5. MSE is natural under a Gaussian error model; MAE relates to Laplace errors. These are modeling choices, not a prohibition on other losses. A classification model can optimize a squared error on appropriate targets, although cross-entropy generally provides a useful probabilistic objective.
+
+<Formula value={"L_\\delta(r)=\\begin{cases}\\frac12r^2&|r|\\le\\delta\\\\\\delta(|r|-\\frac12\\delta)&|r|>\\delta\\end{cases}"} />
+
+r: residual; δ: positive transition threshold; Lδ: Huber loss.
+</Section>

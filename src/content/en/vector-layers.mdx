@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+What shape follows a [32,128] input through Dense(16)?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/xor)
+
+## How it works
+
+A layer usually outputs many values at once. Each output unit uses its own weights but reads the preceding representation. Matrix multiplication groups these neuron calculations. Later layers receive activations, not the original pixels directly, unless a skip connection explicitly supplies them. The whole model is a composition of vector functions.
+
+## Worked example
+
+A dense layer maps 128 features to 16 activations with a 128×16 weight matrix and 16 biases.
+
+## Common misconception
+
+A hidden layer does not add a new training label for every neuron. Its features are shaped by the final objective.
+
+## Check your understanding
+
+<Check question={"What shape follows a [32,128] input through Dense(16)?"} answer={"[32,16]. The batch count stays 32."} />
+
+<LabLink id="composition" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"h^{(l)}=\\phi(W^{(l)}h^{(l-1)}+b^{(l)})"} />
+
+## Symbols
+
+h: layer representation; l: layer index; W: weights; b: bias; φ: activation.
+
+## Worked example
+
+A dense layer maps 128 features to 16 activations with a 128×16 weight matrix and 16 biases.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+hidden = keras.layers.Dense(16, activation="relu")(features)
+```
+
+A hidden layer does not add a new training label for every neuron. Its features are shaped by the final objective.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## أهداف التعلم
+
+لماذا ReLU غير خطية رغم إبقاء القيم الموجبة؟
+
+اشرح الآلية وأعد الحساب واختبر المثال المضاد.
+
+## المتطلبات السابقة
+
+[الدرس السابق](#/ar/course/linear-collapse)
+
+## كيف يعمل
+
+تبقي ReLU القيم الموجبة وتصفّر السالبة. مجال سيغمويد (0,1) وtanh هو (−1,1). ReLU غير خطية كلياً رغم خطية كل جزء. تتشبع سيغمويد وtanh للقيم الكبيرة؛ اختر التنشيط حسب وظيفة الطبقة.
+
+## مثال محسوب
+
+ReLU(−2)=0 وReLU(3)=3. مشتقتها صفر للسالب وواحد للموجب؛ عند الصفر يُختار اصطلاح تنفيذي.
+
+## تصور خاطئ شائع
+
+قد يظل عصبون ReLU غير نشط لكل الأمثلة ويتلقى تدرجاً صفرياً.
+
+## اختبر فهمك
+
+<Check question={"لماذا ReLU غير خطية رغم إبقاء القيم الموجبة؟"} answer={"لأن قاعدتها تتغير عند الصفر ولا تصفها صيغة تآلفية واحدة على المجال كله."} />
+
+<LabLink id="composition" />
+</Section>
+
+<Section kind="math">
+## المعادلة
+
+<Formula value={"\\operatorname{ReLU}(z)=\\max(0,z),\\quad \\sigma(z)=\\frac{1}{1+e^{-z}}"} />
+
+## الرموز
+
+z: ما قبل التنشيط؛ e: أساس الأس؛ σ: سيغمويد. مشتقة tanh هي 1−tanh²(z).
+
+## مثال محسوب
+
+ReLU(−2)=0 وReLU(3)=3. مشتقتها صفر للسالب وواحد للموجب؛ عند الصفر يُختار اصطلاح تنفيذي.
+</Section>
+
+<Section kind="code">
+## مثال Keras
+
+```python
+import keras
+keras.layers.Activation("relu")
+keras.layers.Activation("tanh")
+```
+
+قد يظل عصبون ReLU غير نشط لكل الأمثلة ويتلقى تدرجاً صفرياً.
+</Section>
+
+<Section kind="explanation">
+## المصادر
+
+وثائق Keras الرسمية والكتاب المفتوح Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

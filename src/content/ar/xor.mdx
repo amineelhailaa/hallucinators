@@ -1,0 +1,64 @@
+<Section kind="explanation">
+## أهداف التعلم
+
+ماذا يحدث لهذا التركيب من دون ReLU؟
+
+اشرح الآلية وأعد الحساب واختبر المثال المضاد.
+
+## المتطلبات السابقة
+
+[الدرس السابق](#/ar/course/activation-functions)
+
+## كيف يعمل
+
+تساوي XOR واحداً عندما يختلف المدخلان وصفراً عندما يتطابقان. لا يفصل خط تآلفي واحد الزوجين القطريين. تبني وحدتا ReLU سمتين يمكن جمعهما للفصل. هذا يبين إمكانية التمثيل ولا يضمن أن يجد التدريب هذه الأوزان نفسها.
+
+## مثال محسوب
+
+لتكن h₁=ReLU(x₁−x₂) وh₂=ReLU(x₂−x₁) وy=h₁+h₂. تكون المخرجات الثنائية 0,1,1,0.
+
+## تصور خاطئ شائع
+
+الوحدات الخفية سمات عددية وليست بالضرورة مفاهيم بشرية مسماة.
+
+## اختبر فهمك
+
+<Check question={"ماذا يحدث لهذا التركيب من دون ReLU؟"} answer={"يلغي الحدّان بعضهما ويكون المجموع صفراً لكل مدخل."} />
+
+<LabLink id="composition" />
+</Section>
+
+<Section kind="math">
+## المعادلة
+
+<Formula value={"y=\\max(0,x_1-x_2)+\\max(0,x_2-x_1)"} />
+
+## الرموز
+
+x1,x2: مدخلان ثنائيان؛ y: خرج XOR؛ الوحدتان تحسبان القيمتين العظميين.
+
+## مثال محسوب
+
+لتكن h₁=ReLU(x₁−x₂) وh₂=ReLU(x₂−x₁) وy=h₁+h₂. تكون المخرجات الثنائية 0,1,1,0.
+</Section>
+
+<Section kind="code">
+## مثال Keras
+
+```python
+import keras
+model = keras.Sequential([keras.Input((2,)),
+    keras.layers.Dense(2, activation="relu"), keras.layers.Dense(1)])
+```
+
+الوحدات الخفية سمات عددية وليست بالضرورة مفاهيم بشرية مسماة.
+</Section>
+
+<Section kind="explanation">
+## المصادر
+
+وثائق Keras الرسمية والكتاب المفتوح Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

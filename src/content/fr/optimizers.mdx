@@ -1,0 +1,78 @@
+<Section kind="explanation">
+## Objectifs
+
+Un taux plus petit est-il toujours meilleur ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+[Leçon précédente](#/fr/course/chain-rule)
+
+## Fonctionnement
+
+SGD soustrait un gradient multiplié par le taux. Le momentum conserve une direction des étapes précédentes. Adam suit les gradients et leurs carrés avec correction initiale. Le taux règle l’échelle du pas, pas la capacité. Comparez à données, initialisation et budget contrôlés.
+
+## Exemple calculé
+
+Avec w=0,5, gradient=−8 et taux=0,1, SGD donne w=1,3. Un gradient négatif invite ici à augmenter w.
+
+## Idée reçue
+
+Adam ne domine pas toujours SGD. Réinitialisez son état pour une nouvelle expérience.
+
+## Vérifiez votre compréhension
+
+<Check question={"Un taux plus petit est-il toujours meilleur ?"} answer={"Non. Il peut être stable mais trop lent pour le budget choisi."} />
+
+<LabLink id="backprop" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"w_{t+1}=w_t-\\eta\\nabla_w L"} />
+
+## Symboles
+
+t : étape ; η : taux ; ∇wL : gradient selon w.
+
+## Exemple calculé
+
+Avec w=0,5, gradient=−8 et taux=0,1, SGD donne w=1,3. Un gradient négatif invite ici à augmenter w.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+optimizer = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
+# Alternative: keras.optimizers.Adam(learning_rate=0.001)
+```
+
+Adam ne domine pas toujours SGD. Réinitialisez son état pour une nouvelle expérience.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>
+
+<Section kind="math">
+## État de momentum et Adam
+
+Le momentum conserve une vitesse. À β=0,9, les gradients successifs 2 puis −1 donnent les vitesses 2 puis 0,8 ; la seconde mise à jour peut garder l’ancienne direction. Adam moyenne les premier et second moments et corrige leur biais initial. Pour le premier gradient 2, β₁=0,9 et β₂=0,999, m=0,2 et v=0,004 ; les estimations corrigées valent 2 et 4. Le pas vaut environ η. Epsilon évite la division par zéro. Réinitialiser les poids sans l’optimiseur ne recrée pas une nouvelle expérience.
+
+<Formula value={"v_t=\\beta v_{t-1}+g_t,\\quad w_{t+1}=w_t-\\eta v_t"} />
+
+<Formula value={"m_t=\\beta_1m_{t-1}+(1-\\beta_1)g_t,\\quad v_t=\\beta_2v_{t-1}+(1-\\beta_2)g_t^2"} />
+
+<Formula value={"\\hat m_t=\\frac{m_t}{1-\\beta_1^t},\\quad \\hat v_t=\\frac{v_t}{1-\\beta_2^t},\\quad w_{t+1}=w_t-\\eta\\frac{\\hat m_t}{\\sqrt{\\hat v_t}+\\epsilon}"} />
+
+g : gradient ; β : conservation ; m,v : moments ; t : étape ; η : taux ; ε : stabilisateur. v signifie vitesse dans la première équation, second moment dans Adam.
+</Section>

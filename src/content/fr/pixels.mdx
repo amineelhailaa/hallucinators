@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Objectifs
+
+Combien de nombres dans une image RVB de 2×2 ?
+
+Expliquer le mécanisme, reproduire le calcul et vérifier le contre-exemple.
+
+## Prérequis
+
+Arithmétique de base ; aucune expérience des réseaux requise.
+
+## Fonctionnement
+
+Une image numérique est une grille de mesures, pas une liste d’objets nommés. Une cellule grise contient une intensité ; une cellule RVB contient trois valeurs dans l’ordre rouge, vert, bleu. Le réseau reçoit ces nombres, pas les mots « bord » ou « flèche ». Leur arrangement spatial crée le motif.
+
+## Exemple calculé
+
+Le pixel RVB [255, 128, 0] devient [1, 0,502, 0] après division par 255. Les trois canaux appartiennent au même emplacement.
+
+## Idée reçue
+
+L’ordre RVB diffère du BGR par défaut d’OpenCV. Changer cet ordre modifie l’entrée.
+
+## Vérifiez votre compréhension
+
+<Check question={"Combien de nombres dans une image RVB de 2×2 ?"} answer={"12 : quatre emplacements et trois canaux."} />
+
+<LabLink id="pixels" />
+</Section>
+
+<Section kind="math">
+## Équation
+
+<Formula value={"x_{y,x,c}=I_{y,x,c}/255"} />
+
+## Symboles
+
+I : intensité 8 bits ; x : intensité normalisée ; y,x : ligne et colonne ; c : canal.
+
+## Exemple calculé
+
+Le pixel RVB [255, 128, 0] devient [1, 0,502, 0] après division par 255. Les trois canaux appartiennent au même emplacement.
+</Section>
+
+<Section kind="code">
+## Exemple Keras
+
+```python
+import keras
+x = keras.ops.convert_to_tensor(image, dtype="float32") / 255.0
+```
+
+L’ordre RVB diffère du BGR par défaut d’OpenCV. Changer cet ordre modifie l’entrée.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Documentation officielle Keras et manuel ouvert Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>

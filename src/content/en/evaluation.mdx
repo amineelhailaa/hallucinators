@@ -1,0 +1,63 @@
+<Section kind="explanation">
+## Learning objectives
+
+What is RMSE if MSE is 0.04?
+
+Explain the mechanism, reproduce the calculation, and test the counterexample.
+
+## Prerequisites
+
+[Previous lesson](#/en/course/keras-workflow)
+
+## How it works
+
+A confusion matrix counts actual labels against predictions. Precision asks how many predicted positives are correct; recall asks how many actual positives were found. F1 combines them. Report per-class support and macro averages when imbalance matters. Regression uses residuals, MAE and RMSE, not classification accuracy. Keep evaluation independent of model selection.
+
+## Worked example
+
+TP=8, FP=2, FN=4 gives precision=0.8, recall=0.667, F1≈0.727. Predicting the majority class can still have high accuracy.
+
+## Common misconception
+
+One aggregate score can hide a failing minority class. Always inspect class-level errors.
+
+## Check your understanding
+
+<Check question={"What is RMSE if MSE is 0.04?"} answer={"0.2, in the same units as the target."} />
+
+<LabLink id="training" />
+</Section>
+
+<Section kind="math">
+## Equation
+
+<Formula value={"P=\\frac{TP}{TP+FP},\\quad R=\\frac{TP}{TP+FN},\\quad F_1=\\frac{2PR}{P+R}"} />
+
+## Symbols
+
+TP: true positives; FP: false positives; FN: false negatives; P: precision; R: recall. Define zero-denominator behavior explicitly.
+
+## Worked example
+
+TP=8, FP=2, FN=4 gives precision=0.8, recall=0.667, F1≈0.727. Predicting the majority class can still have high accuracy.
+</Section>
+
+<Section kind="code">
+## Keras example
+
+```python
+import keras
+test_results = model.evaluate(x_test, y_test, return_dict=True)
+```
+
+One aggregate score can hide a failing minority class. Always inspect class-level errors.
+</Section>
+
+<Section kind="explanation">
+## Sources
+
+Official Keras documentation and the open textbook Dive into Deep Learning.
+
+- [Keras](https://keras.io/api/)
+- [Dive into Deep Learning](https://en.d2l.ai/)
+</Section>
